@@ -38,6 +38,8 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}"
     implementation "com.google.android.material:material:${versions.material}"
 
+    implementation "ca.llamabagel.transpo:shared:${versions.transpo}"
+
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}"
     testImplementation "androidx.arch.core:core-testing:${versions.lifecycle}"
