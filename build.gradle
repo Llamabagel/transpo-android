@@ -21,6 +21,7 @@ allprojects {
         google()
         jcenter()
         maven { url  "https://dl.bintray.com/dellisd/transpo" }
+        maven { url "https://kotlin.bintray.com/kotlinx/" }
     }
 }
 
