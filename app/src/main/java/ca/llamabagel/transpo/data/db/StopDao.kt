@@ -5,30 +5,34 @@
 package ca.llamabagel.transpo.data.db
 
 import androidx.room.*
+import ca.llamabagel.transpo.models.app.Route
 import ca.llamabagel.transpo.models.app.Stop
 
 @Dao
-interface StopDao {
+abstract class StopDao {
 
     @Query("SELECT * FROM stops")
-    suspend fun getAll(): List<Stop>
+    abstract suspend fun getAll(): List<Stop>
 
     @Query("SELECT * FROM stops WHERE id = :id")
-    suspend fun getById(id: String): Stop?
+    abstract suspend fun getById(id: String): Stop?
 
     @Query("SELECT * FROM stops WHERE code = :code")
-    suspend fun getByCode(code: String): List<Stop>
+    abstract suspend fun getByCode(code: String): List<Stop>
 
-    @Query("SELECT * FROM stops WHERE id IN (SELECT stopId FROM stop_routes WHERE routeId = :routeId)")
-    suspend fun getByRoute(routeId: String): List<Stop>
+    @Transaction
+    open suspend fun getWithRoutesById(id: String): StopWithRoutes? {
+        val stop = getById(id) ?: return null
+        return StopWithRoutes(stop, getRoutes(id))
+    }
 
-    @Query("SELECT * FROM stops WHERE id IN (SELECT stopId FROM stop_routes WHERE routeId = :routeId AND directionId = :directionId)")
-    suspend fun getByRoute(routeId: String, directionId: Int): List<Stop>
+    @Query("SELECT * FROM routes WHERE id IN (SELECT stopId FROM stop_routes WHERE stopId = :stopId)")
+    protected abstract suspend fun getRoutes(stopId: String): List<Route>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(vararg stop: Stop)
+    abstract suspend fun insert(vararg stop: Stop)
 
     @Delete
-    suspend fun delete(vararg stop: Stop)
+    abstract suspend fun delete(vararg stop: Stop)
 
 }
