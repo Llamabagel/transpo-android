@@ -4,4 +4,7 @@
 
 <resources>
     <string name="app_name">Route 613</string>
+
+    <!-- searchable label -->
+    <string name="search_hint">Search…</string>
 </resources>
