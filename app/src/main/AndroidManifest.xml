@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="ca.llamabagel.transpo">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
             android:name=".TranspoApplication"
@@ -9,16 +13,35 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
-        <activity android:name=".ui.search.SearchActivity">
+            android:theme="@style/Transpo"
+            tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
+        <activity android:name=".ui.search.SearchActivity"
+                android:theme="@style/Transpo.Translucent">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
+
         <activity android:name=".ui.home.MainActivity">
+        </activity>
+
+        <activity android:name=".ui.trips.TripsActivity">
+        </activity>
+
+        <!-- Use an alias in order to avoid breaking home screen shortcuts when updated from previous version of app. -->
+        <activity-alias
+                android:name=".app.MainActivity"
+                android:targetActivity=".ui.home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
+        </activity-alias>
+
     </application>
 
 </manifest>
