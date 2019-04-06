@@ -6,8 +6,10 @@ package ca.llamabagel.transpo.ui.home
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import ca.llamabagel.transpo.R
+import ca.llamabagel.transpo.core.utils.Actions
 import ca.llamabagel.transpo.core.utils.TAG
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +18,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        findViewById<Button>(R.id.button).setOnClickListener {
+            startActivity(Actions.openTripsIntent(this, "AA100"))
+        }
 
         Log.d(TAG, "Hello World")
     }

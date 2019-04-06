@@ -7,7 +7,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.0-rc03'
@@ -22,7 +22,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url  "https://dl.bintray.com/dellisd/transpo" }
+        maven { url "https://dl.bintray.com/dellisd/transpo" }
         maven { url "https://kotlin.bintray.com/kotlinx/" }
     }
 }
