@@ -7,4 +7,7 @@
 
     <!-- searchable label -->
     <string name="search_hint">Search…</string>
+    <string name="title_dashboard">Module Title</string>
+    <string name="title_trips">Module Title</string>
+    <string name="title_search">Module Title</string>
 </resources>

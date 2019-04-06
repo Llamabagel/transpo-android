@@ -1,1 +1,1 @@
-include ':app', ':features:trips', ':features:search'
+include ':app', ':core', ':dashboard', ':trips', ':search'
