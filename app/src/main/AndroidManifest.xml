@@ -29,9 +29,6 @@
         <activity android:name=".ui.home.MainActivity">
         </activity>
 
-        <activity android:name=".ui.trips.TripsActivity">
-        </activity>
-
         <!-- Use an alias in order to avoid breaking home screen shortcuts when updated from previous version of app. -->
         <activity-alias
                 android:name=".app.MainActivity"

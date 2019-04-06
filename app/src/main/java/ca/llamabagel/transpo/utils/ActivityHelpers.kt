@@ -11,3 +11,5 @@ import android.content.Intent
 inline fun <reified T : Activity> Activity.startActivity(context: Context) {
     startActivity(Intent(context, T::class.java))
 }
+
+inline val Any.TAG: String get() = this::class.java.simpleName

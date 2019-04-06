@@ -2,16 +2,16 @@
  * Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
  */
 
-package ca.llamabagel.transpo.ui.trips
+package ca.llamabagel.transpo.trips.ui
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import ca.llamabagel.transpo.R
+import android.os.Bundle
+import ca.llamabagel.transpo.trips.R
 
-class TripsActivity : AppCompatActivity() {
+class TripActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_trips)
+        setContentView(R.layout.activity_trip)
     }
 }
