@@ -15,7 +15,7 @@ inline fun <reified T : Activity> Activity.startActivity(context: Context) {
 inline val Any.TAG: String get() = this::class.java.simpleName
 
 object Actions {
-    fun openTripsIntent(context: Context, id: String) =
+    fun openTripsIntent(context: Context, id: String): Intent =
             makeIntent(context, "ca.llamabagel.transpo.actions.trips.open")
                 .putExtra("stop_id", id)
 

@@ -1,0 +1,12 @@
+import java.lang.Integer;
+
+CREATE TABLE stop (
+    id TEXT NOT NULL PRIMARY KEY,
+    code TEXT NOT NULL,
+    name TEXT NOT NULL,
+    latitude REAL As Double NOT NULL,
+    longitude REAL As Double NOT NULL,
+    location_type INTEGER As Integer NOT NULL,
+    parent_station TEXT,
+    FOREIGN KEY (parent_station) REFERENCES stop(id) ON DELETE CASCADE
+);

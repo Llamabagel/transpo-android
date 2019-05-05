@@ -6,6 +6,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.squareup.sqldelight'
 
 apply from: '../versions.gradle'
 
@@ -31,6 +32,7 @@ dependencies {
     implementation "androidx.core:core-ktx:${versions.ktx}"
     implementation "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}"
     implementation "com.google.android.material:material:${versions.material}"
+    implementation "com.squareup.sqldelight:android-driver:${versions.sqldelight}"
 
     implementation "ca.llamabagel.transpo:shared:${versions.transpo}"
 
@@ -66,4 +68,10 @@ dependencies {
     androidTestImplementation "androidx.test:runner:${versions.testRunner}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espressoCore}"
 
+}
+
+sqldelight {
+    TransitDatabase {
+        packageName = "ca.llamabagel.transpo.data.db"
+    }
 }

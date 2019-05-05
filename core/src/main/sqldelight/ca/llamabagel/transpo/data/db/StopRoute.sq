@@ -1,0 +1,11 @@
+import java.lang.Integer;
+
+CREATE TABLE stop_route (
+    stop_id TEXT NOT NULL,
+    route_id TEXT NOT NULL,
+    direction_id INTEGER As Integer NOT NULL,
+    sequence INTEGER As Integer NOT NULL,
+    PRIMARY KEY(stop_id, route_id, direction_id),
+    FOREIGN KEY (stop_id) REFERENCES stop(id) ON DELETE CASCADE,
+    FOREIGN KEY (route_id) REFERENCES route(id) ON DELETE CASCADE
+);
