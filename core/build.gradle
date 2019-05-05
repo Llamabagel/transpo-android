@@ -10,6 +10,9 @@ apply plugin: 'com.squareup.sqldelight'
 
 apply from: '../versions.gradle'
 
+def props = new Properties()
+file("../config.properties").withInputStream { props.load(it) }
+
 android {
     compileSdkVersion versions.compileSdk
 
@@ -25,7 +28,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "API_ENDPOINT", "\"helloworld\""
+            buildConfigField "String", "API_ENDPOINT", "\"${props.getProperty("api.endpoint")}\""
         }
     }
 }
