@@ -6,3 +6,13 @@ CREATE TABLE route (
     service_level TEXT NOT NULL,
     color TEXT NOT NULL
 );
+
+insert:
+INSERT INTO route(id, short_name, long_name, type, service_level, color)
+VALUES (?, ?, ?, ?, ?, ?);
+
+deleteAll:
+DELETE FROM route;
+
+selectAll:
+SELECT * FROM route;

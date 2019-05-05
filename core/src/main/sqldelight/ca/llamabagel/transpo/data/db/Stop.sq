@@ -10,3 +10,13 @@ CREATE TABLE stop (
     parent_station TEXT,
     FOREIGN KEY (parent_station) REFERENCES stop(id) ON DELETE CASCADE
 );
+
+insert:
+INSERT INTO stop(id, code, name, latitude, longitude, location_type, parent_station)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+deleteAll:
+DELETE FROM stop;
+
+selectAll:
+SELECT * FROM stop;

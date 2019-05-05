@@ -9,3 +9,10 @@ CREATE TABLE stop_route (
     FOREIGN KEY (stop_id) REFERENCES stop(id) ON DELETE CASCADE,
     FOREIGN KEY (route_id) REFERENCES route(id) ON DELETE CASCADE
 );
+
+insert:
+INSERT INTO stop_route (stop_id, route_id, direction_id, sequence)
+VALUES (?, ?, ?, ?);
+
+deleteAll:
+DELETE FROM stop_route;
