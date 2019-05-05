@@ -16,14 +16,21 @@
             android:theme="@style/Transpo"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
-        <activity android:name=".ui.search.SearchActivity"
+        <provider
+                android:authorities="${applicationId}.workmanager-init"
+                android:name="androidx.work.impl.WorkManagerInitializer"
+                android:exported="false"
+                tools:node="remove"/>
+
+        <activity
+                android:name=".ui.search.SearchActivity"
                 android:theme="@style/Transpo.Translucent">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
             <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+                    android:name="android.app.searchable"
+                    android:resource="@xml/searchable"/>
         </activity>
 
         <activity android:name=".ui.home.MainActivity">

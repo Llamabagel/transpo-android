@@ -7,12 +7,21 @@ package ca.llamabagel.transpo
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import androidx.work.Configuration
+import androidx.work.WorkManager
+import androidx.work.WorkerFactory
 import ca.llamabagel.transpo.core.di.CoreComponent
 import ca.llamabagel.transpo.core.di.DaggerCoreComponent
+import ca.llamabagel.transpo.di.InjectionWorkerFactory
+import ca.llamabagel.transpo.di.inject
+import javax.inject.Inject
 
 class TranspoApplication : Application() {
 
-    private val coreComponent: CoreComponent by lazy {
+    @Inject
+    lateinit var workerFactory: InjectionWorkerFactory
+
+    val coreComponent: CoreComponent by lazy {
         DaggerCoreComponent.create()
     }
 
@@ -21,6 +30,12 @@ class TranspoApplication : Application() {
         fun coreComponent(context: Context) = (context.applicationContext as TranspoApplication).coreComponent
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        inject(this)
+        //val workerFactory = DaggerApplicationComponent.create()
+        WorkManager.initialize(this, Configuration.Builder().setWorkerFactory(workerFactory).build())
+    }
 }
 
 fun Activity.coreComponent() = TranspoApplication.coreComponent(this)

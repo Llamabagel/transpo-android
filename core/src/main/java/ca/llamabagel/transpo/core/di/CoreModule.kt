@@ -4,10 +4,11 @@
 
 package ca.llamabagel.transpo.core.di
 
+import android.content.Context
 import dagger.Module
 
 @Module
-class CoreModule {
+class CoreModule(val context: Context) {
 
 
 

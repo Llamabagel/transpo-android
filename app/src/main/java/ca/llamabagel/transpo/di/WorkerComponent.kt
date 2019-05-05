@@ -4,32 +4,28 @@
 
 package ca.llamabagel.transpo.di
 
-import ca.llamabagel.transpo.core.di.BaseActivityComponent
+import ca.llamabagel.transpo.TranspoApplication
+import ca.llamabagel.transpo.core.di.BaseComponent
 import ca.llamabagel.transpo.core.di.CoreComponent
 import ca.llamabagel.transpo.core.di.SharedPreferencesModule
 import ca.llamabagel.transpo.core.di.TransitDatabaseModule
 import ca.llamabagel.transpo.core.di.scope.FeatureScope
-import ca.llamabagel.transpo.ui.home.MainActivity
-import dagger.BindsInstance
 import dagger.Component
 
 @Component(
-    modules = [MainModule::class, DataModule::class, SharedPreferencesModule::class, TransitDatabaseModule::class],
+    modules = [DataModule::class, SharedPreferencesModule::class, TransitDatabaseModule::class, WorkerModule::class, AssistedWorkerInjectModule::class],
     dependencies = [CoreComponent::class]
 )
 @FeatureScope
-interface DataComponent : BaseActivityComponent<MainActivity> {
+interface WorkerComponent : BaseComponent<TranspoApplication> {
+    fun factory(): InjectionWorkerFactory
 
     @Component.Builder
     interface Builder {
-        fun build(): DataComponent
-        // TODO: This is for temporary testing. Will eventually get its own service, or something
-        @BindsInstance
-        fun mainActivity(activity: MainActivity): Builder
+        fun build(): WorkerComponent
 
         fun coreComponent(component: CoreComponent): Builder
         fun sharedPreferencesModule(module: SharedPreferencesModule): Builder
         fun transitDatabaseModule(module: TransitDatabaseModule): Builder
     }
-
 }

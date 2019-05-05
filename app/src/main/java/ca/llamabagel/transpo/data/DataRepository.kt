@@ -48,4 +48,8 @@ class DataRepository(
         }
     }
 
+    suspend fun getLocalAppMetadata(): AppMetadata = withContext(Dispatchers.IO) {
+        AppMetadata(Version(localMetadataSource.dataVersion ?: ""), 1, "${BuildConfig.VERSION_CODE}")
+    }
+
 }

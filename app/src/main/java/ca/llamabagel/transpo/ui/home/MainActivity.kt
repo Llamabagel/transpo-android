@@ -12,8 +12,12 @@ import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.core.utils.Actions
 import ca.llamabagel.transpo.core.utils.TAG
 import ca.llamabagel.transpo.di.inject
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         inject(this)
 
         findViewById<Button>(R.id.button).setOnClickListener {
-            startActivity(Actions.openTripsIntent(this, "AA100"))
+            viewModel.checkAndApplyDataUpdates()
         }
 
         Log.d(TAG, "Hello World")
