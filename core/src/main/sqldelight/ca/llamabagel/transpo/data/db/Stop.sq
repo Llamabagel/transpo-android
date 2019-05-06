@@ -20,3 +20,9 @@ DELETE FROM stop;
 
 selectAll:
 SELECT * FROM stop;
+
+getStopById:
+SELECT * FROM stop WHERE id = ?;
+
+getStopsByCode:
+SELECT * FROM stop WHERE code = ?;
