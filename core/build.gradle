@@ -6,6 +6,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlinx-serialization'
 apply plugin: 'com.squareup.sqldelight'
 
 apply from: '../versions.gradle'
@@ -62,12 +63,15 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
     implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${versions.retrofitCoroutines}"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${versions.retrofitSerialization}"
 
     implementation "com.google.dagger:dagger:${versions.dagger}"
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
     implementation "com.google.dagger:dagger-android:${versions.dagger}"
     implementation "com.google.dagger:dagger-android-support:${versions.dagger}"
     kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}"
 
     testImplementation "junit:junit:${versions.junit}"
     androidTestImplementation "androidx.test:runner:${versions.testRunner}"

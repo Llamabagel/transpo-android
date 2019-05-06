@@ -9,7 +9,6 @@ import ca.llamabagel.transpo.data.api.DataService
 import ca.llamabagel.transpo.data.db.TransitDatabase
 import ca.llamabagel.transpo.models.app.AppMetadata
 import ca.llamabagel.transpo.models.app.MetadataRequest
-import ca.llamabagel.transpo.models.app.Version
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -22,15 +21,15 @@ class DataRepository(
     suspend fun getRemoteAppMetadata(): AppMetadata = withContext(Dispatchers.IO) {
         val request =
             MetadataRequest(
-                Version(localMetadataSource.dataVersion ?: ""),
+                localMetadataSource.dataVersion ?: "",
                 1, BuildConfig.VERSION_CODE, "android"
             )
 
-        dataService.getMetadata(request)
+        dataService.getMetadata(request).await()
     }
 
     suspend fun updateLocalData() = withContext(Dispatchers.IO) {
-        val dataPackage = dataService.getDataPackage()
+        val dataPackage = dataService.getDataPackage().await()
 
         database.stopQueries.deleteAll()
         dataPackage.data.stops.forEach { (id, code, name, latitude, longitude, locationType, parentStation) ->
@@ -46,10 +45,12 @@ class DataRepository(
         dataPackage.data.stopRoutes.forEach { (stopId, routeId, directionId, sequence) ->
             database.stopRouteQueries.insert(stopId, routeId, directionId, sequence)
         }
+
+        localMetadataSource.dataVersion = dataPackage.dataVersion
     }
 
     suspend fun getLocalAppMetadata(): AppMetadata = withContext(Dispatchers.IO) {
-        AppMetadata(Version(localMetadataSource.dataVersion ?: ""), 1, "${BuildConfig.VERSION_CODE}")
+        AppMetadata(localMetadataSource.dataVersion ?: "", 1, "${BuildConfig.VERSION_CODE}")
     }
 
 }

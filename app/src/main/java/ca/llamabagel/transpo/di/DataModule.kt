@@ -15,8 +15,10 @@ import ca.llamabagel.transpo.data.api.DataService
 import ca.llamabagel.transpo.data.db.TransitDatabase
 import ca.llamabagel.transpo.ui.home.MainViewModel
 import ca.llamabagel.transpo.ui.home.MainViewModelFactory
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
+import retrofit2.Converter
 import retrofit2.Retrofit
 
 @Module
@@ -32,9 +34,11 @@ class DataModule {
 
     @Provides
     @FeatureScope
-    fun provideDataService(): DataService {
+    fun provideDataService(adapter: CoroutineCallAdapterFactory, converter: Converter.Factory): DataService {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.API_ENDPOINT)
+            .addCallAdapterFactory(adapter)
+            .addConverterFactory(converter)
             .build()
             .create(DataService::class.java)
     }

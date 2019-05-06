@@ -4,12 +4,23 @@
 
 package ca.llamabagel.transpo.core.di
 
-import android.content.Context
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
+import dagger.Provides
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType
+import retrofit2.Converter
+import javax.inject.Singleton
 
 @Module
-class CoreModule(val context: Context) {
+class CoreModule {
 
+    @Provides
+    fun provideCallAdapterFactory(): CoroutineCallAdapterFactory = CoroutineCallAdapterFactory()
 
+    @Provides
+    @Singleton
+    fun provideSerializationConverterFactory(): Converter.Factory = Json.asConverterFactory(MediaType.get("application/json"))
 
 }
