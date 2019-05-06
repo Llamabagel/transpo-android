@@ -31,19 +31,21 @@ class DataRepository(
     suspend fun updateLocalData() = withContext(Dispatchers.IO) {
         val dataPackage = dataService.getDataPackage().await()
 
-        database.stopQueries.deleteAll()
-        dataPackage.data.stops.forEach { (id, code, name, latitude, longitude, locationType, parentStation) ->
-            database.stopQueries.insert(id, code, name, latitude, longitude, locationType, parentStation)
-        }
+        database.transaction {
+            database.stopQueries.deleteAll()
+            dataPackage.data.stops.forEach { (id, code, name, latitude, longitude, locationType, parentStation) ->
+                database.stopQueries.insert(id, code, name, latitude, longitude, locationType, parentStation)
+            }
 
-        database.routeQueries.deleteAll()
-        dataPackage.data.routes.forEach { (id, shortName, longName, type, serviceLevel, color) ->
-            database.routeQueries.insert(id, shortName, longName, type, serviceLevel, color)
-        }
+            database.routeQueries.deleteAll()
+            dataPackage.data.routes.forEach { (id, shortName, longName, type, serviceLevel, color) ->
+                database.routeQueries.insert(id, shortName, longName, type, serviceLevel, color)
+            }
 
-        database.stopRouteQueries.deleteAll()
-        dataPackage.data.stopRoutes.forEach { (stopId, routeId, directionId, sequence) ->
-            database.stopRouteQueries.insert(stopId, routeId, directionId, sequence)
+            database.stopRouteQueries.deleteAll()
+            dataPackage.data.stopRoutes.forEach { (stopId, routeId, directionId, sequence) ->
+                database.stopRouteQueries.insert(stopId, routeId, directionId, sequence)
+            }
         }
 
         localMetadataSource.dataVersion = dataPackage.dataVersion
