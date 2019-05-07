@@ -4,11 +4,7 @@
 
 package ca.llamabagel.transpo.di
 
-import ca.llamabagel.transpo.core.di.BaseActivityComponent
-import ca.llamabagel.transpo.core.di.CoreComponent
-import ca.llamabagel.transpo.core.di.SharedPreferencesModule
-import ca.llamabagel.transpo.core.di.TransitDatabaseModule
-import ca.llamabagel.transpo.core.di.scope.FeatureScope
+import ca.llamabagel.transpo.di.scope.FeatureScope
 import ca.llamabagel.transpo.ui.home.MainActivity
 import dagger.BindsInstance
 import dagger.Component

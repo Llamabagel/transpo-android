@@ -5,16 +5,12 @@
 package ca.llamabagel.transpo.di
 
 import android.content.SharedPreferences
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProviders
 import ca.llamabagel.transpo.core.BuildConfig
-import ca.llamabagel.transpo.core.di.scope.FeatureScope
+import ca.llamabagel.transpo.di.scope.FeatureScope
 import ca.llamabagel.transpo.data.DataRepository
 import ca.llamabagel.transpo.data.LocalMetadataSource
 import ca.llamabagel.transpo.data.api.DataService
 import ca.llamabagel.transpo.data.db.TransitDatabase
-import ca.llamabagel.transpo.ui.home.MainViewModel
-import ca.llamabagel.transpo.ui.home.MainViewModelFactory
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides

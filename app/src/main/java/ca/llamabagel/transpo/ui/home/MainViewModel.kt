@@ -4,16 +4,42 @@
 
 package ca.llamabagel.transpo.ui.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
+import androidx.work.*
 import ca.llamabagel.transpo.data.DataRepository
 import ca.llamabagel.transpo.workers.DataWorker
+import ca.llamabagel.transpo.workers.RemoteMetadataWorker
 
 class MainViewModel(private val dataRepository: DataRepository) : ViewModel() {
-    private val workManager = WorkManager.getInstance()
+    private val workManager: WorkManager by lazy { WorkManager.getInstance() }
+
+    val workInfo: LiveData<List<WorkInfo>>
+
+    init {
+        workInfo = workManager.getWorkInfosByTagLiveData(TAG_OUTPUT)
+    }
 
     fun checkAndApplyDataUpdates() {
-       workManager.enqueue(OneTimeWorkRequest.from(DataWorker::class.java))
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.UNMETERED)
+            .setRequiresStorageNotLow(true)
+            .build()
+
+        val checkRequest = OneTimeWorkRequestBuilder<RemoteMetadataWorker>()
+            .setConstraints(constraints)
+            .build()
+        val updateRequest = OneTimeWorkRequestBuilder<DataWorker>()
+            .setConstraints(constraints)
+            .addTag(TAG_OUTPUT)
+            .build()
+
+        workManager.beginWith(checkRequest)
+            .then(updateRequest)
+            .enqueue()
+    }
+
+    companion object {
+        const val TAG_OUTPUT = "data_worker_output"
     }
 }

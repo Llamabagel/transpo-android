@@ -5,12 +5,12 @@
 package ca.llamabagel.transpo.ui.home
 
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import ca.llamabagel.transpo.R
-import ca.llamabagel.transpo.core.utils.Actions
-import ca.llamabagel.transpo.core.utils.TAG
 import ca.llamabagel.transpo.di.inject
 import javax.inject.Inject
 
@@ -29,6 +29,15 @@ class MainActivity : AppCompatActivity() {
             viewModel.checkAndApplyDataUpdates()
         }
 
-        Log.d(TAG, "Hello World")
+        viewModel.workInfo.observe(this, Observer {
+            if (it == null || it.isEmpty()) {
+                return@Observer
+            }
+
+            val info = it[0]
+
+            val finished = info.state.isFinished
+            findViewById<ProgressBar>(R.id.progressBar).visibility = if (finished) View.INVISIBLE else View.VISIBLE
+        })
     }
 }

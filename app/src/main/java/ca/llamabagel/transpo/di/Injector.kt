@@ -5,8 +5,6 @@
 package ca.llamabagel.transpo.di
 
 import ca.llamabagel.transpo.TranspoApplication
-import ca.llamabagel.transpo.core.di.SharedPreferencesModule
-import ca.llamabagel.transpo.core.di.TransitDatabaseModule
 import ca.llamabagel.transpo.coreComponent
 import ca.llamabagel.transpo.data.LocalMetadataSource
 import ca.llamabagel.transpo.ui.home.MainActivity

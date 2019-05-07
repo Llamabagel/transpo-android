@@ -2,10 +2,10 @@
  * Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
  */
 
-package ca.llamabagel.transpo.core.di
+package ca.llamabagel.transpo.di
 
 import android.content.Context
-import ca.llamabagel.transpo.core.di.scope.FeatureScope
+import ca.llamabagel.transpo.di.scope.FeatureScope
 import ca.llamabagel.transpo.data.db.TransitDatabase
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver

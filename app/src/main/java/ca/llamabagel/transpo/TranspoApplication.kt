@@ -9,9 +9,8 @@ import android.app.Application
 import android.content.Context
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import androidx.work.WorkerFactory
-import ca.llamabagel.transpo.core.di.CoreComponent
-import ca.llamabagel.transpo.core.di.DaggerCoreComponent
+import ca.llamabagel.transpo.di.CoreComponent
+import ca.llamabagel.transpo.di.DaggerCoreComponent
 import ca.llamabagel.transpo.di.InjectionWorkerFactory
 import ca.llamabagel.transpo.di.inject
 import javax.inject.Inject

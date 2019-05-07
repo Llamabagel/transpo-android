@@ -2,7 +2,7 @@
  * Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
  */
 
-package ca.llamabagel.transpo.core.data
+package ca.llamabagel.transpo.data
 
 /**
  * A generic class that holds a value with its loading status.

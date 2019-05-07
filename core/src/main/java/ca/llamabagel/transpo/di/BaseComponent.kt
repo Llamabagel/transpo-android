@@ -2,7 +2,7 @@
  * Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
  */
 
-package ca.llamabagel.transpo.core.di
+package ca.llamabagel.transpo.di
 
 import android.app.Activity
 import android.app.Service

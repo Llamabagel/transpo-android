@@ -7,6 +7,7 @@ package ca.llamabagel.transpo.di
 import androidx.work.ListenableWorker
 import ca.llamabagel.transpo.workers.ChildWorkerFactory
 import ca.llamabagel.transpo.workers.DataWorker
+import ca.llamabagel.transpo.workers.RemoteMetadataWorker
 import com.squareup.inject.assisted.dagger2.AssistedModule
 import dagger.Binds
 import dagger.MapKey
@@ -25,6 +26,11 @@ interface WorkerModule {
     @IntoMap
     @WorkerKey(DataWorker::class)
     fun bindDataWorker(factory: DataWorker.Factory): ChildWorkerFactory
+
+    @Binds
+    @IntoMap
+    @WorkerKey(RemoteMetadataWorker::class)
+    fun bindRemoteMetadataWorker(factory: RemoteMetadataWorker.Factory): ChildWorkerFactory
 }
 
 @AssistedModule
