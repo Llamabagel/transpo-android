@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-apply from: '../versions.gradle'
+apply from: '../core_dependencies.gradle'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -51,56 +51,10 @@ configurations {
 }
 
 dependencies {
-    api 'androidx.appcompat:appcompat:1.0.2'
-    api 'androidx.constraintlayout:constraintlayout:1.1.3'
     ktlint "com.github.shyiko:ktlint:0.31.0"
 
     implementation project(':core')
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
-    implementation "androidx.appcompat:appcompat:${versions.appcompat}"
-    implementation "androidx.core:core-ktx:${versions.ktx}"
-    implementation "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}"
-    implementation "com.google.android.material:material:${versions.material}"
-
-    implementation "ca.llamabagel.transpo:shared:${versions.transpo}"
-
-    // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}"
-    testImplementation "androidx.arch.core:core-testing:${versions.lifecycle}"
-    // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:${versions.navigation}"
-    implementation "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
-    // Work Manager
-    implementation "android.arch.work:work-runtime-ktx:${versions.workManager}"
-    androidTestImplementation "android.arch.work:work-testing:${versions.workManager}"
-    // Room
-    implementation "androidx.room:room-runtime:${versions.room}"
-    kapt "androidx.room:room-compiler:${versions.room}"
-    implementation "androidx.room:room-ktx:${versions.room}"
-    testImplementation "androidx.room:room-testing:${versions.room}"
-
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
-
-    implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
-    implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${versions.retrofitCoroutines}"
-
-    implementation "com.google.dagger:dagger:${versions.dagger}"
-    kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
-    implementation "com.google.dagger:dagger-android:${versions.dagger}"
-    implementation "com.google.dagger:dagger-android-support:${versions.dagger}"
-    kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
-
-    compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:${versions.daggerAssist}"
-    kapt "com.squareup.inject:assisted-inject-processor-dagger2:${versions.daggerAssist}"
-
-    testImplementation "junit:junit:${versions.junit}"
-    androidTestImplementation "androidx.test:runner:${versions.testRunner}"
-    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espressoCore}"
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 task ktlint(type: JavaExec, group: "verification") {

@@ -1,0 +1,11 @@
+/*
+ * Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
+ */
+
+dependencies {
+    testImplementation "androidx.arch.core:core-testing:${versions.lifecycle}"
+    androidTestImplementation "android.arch.work:work-testing:${versions.workManager}"
+    testImplementation "junit:junit:${versions.junit}"
+    androidTestImplementation "androidx.test:runner:${versions.testRunner}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espressoCore}"
+}

@@ -1,7 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-apply from: 'versions.gradle'
-
 buildscript {
     ext.kotlin_version = '1.3.31'
     repositories {
@@ -15,6 +13,33 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         classpath 'com.squareup.sqldelight:gradle-plugin:1.1.3'
     }
+
+    ext.versions = [
+            compileSdk              : 28,
+            targetSdk               : 'Q',
+            minSdk                  : 19,
+            appcompat               : '1.1.0-alpha04',
+            constraintlayout        : '1.1.3',
+            coroutines              : '1.1.1',
+            dagger                  : '2.21',
+            daggerAssist            : '0.4.0',
+            espressoCore            : '3.2.0-alpha02',
+            junit                   : '4.12',
+            kotlin                  : '1.3.21',
+            ktx                     : '1.1.0-alpha05',
+            lifecycle               : '2.0.0',
+            material                : '1.0.0',
+            navigation              : '2.0.0',
+            retrofit                : '2.5.0',
+            retrofitCoroutines      : '0.9.2',
+            retrofitSerialization   : '0.4.0',
+            room                    : '2.1.0-alpha06',
+            serialization           : '0.11.0',
+            sqldelight              : '1.1.3',
+            testRunner              : '1.1.2-alpha02',
+            transpo                 : '1.0.0-alpha13',
+            workManager             : '1.0.1'
+    ]
 }
 
 allprojects {
