@@ -2,15 +2,19 @@
  * Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
  */
 
-package ca.llamabagel.transpo.di
+package ca.llamabagel.transpo.trips.di
 
+import ca.llamabagel.transpo.di.BaseActivityComponent
+import ca.llamabagel.transpo.di.CoreComponent
+import ca.llamabagel.transpo.di.TransitDatabaseModule
 import ca.llamabagel.transpo.di.scope.FeatureScope
-import ca.llamabagel.transpo.ui.TripsActivity
+import ca.llamabagel.transpo.trips.ui.TripsActivity
 import dagger.Component
 
 @FeatureScope
 @Component(modules = [TripsModule::class, TransitDatabaseModule::class], dependencies = [CoreComponent::class])
-abstract class TripsComponent : BaseActivityComponent<TripsActivity> {
+abstract class TripsComponent :
+    BaseActivityComponent<TripsActivity> {
 
     @Component.Builder
     interface Builder {

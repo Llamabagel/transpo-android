@@ -2,7 +2,7 @@
  * Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
  */
 
-package ca.llamabagel.transpo.ui
+package ca.llamabagel.transpo.trips.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

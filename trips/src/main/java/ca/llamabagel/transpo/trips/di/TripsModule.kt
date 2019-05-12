@@ -2,11 +2,11 @@
  * Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
  */
 
-package ca.llamabagel.transpo.di
+package ca.llamabagel.transpo.trips.di
 
 import ca.llamabagel.transpo.core.BuildConfig
-import ca.llamabagel.transpo.data.TripsRepository
-import ca.llamabagel.transpo.data.api.TripsService
+import ca.llamabagel.transpo.trips.data.TripsRepository
+import ca.llamabagel.transpo.trips.data.api.TripsService
 import ca.llamabagel.transpo.data.db.TransitDatabase
 import ca.llamabagel.transpo.di.scope.FeatureScope
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
