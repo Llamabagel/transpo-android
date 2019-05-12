@@ -1,16 +1,22 @@
-<!--
-  ~ Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:dist="http://schemas.android.com/apk/distribution"
           package="ca.llambagel.transpo.search">
 
     <dist:module
-            dist:onDemand="false"
             dist:instant="false"
+            dist:onDemand="false"
             dist:title="@string/title_search">
         <dist:fusing dist:include="true"/>
     </dist:module>
-</manifest>
 
+    <application>
+        <activity android:name=".ui.SearchActivity">
+            <intent-filter>
+                <action android:name="ca.llamabagel.transpo.actions.search.open"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -2,11 +2,11 @@
  * Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
  */
 
-package ca.llamabagel.transpo.ui.search
+package ca.llambagel.transpo.search.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import ca.llamabagel.transpo.R
+import androidx.appcompat.app.AppCompatActivity
+import ca.llambagel.transpo.search.R
 
 class SearchActivity : AppCompatActivity() {
 
