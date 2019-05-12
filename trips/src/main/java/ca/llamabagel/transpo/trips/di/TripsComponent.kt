@@ -9,6 +9,7 @@ import ca.llamabagel.transpo.di.CoreComponent
 import ca.llamabagel.transpo.di.TransitDatabaseModule
 import ca.llamabagel.transpo.di.scope.FeatureScope
 import ca.llamabagel.transpo.trips.ui.TripsActivity
+import dagger.BindsInstance
 import dagger.Component
 
 @FeatureScope
@@ -19,6 +20,9 @@ abstract class TripsComponent :
     @Component.Builder
     interface Builder {
         fun build(): TripsComponent
+
+        @BindsInstance
+        fun tripsActivity(tripsActivity: TripsActivity): Builder
 
         fun coreComponent(component: CoreComponent): Builder
         fun transitDatabaseModule(module: TransitDatabaseModule): Builder
