@@ -32,6 +32,9 @@ android {
         debug {
             buildConfigField "String", "API_ENDPOINT", "\"${props.getProperty("api.endpoint")}\""
         }
+        release {
+            buildConfigField "String", "API_ENDPOINT", "\"${props.getProperty("api.endpoint")}\""
+        }
     }
 }
 
