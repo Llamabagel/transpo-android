@@ -36,9 +36,10 @@ buildscript {
             room                    : '2.1.0-alpha06',
             serialization           : '0.11.0',
             sqldelight              : '1.1.3',
-            testRunner              : '1.1.2-alpha02',
+            testRunner              : '1.1.0',
             transpo                 : '1.0.0-alpha13',
-            workManager             : '1.0.1'
+            workManager             : '1.0.1',
+            testRules               : '1.1.1'
     ]
 }
 
