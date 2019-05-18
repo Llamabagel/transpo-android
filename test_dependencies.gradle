@@ -6,6 +6,10 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:${versions.lifecycle}"
     androidTestImplementation "android.arch.work:work-testing:${versions.workManager}"
     testImplementation "junit:junit:${versions.junit}"
-    androidTestImplementation "androidx.test:runner:${versions.testRunner}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espressoCore}"
+    androidTestImplementation "androidx.test:rules:${versions.testRules}"
+    androidTestImplementation "androidx.test.ext:junit:${versions.testRunner}"
+    androidTestImplementation project(':test_shared')
+    testImplementation project(':test_shared')
+
 }
