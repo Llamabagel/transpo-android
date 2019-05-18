@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.trips.R
 import ca.llamabagel.transpo.trips.databinding.ActivityTripsBinding
 import ca.llamabagel.transpo.trips.di.inject
@@ -41,6 +42,14 @@ class TripsActivity : AppCompatActivity() {
                 finish()
                 return@Observer
             }
+
+            viewModel.getTrips()
+        })
+
+        viewModel.apiResponse.observe(this, Observer { response ->
+            response ?: return@Observer
+
+            findViewById<RecyclerView>(R.id.recyclerView).adapter = TripsAdapter(response)
         })
     }
 }
