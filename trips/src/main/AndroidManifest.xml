@@ -14,7 +14,7 @@
         <activity android:name=".ui.TripsActivity"
                 android:theme="@style/Transpo">
             <intent-filter>
-                <action android:name="ca.llamabagel.transpo.actions.trips.open"/>
+                <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
