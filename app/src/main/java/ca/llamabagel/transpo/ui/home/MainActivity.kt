@@ -13,7 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.inject
-import ca.llamabagel.transpo.utils.Actions
+import ca.llamabagel.transpo.utils.Activities
+import ca.llamabagel.transpo.utils.intentTo
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.openButton).setOnClickListener {
             val id = findViewById<EditText>(R.id.editText).text.toString()
-            startActivity(Actions.openTripsIntent(this, id))
+            startActivity(intentTo(Activities.Trips).apply { putExtra(Activities.Trips.EXTRA_STOP_ID, id) })
         }
     }
 }

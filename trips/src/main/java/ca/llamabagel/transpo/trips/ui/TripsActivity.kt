@@ -4,17 +4,16 @@
 
 package ca.llamabagel.transpo.trips.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.trips.R
 import ca.llamabagel.transpo.trips.databinding.ActivityTripsBinding
 import ca.llamabagel.transpo.trips.di.inject
-import com.google.android.material.appbar.MaterialToolbar
+import ca.llamabagel.transpo.utils.Activities
 import javax.inject.Inject
 
 class TripsActivity : AppCompatActivity() {
@@ -30,7 +29,7 @@ class TripsActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        viewModel.loadStop(intent.getStringExtra("stop_id"))
+        viewModel.loadStop(intent.getStringExtra(Activities.Trips.EXTRA_STOP_ID))
 
         viewModel.stop.observe(this, Observer { stop ->
             if (stop == null) {
