@@ -9,8 +9,9 @@ import android.content.Context
 import android.content.Intent
 import ca.llamabagel.transpo.BuildConfig
 
-inline fun <reified T : Activity> Activity.startActivity(context: Context) {
-    startActivity(Intent(context, T::class.java))
+inline fun <reified T : Activity> Activity.startActivity(context: Context, extras: Intent.() -> Unit = {}) {
+    val intent = Intent(context, T::class.java).apply(extras)
+    startActivity(intent)
 }
 
 inline val Any.TAG: String get() = this::class.java.simpleName
