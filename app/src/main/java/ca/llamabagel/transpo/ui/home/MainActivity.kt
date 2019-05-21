@@ -4,8 +4,9 @@
 
 package ca.llamabagel.transpo.ui.home
 
-import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
 
         inject(this)
 
+        setSupportActionBar(findViewById(R.id.toolbar))
+
         findViewById<Button>(R.id.button).setOnClickListener {
             viewModel.checkAndApplyDataUpdates()
         }
@@ -51,5 +54,11 @@ class MainActivity : AppCompatActivity() {
                 putExtra(Activities.Trips.EXTRA_STOP_ID, id)
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        MenuInflater(this).inflate(R.menu.main, menu)
+
+        return super.onCreateOptionsMenu(menu)
     }
 }
