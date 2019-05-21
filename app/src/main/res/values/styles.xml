@@ -5,6 +5,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
+    <!-- TODO: Override navigationBarColor for SDK < 27 since they can't use light navigation bar styles -->
     <style name="Transpo" parent="Theme.MaterialComponents.DayNight.NoActionBar" tools:targetApi="27">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
