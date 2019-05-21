@@ -5,12 +5,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="Transpo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Transpo" parent="Theme.MaterialComponents.DayNight.NoActionBar" tools:targetApi="27">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="toolbarStyle">@style/Widget.Transpo.Toolbar</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <style name="Transpo.Translucent">
