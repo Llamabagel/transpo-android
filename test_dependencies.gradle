@@ -9,7 +9,5 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espressoCore}"
     androidTestImplementation "androidx.test:rules:${versions.testRules}"
     androidTestImplementation "androidx.test.ext:junit:${versions.testRunner}"
-    androidTestImplementation project(':test_shared')
-    testImplementation project(':test_shared')
 
 }

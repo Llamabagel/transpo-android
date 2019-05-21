@@ -15,26 +15,26 @@
             android:supportsRtl="true"
             android:theme="@style/Transpo"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name=".ui.trips.TripsActivity">
+        </activity>
 
         <provider
-                android:authorities="${applicationId}.workmanager-init"
                 android:name="androidx.work.impl.WorkManagerInitializer"
+                android:authorities="${applicationId}.workmanager-init"
                 android:exported="false"
                 tools:node="remove"/>
 
         <activity android:name=".ui.home.MainActivity">
-        </activity>
-
-        <!-- Use an alias in order to avoid breaking home screen shortcuts when updated from previous version of app. -->
+        </activity> <!-- Use an alias in order to avoid breaking home screen shortcuts when updated from previous version of app. -->
         <activity-alias
                 android:name=".app.MainActivity"
                 android:targetActivity=".ui.home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity-alias>
-
     </application>
 
 </manifest>

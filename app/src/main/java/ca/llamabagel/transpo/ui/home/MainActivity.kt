@@ -44,7 +44,8 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.openButton).setOnClickListener {
             val id = findViewById<EditText>(R.id.editText).text.toString()
-            startActivity(intentTo(Activities.Trips).apply { putExtra(Activities.Trips.EXTRA_STOP_ID, id) })
+            startActivity(intentTo(Activities.Trips).apply { putExtra(
+                Activities.Trips.EXTRA_STOP_ID, id) })
         }
     }
 }

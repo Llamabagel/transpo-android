@@ -5,7 +5,7 @@
 package ca.llamabagel.transpo.di
 
 import android.content.SharedPreferences
-import ca.llamabagel.transpo.core.BuildConfig
+import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.di.scope.FeatureScope
 import ca.llamabagel.transpo.data.DataRepository
 import ca.llamabagel.transpo.data.LocalMetadataSource

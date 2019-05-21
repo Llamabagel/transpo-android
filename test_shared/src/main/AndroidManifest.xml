@@ -1,6 +1,0 @@
-<!--
-  ~ Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
-  -->
-
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="ca.llamabagel.transpo.test_shared"/>
