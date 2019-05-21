@@ -6,8 +6,8 @@ package ca.llamabagel.transpo
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import ca.llamabagel.transpo.test_shared.utils.findViewById
-import ca.llamabagel.transpo.test_shared.utils.verifyDisplayed
+import ca.llamabagel.transpo.utils.findViewById
+import ca.llamabagel.transpo.utils.verifyDisplayed
 import ca.llamabagel.transpo.ui.home.MainActivity
 import org.junit.Rule
 import org.junit.Test
