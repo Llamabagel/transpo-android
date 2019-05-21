@@ -19,6 +19,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
 import retrofit2.Converter
 import retrofit2.Retrofit
 
@@ -33,8 +34,9 @@ abstract class TripsModule {
         @Provides
         @FeatureScope
         @JvmStatic
-        fun provideTripsService(adapter: CoroutineCallAdapterFactory, converter: Converter.Factory) = Retrofit.Builder()
+        fun provideTripsService(adapter: CoroutineCallAdapterFactory, converter: Converter.Factory, okHttpClient: OkHttpClient) = Retrofit.Builder()
             .baseUrl(BuildConfig.API_ENDPOINT)
+            .client(okHttpClient)
             .addCallAdapterFactory(adapter)
             .addConverterFactory(converter)
             .build().create(TripsService::class.java)
