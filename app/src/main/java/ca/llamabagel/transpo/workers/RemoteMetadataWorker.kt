@@ -17,6 +17,7 @@ class RemoteMetadataWorker @AssistedInject constructor(
     @Assisted params: WorkerParameters,
     private val dataRepository: DataRepository
 ) : CoroutineWorker(appContext, params) {
+
     override suspend fun doWork(): Result {
         val remoteMetadata = dataRepository.getRemoteAppMetadata()
         val localMetadata = dataRepository.getLocalAppMetadata()
