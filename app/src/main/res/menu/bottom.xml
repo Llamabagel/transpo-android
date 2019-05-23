@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/home"
+            android:title="Home"
+            android:icon="@drawable/ic_home"/>
+    <item
+            android:id="@+id/favourites"
+            android:title="Saved"
+            android:icon="@drawable/ic_star_border"/>
+    <item
+            android:id="@+id/map"
+            android:title="Map"
+            android:icon="@drawable/ic_map"/>
+    <item
+            android:id="@+id/directions"
+            android:title="Planner"
+            android:icon="@drawable/ic_directions"/>
+</menu>
