@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/main"
+            app:startDestination="@id/home">
+
+    <fragment
+            android:id="@+id/home"
+            android:name="ca.llamabagel.transpo.ui.home.HomeFragment"
+            android:label="home_fragment"
+            tools:layout="@layout/home_fragment"/>
+    <fragment
+            android:id="@+id/map"
+            android:name="ca.llamabagel.transpo.ui.map.MapFragment"
+            android:label="map_fragment"
+            tools:layout="@layout/map_fragment"/>
+    <fragment
+            android:id="@+id/planner"
+            android:name="ca.llamabagel.transpo.ui.planner.PlannerFragment"
+            android:label="planner_fragment"
+            tools:layout="@layout/planner_fragment"/>
+    <fragment
+            android:id="@+id/saved"
+            android:name="ca.llamabagel.transpo.ui.saved.SavedFragment"
+            android:label="saved_fragment"
+            tools:layout="@layout/saved_fragment"/>
+</navigation>
