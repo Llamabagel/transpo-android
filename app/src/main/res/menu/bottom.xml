@@ -9,7 +9,7 @@
             android:title="Home"
             android:icon="@drawable/ic_home"/>
     <item
-            android:id="@+id/favourites"
+            android:id="@+id/saved"
             android:title="Saved"
             android:icon="@drawable/ic_star_border"/>
     <item
@@ -17,7 +17,7 @@
             android:title="Map"
             android:icon="@drawable/ic_map"/>
     <item
-            android:id="@+id/directions"
+            android:id="@+id/planner"
             android:title="Planner"
             android:icon="@drawable/ic_directions"/>
 </menu>

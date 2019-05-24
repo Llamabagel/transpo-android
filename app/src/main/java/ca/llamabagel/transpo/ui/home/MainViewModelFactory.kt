@@ -16,7 +16,9 @@ class MainViewModelFactory @Inject constructor(
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass != MainViewModel::class.java) {
+        if (modelClass == HomeViewModel::class.java) {
+          return HomeViewModel(dataRepository) as T
+        } else if (modelClass != MainViewModel::class.java) {
             throw IllegalArgumentException("Unknown ViewModel class")
         }
 

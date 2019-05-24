@@ -13,11 +13,14 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.inject
 import ca.llamabagel.transpo.ui.trips.TripsActivity
 import ca.llamabagel.transpo.utils.Activities
 import ca.llamabagel.transpo.utils.startActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -33,27 +36,9 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        findViewById<Button>(R.id.button).setOnClickListener {
-            viewModel.checkAndApplyDataUpdates()
-        }
-
-        viewModel.workInfo.observe(this, Observer {
-            if (it == null || it.isEmpty()) {
-                return@Observer
-            }
-
-            val info = it[0]
-
-            val finished = info.state.isFinished
-            findViewById<ProgressBar>(R.id.progressBar).visibility = if (finished) View.INVISIBLE else View.VISIBLE
-        })
-
-        findViewById<Button>(R.id.openButton).setOnClickListener {
-            val id = findViewById<EditText>(R.id.editText).text.toString()
-            startActivity<TripsActivity>(this) {
-                putExtra(Activities.Trips.EXTRA_STOP_ID, id)
-            }
-        }
+        val navController = findNavController(R.id.navHostFragment)
+        findViewById<BottomNavigationView>(R.id.bottomNavigation)
+            .setupWithNavController(navController)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
