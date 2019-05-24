@@ -18,6 +18,9 @@
         <activity android:name=".ui.trips.TripsActivity">
         </activity>
 
+        <activity android:name=".ui.search.SearchActivity">
+        </activity>
+
         <provider
                 android:name="androidx.work.impl.WorkManagerInitializer"
                 android:authorities="${applicationId}.workmanager-init"
