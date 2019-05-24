@@ -10,6 +10,7 @@ dependencies {
     implementation "com.google.android.material:material:${versions.material}"
     implementation "com.squareup.sqldelight:android-driver:${versions.sqldelight}"
     implementation "ca.llamabagel.transpo:shared:${versions.transpo}"
+    implementation "androidx.fragment:fragment-ktx:${versions.ktx}"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}"
     implementation "androidx.navigation:navigation-fragment-ktx:${versions.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
