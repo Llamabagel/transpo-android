@@ -7,18 +7,13 @@ package ca.llamabagel.transpo.ui.home
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.View
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.inject
-import ca.llamabagel.transpo.ui.trips.TripsActivity
-import ca.llamabagel.transpo.utils.Activities
+import ca.llamabagel.transpo.ui.search.SearchActivity
 import ca.llamabagel.transpo.utils.startActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
@@ -39,6 +34,10 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.navHostFragment)
         findViewById<BottomNavigationView>(R.id.bottomNavigation)
             .setupWithNavController(navController)
+
+        findViewById<EditText>(R.id.search_bar).setOnClickListener {
+            startActivity<SearchActivity>(this)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

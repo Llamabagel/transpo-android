@@ -9,7 +9,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.MainActivity">
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context=".ui.search.SearchActivity">
 
     <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -17,48 +19,34 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/appBarLayout">
+            android:id="@+id/appBarLayout1">
 
         <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/toolbar">
+                android:id="@+id/toolbar1">
 
-            <EditText
+            <ca.llamabagel.transpo.ui.search.CustomSearchView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:iconifiedByDefault="false"
                     android:inputType="textPersonName"
-                    android:hint="@string/search_hint"
-                    android:focusable="false"
                     android:ems="10"
-                    android:id="@+id/search_bar"/>
-        </com.google.android.material.appbar.MaterialToolbar>
+                    android:id="@+id/search_bar">
+            </ca.llamabagel.transpo.ui.search.CustomSearchView>
 
+        </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/bottomNavigation"
-            app:menu="@menu/bottom"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            style="@style/Widget.MaterialComponents.BottomNavigationView"
-            app:itemRippleColor="@color/colorPrimary"
-            app:labelVisibilityMode="labeled"/>
-
-    <fragment
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/navHostFragment"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
-            app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/main"/>
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout1"
+            android:id="@+id/recyclerView"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
