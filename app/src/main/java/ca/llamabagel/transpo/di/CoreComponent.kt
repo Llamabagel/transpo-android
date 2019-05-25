@@ -30,10 +30,6 @@ interface CoreComponent {
         fun build(): CoreComponent
     }
 
-    fun provideCallAdapterFactory(): CoroutineCallAdapterFactory
-    fun provideConverterFactory(): Converter.Factory
-    fun provideOkHttpClient(): OkHttpClient
-
     fun factory(): InjectionWorkerFactory
 
     fun homeViewModelFactory(): ViewModelFactory<HomeViewModel>
