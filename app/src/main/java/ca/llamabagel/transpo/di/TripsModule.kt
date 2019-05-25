@@ -2,7 +2,7 @@
  * Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
  */
 
-package ca.llamabagel.transpo.di.trips
+package ca.llamabagel.transpo.di
 
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.data.TripsRepository

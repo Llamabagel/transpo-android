@@ -6,7 +6,6 @@ package ca.llamabagel.transpo.di
 
 import android.content.Context
 import ca.llamabagel.transpo.TranspoApplication
-import ca.llamabagel.transpo.di.trips.TripsModule
 import ca.llamabagel.transpo.ui.home.HomeViewModel
 import ca.llamabagel.transpo.ui.search.SearchViewModel
 import ca.llamabagel.transpo.ui.trips.TripsViewModel
