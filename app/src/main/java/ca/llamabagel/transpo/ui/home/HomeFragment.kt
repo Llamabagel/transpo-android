@@ -4,21 +4,22 @@
 
 package ca.llamabagel.transpo.ui.home
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import ca.llamabagel.transpo.R
+import ca.llamabagel.transpo.di.injector
 import ca.llamabagel.transpo.ui.trips.TripsActivity
 import ca.llamabagel.transpo.utils.Activities
 import ca.llamabagel.transpo.utils.startActivity
-import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
@@ -26,9 +27,7 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 
-    // TODO: Get rid of the Main view model
     private lateinit var viewModel: HomeViewModel
-    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,13 +38,14 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mainViewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
+
+        viewModel = ViewModelProviders.of(requireActivity(), requireActivity().injector.homeViewModelFactory())[HomeViewModel::class.java]
 
         requireView().findViewById<Button>(R.id.button).setOnClickListener {
-            mainViewModel.checkAndApplyDataUpdates()
+            viewModel.checkAndApplyDataUpdates()
         }
 
-        mainViewModel.workInfo.observe(this, Observer {
+        viewModel.workInfo.observe(this, Observer {
             if (it == null || it.isEmpty()) {
                 return@Observer
             }

@@ -9,32 +9,26 @@ import android.app.Application
 import android.content.Context
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import ca.llamabagel.transpo.di.CoreComponent
-import ca.llamabagel.transpo.di.DaggerCoreComponent
-import ca.llamabagel.transpo.di.InjectionWorkerFactory
-import ca.llamabagel.transpo.di.inject
+import ca.llamabagel.transpo.data.LocalMetadataSource
+import ca.llamabagel.transpo.di.*
 import javax.inject.Inject
 
-class TranspoApplication : Application() {
+class TranspoApplication : Application(), DaggerComponentProvider {
+
+    override val component: CoreComponent by lazy {
+        DaggerCoreComponent.builder()
+            .applicationContext(applicationContext)
+            .sharedPreferenceModule(SharedPreferencesModule(LocalMetadataSource.METADATA_PREF))
+            .build()
+    }
 
     @Inject
     lateinit var workerFactory: InjectionWorkerFactory
 
-    val coreComponent: CoreComponent by lazy {
-        DaggerCoreComponent.create()
-    }
-
-    companion object {
-        @JvmStatic
-        fun coreComponent(context: Context) = (context.applicationContext as TranspoApplication).coreComponent
-    }
-
     override fun onCreate() {
         super.onCreate()
-        inject(this)
+        component.inject(this)
         //val workerFactory = DaggerApplicationComponent.create()
         WorkManager.initialize(this, Configuration.Builder().setWorkerFactory(workerFactory).build())
     }
 }
-
-fun Activity.coreComponent() = TranspoApplication.coreComponent(this)

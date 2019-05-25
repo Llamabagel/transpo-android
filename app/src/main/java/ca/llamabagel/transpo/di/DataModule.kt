@@ -6,7 +6,6 @@ package ca.llamabagel.transpo.di
 
 import android.content.SharedPreferences
 import ca.llamabagel.transpo.BuildConfig
-import ca.llamabagel.transpo.di.scope.FeatureScope
 import ca.llamabagel.transpo.data.DataRepository
 import ca.llamabagel.transpo.data.LocalMetadataSource
 import ca.llamabagel.transpo.data.api.DataService
@@ -21,7 +20,6 @@ import retrofit2.Retrofit
 class DataModule {
 
     @Provides
-    @FeatureScope
     fun provideDataRepository(
         dataService: DataService,
         database: TransitDatabase,
@@ -29,7 +27,6 @@ class DataModule {
     ) = DataRepository(dataService, database, localMetadataSource)
 
     @Provides
-    @FeatureScope
     fun provideDataService(adapter: CoroutineCallAdapterFactory, converter: Converter.Factory): DataService {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.API_ENDPOINT)
@@ -40,7 +37,6 @@ class DataModule {
     }
 
     @Provides
-    @FeatureScope
     fun provideLocalMetadataSource(sharedPreferences: SharedPreferences)
         = LocalMetadataSource(sharedPreferences)
 

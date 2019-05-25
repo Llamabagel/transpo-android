@@ -9,19 +9,20 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import ca.llamabagel.transpo.R
-import ca.llamabagel.transpo.di.search.inject
+import ca.llamabagel.transpo.di.injector
 import javax.inject.Inject
 
 
 class SearchActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var viewModel: SearchViewModel
+    private lateinit var viewModel: SearchViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        inject(this)
+
+        viewModel = ViewModelProviders.of(this, injector.searchViewModelFactory())[SearchViewModel::class.java]
 
         setContentView(R.layout.activity_search)
         setSupportActionBar(findViewById(R.id.toolbar1))
