@@ -5,22 +5,22 @@
 package ca.llamabagel.transpo.di
 
 import android.content.Context
-import ca.llamabagel.transpo.di.scope.FeatureScope
 import ca.llamabagel.transpo.data.db.TransitDatabase
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
-class TransitDatabaseModule(val context: Context) {
+class TransitDatabaseModule {
 
     @Provides
-    @FeatureScope
+    @Singleton
     fun provideTransitDatabase(sqlDriver: SqlDriver): TransitDatabase = TransitDatabase(sqlDriver)
 
     @Provides
-    @FeatureScope
-    fun provideSqlDriver(): SqlDriver = AndroidSqliteDriver(TransitDatabase.Schema, context, "transit.db")
+    @Singleton
+    fun provideSqlDriver(context: Context): SqlDriver = AndroidSqliteDriver(TransitDatabase.Schema, context, "transit.db")
 
 }
