@@ -10,9 +10,10 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import android.widget.EditText
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatEditText
 
 
-class CustomSearchView : EditText {
+class CustomSearchView : AppCompatEditText {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
