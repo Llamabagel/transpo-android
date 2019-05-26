@@ -13,7 +13,11 @@
             android:id="@+id/home"
             android:name="ca.llamabagel.transpo.ui.home.HomeFragment"
             android:label="home_fragment"
-            tools:layout="@layout/home_fragment"/>
+            tools:layout="@layout/home_fragment">
+        <action
+                android:id="@+id/action_home_to_tripsActivity"
+                app:destination="@id/tripsActivity"/>
+    </fragment>
     <fragment
             android:id="@+id/map"
             android:name="ca.llamabagel.transpo.ui.map.MapFragment"
@@ -29,4 +33,12 @@
             android:name="ca.llamabagel.transpo.ui.saved.SavedFragment"
             android:label="saved_fragment"
             tools:layout="@layout/saved_fragment"/>
+    <activity
+            android:id="@+id/tripsActivity"
+            android:name="ca.llamabagel.transpo.ui.trips.TripsActivity"
+            android:label="TripsActivity">
+        <argument
+                android:name="stop_id"
+                app:argType="string"/>
+    </activity>
 </navigation>

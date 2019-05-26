@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'com.squareup.sqldelight'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 apply from: '../core_dependencies.gradle'
 apply from: '../test_dependencies.gradle'

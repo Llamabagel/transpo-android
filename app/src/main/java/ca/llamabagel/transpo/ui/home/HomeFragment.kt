@@ -15,9 +15,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
 import ca.llamabagel.transpo.ui.trips.TripsActivity
+import ca.llamabagel.transpo.ui.trips.TripsActivityArgs
 import ca.llamabagel.transpo.utils.Activities
 import ca.llamabagel.transpo.utils.startActivity
 
@@ -58,9 +61,12 @@ class HomeFragment : Fragment() {
 
         requireView().findViewById<Button>(R.id.openButton).setOnClickListener {
             val id = requireView().findViewById<EditText>(R.id.editText).text.toString()
-            requireActivity().startActivity<TripsActivity>(requireActivity()) {
+            /*requireActivity().startActivity<TripsActivity>(requireActivity()) {
                 putExtra(Activities.Trips.EXTRA_STOP_ID, id)
-            }
+            }*/
+
+            val action = HomeFragmentDirections.actionHomeToTripsActivity(id)
+            findNavController().navigate(action)
         }
         // TODO: Use the ViewModel
     }

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.databinding.ActivityTripsBinding
@@ -18,6 +19,8 @@ import ca.llamabagel.transpo.di.injector
 import ca.llamabagel.transpo.utils.Activities
 
 class TripsActivity : AppCompatActivity() {
+
+    private val args: TripsActivityArgs by navArgs()
 
     private lateinit var viewModel: TripsViewModel
 
@@ -30,7 +33,7 @@ class TripsActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        viewModel.loadStop(intent.getStringExtra(Activities.Trips.EXTRA_STOP_ID))
+        viewModel.loadStop(args.stopId)
 
         viewModel.stop.observe(this, Observer { stop ->
             if (stop == null) {
