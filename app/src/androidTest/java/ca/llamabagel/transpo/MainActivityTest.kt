@@ -61,7 +61,7 @@ class MainActivityTest {
     @Test
     fun map_fragment_is_displayed() {
         findViewById(R.id.map).click()
-        findViewByText(MAP).verifyDisplayed()
+        findViewById(R.id.mapView).verifyDisplayed()
     }
 
     @Test
