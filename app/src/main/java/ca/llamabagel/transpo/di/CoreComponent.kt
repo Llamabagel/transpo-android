@@ -7,6 +7,7 @@ package ca.llamabagel.transpo.di
 import android.content.Context
 import ca.llamabagel.transpo.TranspoApplication
 import ca.llamabagel.transpo.ui.home.HomeViewModel
+import ca.llamabagel.transpo.ui.map.MapViewModel
 import ca.llamabagel.transpo.ui.search.SearchViewModel
 import ca.llamabagel.transpo.ui.trips.TripsViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -35,6 +36,7 @@ interface CoreComponent {
     fun homeViewModelFactory(): ViewModelFactory<HomeViewModel>
     fun tripsViewModelFactory(): ViewModelFactory<TripsViewModel>
     fun searchViewModelFactory(): ViewModelFactory<SearchViewModel>
+    fun mapViewModelFactory(): ViewModelFactory<MapViewModel>
 
     fun inject(application: TranspoApplication)
 }
