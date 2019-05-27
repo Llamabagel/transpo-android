@@ -16,3 +16,6 @@ DELETE FROM route;
 
 selectAll:
 SELECT * FROM route;
+
+getRoutes:
+SELECT * FROM route WHERE short_name LIKE :name OR long_name LIKE :name;
