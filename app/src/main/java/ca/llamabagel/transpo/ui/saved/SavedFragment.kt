@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import ca.llamabagel.transpo.R
 
 class SavedFragment : Fragment() {
@@ -18,19 +19,13 @@ class SavedFragment : Fragment() {
         fun newInstance() = SavedFragment()
     }
 
-    private lateinit var viewModel: SavedViewModel
+    private val viewModel: SavedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.saved_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SavedViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }

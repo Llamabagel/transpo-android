@@ -12,18 +12,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import ca.llamabagel.transpo.MainDirections
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
-import ca.llamabagel.transpo.ui.trips.TripsActivity
-import ca.llamabagel.transpo.ui.trips.TripsActivityArgs
-import ca.llamabagel.transpo.utils.Activities
-import ca.llamabagel.transpo.utils.startActivity
 
 class HomeFragment : Fragment() {
 
@@ -31,7 +25,7 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel: HomeViewModel by viewModels { injector.homeViewModelFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,8 +36,6 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(requireActivity(), requireActivity().injector.homeViewModelFactory())[HomeViewModel::class.java]
 
         requireView().findViewById<Button>(R.id.button).setOnClickListener {
             viewModel.checkAndApplyDataUpdates()
@@ -62,15 +54,9 @@ class HomeFragment : Fragment() {
 
         requireView().findViewById<Button>(R.id.openButton).setOnClickListener {
             val id = requireView().findViewById<EditText>(R.id.editText).text.toString()
-            /*requireActivity().startActivity<TripsActivity>(requireActivity()) {
-                putExtra(Activities.Trips.EXTRA_STOP_ID, id)
-            }*/
-
 
             val action = MainDirections.actionGlobalTripsActivity(id)
             findNavController().navigate(action)
         }
-        // TODO: Use the ViewModel
     }
-
 }

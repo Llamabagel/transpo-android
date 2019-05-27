@@ -23,12 +23,10 @@ class TripsActivity : AppCompatActivity() {
 
     private val args: TripsActivityArgs by navArgs()
 
-    private lateinit var viewModel: TripsViewModel
+    private val viewModel: TripsViewModel by viewModels{ injector.tripsViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this, injector.tripsViewModelFactory())[TripsViewModel::class.java]
 
         val binding: ActivityTripsBinding = DataBindingUtil.setContentView(this, R.layout.activity_trips)
         binding.lifecycleOwner = this
