@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
+  -->
+
+<!-- Navigation graph is referenced programmatically in TripsActivity -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/trips"
+            app:startDestination="@id/stopFragment"
+            tools:ignore="UnusedNavigation">
+
+    <fragment
+            android:id="@+id/stopFragment"
+            android:name="ca.llamabagel.transpo.ui.trips.StopFragment"
+            android:label="fragment_stop"
+            tools:layout="@layout/stop_fragment">
+        <action
+                android:id="@+id/action_stopFragment_to_tripsFragment"
+                app:destination="@id/tripsFragment"/>
+        <argument
+                android:name="stop_id"
+                app:argType="string"/>
+    </fragment>
+    <fragment
+            android:id="@+id/tripsFragment"
+            android:name="ca.llamabagel.transpo.ui.trips.TripsFragment"
+            android:label="fragment_trips"
+            tools:layout="@layout/trips_fragment">
+        <action
+                android:id="@+id/action_tripsFragment_to_tripDetailsFragment"
+                app:destination="@id/tripDetailsFragment"/>
+    </fragment>
+    <fragment
+            android:id="@+id/tripDetailsFragment"
+            android:name="ca.llamabagel.transpo.ui.trips.TripDetailsFragment"
+            android:label="fragment_trip_details"
+            tools:layout="@layout/trip_details_fragment"/>
+</navigation>
