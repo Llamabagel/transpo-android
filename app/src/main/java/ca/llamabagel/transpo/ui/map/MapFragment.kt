@@ -68,6 +68,31 @@ class MapFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        view?.findViewById<MapView>(R.id.mapView)?.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        view?.findViewById<MapView>(R.id.mapView)?.onResume()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        view?.findViewById<MapView>(R.id.mapView)?.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        view?.findViewById<MapView>(R.id.mapView)?.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        view?.findViewById<MapView>(R.id.mapView)?.onLowMemory()
+    }
+
     private fun prepareMap(map: MapboxMap) {
         viewModel.getStops()
         viewModel.stops.observe(this, Observer { stops ->
