@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.navigation.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.R
@@ -33,6 +34,10 @@ class TripsActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        // Manually set navigation graph because of extra arguments
+        findNavController(R.id.navHostFragment)
+            .setGraph(R.navigation.trips, intent.extras)
+
         viewModel.loadStop(args.stopId)
 
         viewModel.stop.observe(this, Observer { stop ->
@@ -47,12 +52,6 @@ class TripsActivity : AppCompatActivity() {
             }
 
             viewModel.getTrips()
-        })
-
-        viewModel.apiResponse.observe(this, Observer { response ->
-            response ?: return@Observer
-
-            findViewById<RecyclerView>(R.id.recyclerView).adapter = TripsAdapter(response)
         })
     }
 }

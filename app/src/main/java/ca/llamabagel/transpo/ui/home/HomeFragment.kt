@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import ca.llamabagel.transpo.MainDirections
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
 import ca.llamabagel.transpo.ui.trips.TripsActivity
@@ -65,7 +66,8 @@ class HomeFragment : Fragment() {
                 putExtra(Activities.Trips.EXTRA_STOP_ID, id)
             }*/
 
-            val action = HomeFragmentDirections.actionHomeToTripsActivity(id)
+
+            val action = MainDirections.actionGlobalTripsActivity(id)
             findNavController().navigate(action)
         }
         // TODO: Use the ViewModel
