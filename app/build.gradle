@@ -37,11 +37,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "API_ENDPOINT", "\"${props.getProperty("api.endpoint")}\""
+            buildConfigField "String", "MAPBOX_KEY", "\"${props.getProperty("mapbox.key")}\""
         }
 
         debug {
             applicationIdSuffix '.debug'
             buildConfigField "String", "API_ENDPOINT", "\"${props.getProperty("api.endpoint")}\""
+            buildConfigField "String", "MAPBOX_KEY", "\"${props.getProperty("mapbox.key")}\""
         }
     }
     compileOptions {
