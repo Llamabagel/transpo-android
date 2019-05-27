@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.R
@@ -36,7 +37,7 @@ class MapFragment : Fragment() {
         fun newInstance() = MapFragment()
     }
 
-    private lateinit var viewModel: MapViewModel
+    private val viewModel: MapViewModel by viewModels { requireActivity().injector.mapViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +50,6 @@ class MapFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.map_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, requireActivity().injector.mapViewModelFactory()).get(MapViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

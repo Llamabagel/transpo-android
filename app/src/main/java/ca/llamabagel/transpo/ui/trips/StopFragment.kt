@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,7 @@ import ca.llamabagel.transpo.R
 
 class StopFragment : Fragment() {
 
-    private val viewModel: TripsViewModel by lazy { ViewModelProviders.of(requireActivity())[TripsViewModel::class.java] }
+    private val viewModel: TripsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
