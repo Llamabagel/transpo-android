@@ -15,6 +15,10 @@ insert:
 INSERT INTO stop(id, code, name, latitude, longitude, location_type, parent_station)
 VALUES (?, ?, ?, ?, ?, ?, ?);
 
+insertfts:
+INSERT INTO stop_fts(id, code, name, latitude, longitude, location_type, parent_station)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
 deleteAll:
 DELETE FROM stop;
 
@@ -26,3 +30,16 @@ SELECT * FROM stop WHERE id = ?;
 
 getStopsByCode:
 SELECT * FROM stop WHERE code = ?;
+
+getStopsByName:
+SELECT *, 1 FROM stop_fts WHERE name MATCH ?;
+
+CREATE VIRTUAL TABLE stop_fts USING fts4(
+    id TEXT NOT NULL PRIMARY KEY,
+    code TEXT NOT NULL,
+    name TEXT NOT NULL,
+    latitude REAL As Double NOT NULL,
+    longitude REAL As Double NOT NULL,
+    location_type INTEGER As Integer NOT NULL,
+    parent_station TEXT
+);

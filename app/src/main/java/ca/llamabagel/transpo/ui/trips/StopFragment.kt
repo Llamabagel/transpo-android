@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.R
+import ca.llamabagel.transpo.ui.trips.adapter.TripsAdapter
 
 class StopFragment : Fragment() {
 
@@ -30,10 +31,10 @@ class StopFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.apiResponse.observe(this, Observer { response ->
-            response ?: return@Observer
+        viewModel.displayData.observe(this, Observer { data ->
+            data ?: return@Observer
 
-            view.findViewById<RecyclerView>(R.id.recyclerView).adapter = TripsAdapter(response)
+            view.findViewById<RecyclerView>(R.id.recyclerView).adapter = TripsAdapter(data)
         })
     }
 
