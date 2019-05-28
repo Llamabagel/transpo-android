@@ -21,8 +21,8 @@ class InjectionWorkerFactory @Inject constructor(
         workerParameters: WorkerParameters
     ): ListenableWorker? {
         val entry = workerFactories.entries.find { Class.forName(workerClassName).isAssignableFrom(it.key) }
-        val factoryProvider =
-            entry?.value ?: return null
+
+        val factoryProvider = entry?.value ?: return null
 
         return factoryProvider.get().create(appContext, workerParameters)
     }

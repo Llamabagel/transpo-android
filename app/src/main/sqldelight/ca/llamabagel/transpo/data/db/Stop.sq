@@ -26,3 +26,6 @@ SELECT * FROM stop WHERE id = ?;
 
 getStopsByCode:
 SELECT * FROM stop WHERE code = ?;
+
+getStopsByName:
+SELECT * FROM stop WHERE name LIKE ?;

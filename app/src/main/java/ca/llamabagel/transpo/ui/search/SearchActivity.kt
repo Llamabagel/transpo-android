@@ -9,7 +9,9 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
 
@@ -24,6 +26,7 @@ class SearchActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar1))
 
         val searchBar = findViewById<CustomSearchView>(R.id.search_bar)
+        val recycler = findViewById<RecyclerView>(R.id.search_results_list)
 
         viewModel.keyboardState.observe(this, Observer {
             if (it == KeyboardState.OPEN) {
@@ -40,5 +43,13 @@ class SearchActivity : AppCompatActivity() {
                 viewModel.notifyClosed()
             }
         }
+
+        searchBar.doOnTextChanged { text, _, _, _ ->
+            viewModel.fetchSearchResults(text.toString())
+        }
+
+        viewModel.searchResults.observe(this, Observer {
+            recycler.adapter = SearchAdapter(it)
+        })
     }
 }
