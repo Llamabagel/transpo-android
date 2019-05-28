@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         findViewById<EditText>(R.id.search_bar).setOnClickListener {
             startActivity<SearchActivity>(this)
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
