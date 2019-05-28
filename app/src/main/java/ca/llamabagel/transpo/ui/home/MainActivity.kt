@@ -9,7 +9,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.ui.search.SearchActivity
@@ -28,9 +30,14 @@ class MainActivity : AppCompatActivity() {
         findViewById<BottomNavigationView>(R.id.bottomNavigation)
             .setupWithNavController(navController)
 
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.home, R.id.saved, R.id.map, R.id.planner))
+        findViewById<Toolbar>(R.id.toolbar)
+            .setupWithNavController(navController, appBarConfiguration)
+
         findViewById<EditText>(R.id.search_bar).setOnClickListener {
             startActivity<SearchActivity>(this)
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

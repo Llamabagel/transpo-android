@@ -5,13 +5,17 @@
 package ca.llamabagel.transpo.ui.trips
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.navArgs
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.databinding.ActivityTripsBinding
 import ca.llamabagel.transpo.di.injector
@@ -30,8 +34,14 @@ class TripsActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         // Manually set navigation graph because of extra arguments
-        findNavController(R.id.navHostFragment)
-            .setGraph(R.navigation.trips, intent.extras)
+        val navController = findNavController(R.id.navHostFragment)
+        navController.setGraph(R.navigation.trips, intent.extras)
+
+        findViewById<Toolbar>(R.id.toolbar)
+            .setupWithNavController(navController, AppBarConfiguration(setOf()))
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            Log.d("BackButton?", "$destination")
+        }
 
         viewModel.loadStop(args.stopId)
 
