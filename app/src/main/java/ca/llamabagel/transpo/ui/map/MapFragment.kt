@@ -4,7 +4,6 @@
 
 package ca.llamabagel.transpo.ui.map
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,13 +22,14 @@ import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
-import com.mapbox.mapboxsdk.style.expressions.Expression
-import com.mapbox.mapboxsdk.style.expressions.Expression.*
+import com.mapbox.mapboxsdk.style.expressions.Expression.interpolate
+import com.mapbox.mapboxsdk.style.expressions.Expression.exponential
+import com.mapbox.mapboxsdk.style.expressions.Expression.zoom
+import com.mapbox.mapboxsdk.style.expressions.Expression.stop
 import com.mapbox.mapboxsdk.style.layers.CircleLayer
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory.circleColor
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory.circleRadius
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
-
 
 class MapFragment : Fragment() {
 
@@ -46,7 +46,8 @@ class MapFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.map_fragment, container, false)
@@ -98,7 +99,6 @@ class MapFragment : Fragment() {
 
             val circleLayer = CircleLayer("stops-layer", "stops")
 
-
             circleLayer.withProperties(
                 circleRadius(
                     interpolate(
@@ -106,15 +106,13 @@ class MapFragment : Fragment() {
                         zoom(),
                         stop(12, 2f),
                         stop(22, 180f)
-                    )),
+                    )
+                ),
                 circleColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
             )
 
             map.style?.addSource(source)
             map.style?.addLayer(circleLayer)
-
-
         })
     }
-
 }

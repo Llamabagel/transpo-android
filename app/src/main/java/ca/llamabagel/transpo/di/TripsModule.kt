@@ -33,6 +33,5 @@ abstract class TripsModule {
         @JvmStatic
         fun provideTripsRepository(transitDatabase: TransitDatabase, tripsService: TripsService) =
             TripsRepository(transitDatabase, tripsService)
-
     }
 }

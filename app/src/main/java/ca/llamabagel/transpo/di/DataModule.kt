@@ -37,7 +37,6 @@ class DataModule {
     }
 
     @Provides
-    fun provideLocalMetadataSource(sharedPreferences: SharedPreferences)
-        = LocalMetadataSource(sharedPreferences)
-
+    fun provideLocalMetadataSource(sharedPreferences: SharedPreferences) =
+        LocalMetadataSource(sharedPreferences)
 }

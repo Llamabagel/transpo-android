@@ -10,11 +10,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
-import javax.inject.Inject
-
 
 class SearchActivity : AppCompatActivity() {
 

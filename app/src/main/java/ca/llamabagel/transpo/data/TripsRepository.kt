@@ -12,8 +12,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class TripsRepository @Inject constructor(private val database: TransitDatabase,
-                      private val apiService: TripsService
+class TripsRepository @Inject constructor(
+    private val database: TransitDatabase,
+    private val apiService: TripsService
 ) {
 
     suspend fun getStop(stopId: String): Stop? = withContext(Dispatchers.IO) {

@@ -24,8 +24,8 @@ class RemoteMetadataWorker @AssistedInject constructor(
 
         val data = Data.Builder()
 
-        if (remoteMetadata.dataSchemaVersion != localMetadata.dataSchemaVersion
-            || remoteMetadata.dataVersion <= localMetadata.dataVersion
+        if (remoteMetadata.dataSchemaVersion != localMetadata.dataSchemaVersion ||
+            remoteMetadata.dataVersion <= localMetadata.dataVersion
         ) {
             data.putBoolean(KEY_UPDATE, false)
         } else {

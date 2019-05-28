@@ -4,13 +4,15 @@
 
 package ca.llamabagel.transpo
 
-import android.app.Activity
 import android.app.Application
-import android.content.Context
 import androidx.work.Configuration
 import androidx.work.WorkManager
 import ca.llamabagel.transpo.data.LocalMetadataSource
-import ca.llamabagel.transpo.di.*
+import ca.llamabagel.transpo.di.DaggerComponentProvider
+import ca.llamabagel.transpo.di.CoreComponent
+import ca.llamabagel.transpo.di.DaggerCoreComponent
+import ca.llamabagel.transpo.di.SharedPreferencesModule
+import ca.llamabagel.transpo.di.InjectionWorkerFactory
 import javax.inject.Inject
 
 class TranspoApplication : Application(), DaggerComponentProvider {
@@ -28,7 +30,7 @@ class TranspoApplication : Application(), DaggerComponentProvider {
     override fun onCreate() {
         super.onCreate()
         component.inject(this)
-        //val workerFactory = DaggerApplicationComponent.create()
+        // val workerFactory = DaggerApplicationComponent.create()
         WorkManager.initialize(this, Configuration.Builder().setWorkerFactory(workerFactory).build())
     }
 }

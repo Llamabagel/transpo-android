@@ -6,7 +6,11 @@ package ca.llamabagel.transpo.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.work.*
+import androidx.work.WorkManager
+import androidx.work.WorkInfo
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
 import ca.llamabagel.transpo.data.DataRepository
 import ca.llamabagel.transpo.workers.DataWorker
 import ca.llamabagel.transpo.workers.RemoteMetadataWorker

@@ -8,10 +8,8 @@ import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
 import android.view.KeyEvent
-import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
-
 
 class CustomSearchView : AppCompatEditText {
     constructor(context: Context) : super(context)

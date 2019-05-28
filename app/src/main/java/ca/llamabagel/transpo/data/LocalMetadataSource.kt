@@ -22,5 +22,4 @@ class LocalMetadataSource @Inject constructor(private val prefs: SharedPreferenc
         const val METADATA_PREF = "metadata"
         private const val KEY_DATA_VERSION = "KEY_DATA_VERSION"
     }
-
 }

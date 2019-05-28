@@ -17,9 +17,8 @@ import javax.inject.Inject
 
 class MapViewModel @Inject constructor(private val transitDatabase: TransitDatabase) : ViewModel() {
 
-    private val _stops =  MutableLiveData<List<Stop>>()
+    private val _stops = MutableLiveData<List<Stop>>()
     val stops: LiveData<List<Stop>> = _stops
-
 
     fun getStops() = viewModelScope.launch {
         withContext(Dispatchers.IO) {

@@ -32,6 +32,5 @@ class TripsAdapter(private val apiData: ApiResponse) : RecyclerView.Adapter<Recy
         fun bind(route: Route) {
             binding.route = route
         }
-
     }
 }

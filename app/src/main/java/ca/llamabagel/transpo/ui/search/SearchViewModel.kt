@@ -25,5 +25,4 @@ class SearchViewModel @Inject constructor() : ViewModel() {
     fun notifyClosed() {
         _keyboardState.value = KeyboardState.CLOSED
     }
-
 }

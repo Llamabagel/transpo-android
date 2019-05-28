@@ -18,5 +18,4 @@ open class SharedPreferencesModule(val name: String) {
     fun provideSharedPreferences(context: Context): SharedPreferences {
         return context.applicationContext.getSharedPreferences(name, Context.MODE_PRIVATE)
     }
-
 }

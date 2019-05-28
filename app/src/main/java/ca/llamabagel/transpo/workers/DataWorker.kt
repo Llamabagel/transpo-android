@@ -34,5 +34,3 @@ class DataWorker @AssistedInject constructor(
     @AssistedInject.Factory
     interface Factory : ChildWorkerFactory
 }
-
-

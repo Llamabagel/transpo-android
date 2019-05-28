@@ -22,5 +22,4 @@ class TransitDatabaseModule {
     @Provides
     @Singleton
     fun provideSqlDriver(context: Context): SqlDriver = AndroidSqliteDriver(TransitDatabase.Schema, context, "transit.db")
-
 }

@@ -33,5 +33,4 @@ abstract class MainModule {
             return ViewModelProviders.of(fragmentActivity, factory).get(MainViewModel::class.java)
         }
     }
-
 }

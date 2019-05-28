@@ -10,11 +10,8 @@ import ca.llamabagel.transpo.ui.home.HomeViewModel
 import ca.llamabagel.transpo.ui.map.MapViewModel
 import ca.llamabagel.transpo.ui.search.SearchViewModel
 import ca.llamabagel.transpo.ui.trips.TripsViewModel
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.BindsInstance
 import dagger.Component
-import okhttp3.OkHttpClient
-import retrofit2.Converter
 import javax.inject.Singleton
 
 @Component(modules = [CoreModule::class, DataModule::class, SharedPreferencesModule::class, TransitDatabaseModule::class, WorkerModule::class, AssistedWorkerInjectModule::class, TripsModule::class])

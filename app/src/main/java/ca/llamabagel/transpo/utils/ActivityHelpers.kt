@@ -44,5 +44,4 @@ object Activities {
 
         const val EXTRA_STOP_ID = "EXTRA_STOP_ID"
     }
-
 }

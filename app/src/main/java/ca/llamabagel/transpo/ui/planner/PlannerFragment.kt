@@ -4,7 +4,6 @@
 
 package ca.llamabagel.transpo.ui.planner
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,10 +21,10 @@ class PlannerFragment : Fragment() {
     private val viewModel: PlannerViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.planner_fragment, container, false)
     }
-
 }

@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
 
-
 class SearchViewModelFactory @Inject constructor() : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
@@ -19,5 +18,4 @@ class SearchViewModelFactory @Inject constructor() : ViewModelProvider.Factory {
 
         return SearchViewModel() as T
     }
-
 }

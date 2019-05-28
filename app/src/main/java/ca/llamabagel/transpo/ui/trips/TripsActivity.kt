@@ -10,20 +10,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.navArgs
-import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.databinding.ActivityTripsBinding
 import ca.llamabagel.transpo.di.injector
-import ca.llamabagel.transpo.utils.Activities
 
 class TripsActivity : AppCompatActivity() {
 
     private val args: TripsActivityArgs by navArgs()
 
-    private val viewModel: TripsViewModel by viewModels{ injector.tripsViewModelFactory() }
+    private val viewModel: TripsViewModel by viewModels { injector.tripsViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

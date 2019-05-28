@@ -22,5 +22,4 @@ class TripsViewModelFactory @Inject constructor(
 
         return TripsViewModel(tripsRepository) as T
     }
-
 }

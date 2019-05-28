@@ -34,5 +34,4 @@ class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepos
         }
         _apiResponse.value = tripsRepository.getTrips(_stop.value!!.code)
     }
-
 }
