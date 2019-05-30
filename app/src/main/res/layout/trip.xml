@@ -16,14 +16,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp">
+            android:layout_height="@dimen/medium_list_item_height">
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/route_number"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="@dimen/small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="@{tripUiModel.routeNumber}"
@@ -35,11 +35,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/trip_destination"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="357dp"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="355dp"
                 app:layout_constraintStart_toEndOf="@+id/route_number"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/xxsmall"
                 tools:text="Gatineau"/>
 
         <TextView
@@ -48,8 +46,8 @@
                 android:id="@+id/arrival_time"
                 android:text="@{tripUiModel.adjustedScheduleTimeString}"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="32dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/xxlarge"
+                android:layout_marginTop="@dimen/xxsmall"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/arrival_time_descriptor"
                 app:layout_constraintVertical_chainStyle="packed"
@@ -59,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/arrival_time_descriptor"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/xxsmall"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/arrival_time"
                 app:layout_constraintEnd_toEndOf="@+id/arrival_time"
