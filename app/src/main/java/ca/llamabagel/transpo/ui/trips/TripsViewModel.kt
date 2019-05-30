@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ca.llamabagel.transpo.data.TripsRepository
 import ca.llamabagel.transpo.data.db.Stop
-import ca.llamabagel.transpo.models.trips.ApiResponse
 import ca.llamabagel.transpo.utils.TAG
 import kotlinx.coroutines.launch
 import javax.inject.Inject

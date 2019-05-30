@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.databinding.RouteBinding
 import ca.llamabagel.transpo.databinding.TripBinding
-import ca.llamabagel.transpo.models.trips.ApiResponse
 import ca.llamabagel.transpo.models.trips.Route
 import ca.llamabagel.transpo.ui.trips.TripAdapterItem
 import ca.llamabagel.transpo.ui.trips.TripItem
