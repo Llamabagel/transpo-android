@@ -17,7 +17,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xlarge"
+            android:layout_marginTop="@dimen/small">
 
         <TextView
                 android:id="@+id/stop_name"
@@ -25,16 +27,19 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:text="@{stop.name}"/>
-
+                android:text="@{stop.name}"
+                android:textSize="18sp"/>
 
         <TextView
                 android:id="@+id/stop_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/stop_name"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="@{stop.code}"/>
+                app:layout_constraintTop_toTopOf="@id/stop_name"
+                app:layout_constraintBottom_toBottomOf="@+id/stop_name"
+                android:text="@{stop.code}"
+                android:textSize="12sp"
+                android:layout_marginStart="@dimen/xxsmall"/>
 
         <TextView
                 android:id="@+id/stop_routes"
@@ -42,7 +47,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stop_name"
-                android:text="@{stop.routes}"/>
+                android:text="@{stop.routes}"
+                android:layout_marginTop="@dimen/xxxsmall"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
