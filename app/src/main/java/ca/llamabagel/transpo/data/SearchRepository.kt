@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class SearchRepository @Inject constructor(private val database: TransitDatabase) {
     suspend fun getStops(query: String): List<SearchResult> = withContext(Dispatchers.IO) {
-        val stops = database.stopQueries.getStopsByName("$query%").executeAsList()
+        val stops = database.stopQueries.getStopsByName("$query*").executeAsList()
         val routes = database.routeQueries.getRoutes("$query%").executeAsList()
 
         val searchResults = mutableListOf<SearchResult>()
@@ -24,7 +24,7 @@ class SearchRepository @Inject constructor(private val database: TransitDatabase
 
         if (stops.isNotEmpty()) {
             searchResults.add(SearchResult.CategoryHeader("Stops"))
-            searchResults.addAll(stops.map { SearchResult.StopItem(it.name, it.code, "No upcoming trips") })
+            searchResults.addAll(stops.map { SearchResult.StopItem(it.name, "• ${it.code}", "No upcoming trips") })
         }
 
         searchResults
