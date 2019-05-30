@@ -13,4 +13,6 @@
     <dimen name="xlarge">28dp</dimen>
     <dimen name="xxlarge">32dp</dimen>
     <dimen name="xxxlarge">36dp</dimen>
+
+    <dimen name="medium_list_item_height">56dp</dimen>
 </resources>
