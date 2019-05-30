@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        val navController = findNavController(R.id.navHostFragment)
-        findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        val navController = findNavController(R.id.nav_host_fragment)
+        findViewById<BottomNavigationView>(R.id.bottom_navigation)
             .setupWithNavController(navController)
 
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.home, R.id.saved, R.id.map, R.id.planner))

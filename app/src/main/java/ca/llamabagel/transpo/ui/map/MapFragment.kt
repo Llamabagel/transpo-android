@@ -56,7 +56,7 @@ class MapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mapView = view.findViewById<MapView>(R.id.mapView)
+        val mapView = view.findViewById<MapView>(R.id.map_view)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { map ->
             map.setStyle(Style.TRAFFIC_DAY) {
@@ -67,27 +67,27 @@ class MapFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        view?.findViewById<MapView>(R.id.mapView)?.onStart()
+        view?.findViewById<MapView>(R.id.map_view)?.onStart()
     }
 
     override fun onResume() {
         super.onResume()
-        view?.findViewById<MapView>(R.id.mapView)?.onResume()
+        view?.findViewById<MapView>(R.id.map_view)?.onResume()
     }
 
     override fun onStop() {
         super.onStop()
-        view?.findViewById<MapView>(R.id.mapView)?.onStop()
+        view?.findViewById<MapView>(R.id.map_view)?.onStop()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        view?.findViewById<MapView>(R.id.mapView)?.onDestroy()
+        view?.findViewById<MapView>(R.id.map_view)?.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        view?.findViewById<MapView>(R.id.mapView)?.onLowMemory()
+        view?.findViewById<MapView>(R.id.map_view)?.onLowMemory()
     }
 
     private fun prepareMap(map: MapboxMap) {

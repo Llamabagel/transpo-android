@@ -34,7 +34,7 @@ class StopFragment : Fragment() {
         viewModel.displayData.observe(this, Observer { data ->
             data ?: return@Observer
 
-            view.findViewById<RecyclerView>(R.id.recyclerView).adapter = TripsAdapter(data)
+            view.findViewById<RecyclerView>(R.id.recycler_view).adapter = TripsAdapter(data)
         })
     }
 

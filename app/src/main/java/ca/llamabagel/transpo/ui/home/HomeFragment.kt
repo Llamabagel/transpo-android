@@ -50,11 +50,11 @@ class HomeFragment : Fragment() {
             val info = it[0]
 
             val finished = info.state.isFinished
-            requireView().findViewById<ProgressBar>(R.id.progressBar).visibility = if (finished) View.INVISIBLE else View.VISIBLE
+            requireView().findViewById<ProgressBar>(R.id.progress_bar).visibility = if (finished) View.INVISIBLE else View.VISIBLE
         })
 
-        requireView().findViewById<Button>(R.id.openButton).setOnClickListener {
-            val id = requireView().findViewById<EditText>(R.id.editText).text.toString()
+        requireView().findViewById<Button>(R.id.open_button).setOnClickListener {
+            val id = requireView().findViewById<EditText>(R.id.edit_text).text.toString()
 
             val action = MainDirections.actionGlobalTripsActivity(id)
             findNavController().navigate(action)
