@@ -34,7 +34,7 @@ class TripsActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         // Manually set navigation graph because of extra arguments
-        val navController = findNavController(R.id.navHostFragment)
+        val navController = findNavController(R.id.nav_host_fragment)
         navController.setGraph(R.navigation.trips, intent.extras)
 
         findViewById<Toolbar>(R.id.toolbar)

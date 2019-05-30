@@ -23,7 +23,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_search)
-        setSupportActionBar(findViewById(R.id.toolbar1))
+        setSupportActionBar(findViewById(R.id.toolbar))
 
         val searchBar = findViewById<CustomSearchView>(R.id.search_bar)
         val recycler = findViewById<RecyclerView>(R.id.search_results_list)

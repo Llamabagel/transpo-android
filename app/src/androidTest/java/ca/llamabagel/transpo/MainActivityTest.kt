@@ -49,7 +49,7 @@ class MainActivityTest {
     @Test
     fun home_fragment_is_displayed() {
         findViewById(R.id.home).click()
-        findViewById(R.id.openButton).verifyDisplayed()
+        findViewById(R.id.open_button).verifyDisplayed()
     }
 
     @Test
@@ -61,7 +61,7 @@ class MainActivityTest {
     @Test
     fun map_fragment_is_displayed() {
         findViewById(R.id.map).click()
-        findViewById(R.id.mapView).verifyDisplayed()
+        findViewById(R.id.map_view).verifyDisplayed()
     }
 
     @Test
