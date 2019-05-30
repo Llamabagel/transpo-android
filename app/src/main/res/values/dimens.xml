@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
+  -->
+
+<resources>
+    <dimen name="xxxsmall">4dp</dimen>
+    <dimen name="xxsmall">8dp</dimen>
+    <dimen name="xsmall">12dp</dimen>
+    <dimen name="small">16dp</dimen>
+    <dimen name="medium">20dp</dimen>
+    <dimen name="large">24dp</dimen>
+    <dimen name="xlarge">28dp</dimen>
+    <dimen name="xxlarge">32dp</dimen>
+    <dimen name="xxxlarge">36dp</dimen>
+</resources>
