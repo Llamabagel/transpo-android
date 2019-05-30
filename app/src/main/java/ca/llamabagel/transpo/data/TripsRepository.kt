@@ -8,6 +8,8 @@ import ca.llamabagel.transpo.data.api.TripsService
 import ca.llamabagel.transpo.data.db.Stop
 import ca.llamabagel.transpo.data.db.TransitDatabase
 import ca.llamabagel.transpo.models.trips.ApiResponse
+import ca.llamabagel.transpo.ui.trips.TripAdapterItem
+import ca.llamabagel.transpo.ui.trips.TripUiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
