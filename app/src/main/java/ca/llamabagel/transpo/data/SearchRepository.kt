@@ -30,28 +30,24 @@ class SearchRepository @Inject constructor(private val database: TransitDatabase
     suspend fun getSearchResults(query: String): List<SearchResult> = withContext(Dispatchers.IO) {
         if (query.isEmpty()) return@withContext emptyList<SearchResult>()
 
-        val stops = getStops(query)
-        val routes = getRoutes(query)
-        val places = getPlaces(query)
-
         val searchResults = mutableListOf<SearchResult>()
 
-        if (routes.isNotEmpty()) {
+        getStops(query).takeIf { it.isNotEmpty() }?.let { stops ->
+            searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_routes)))
+            searchResults.addAll(stops)
+        }
+
+        getRoutes(query).takeIf { it.isNotEmpty() }?.let { routes ->
             searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_routes)))
             searchResults.addAll(routes)
         }
 
-        if (stops.isNotEmpty()) {
-            searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_stops)))
-            searchResults.addAll(stops)
-        }
-
-        if (places.isNotEmpty()) {
+        getPlaces(query).takeIf { it.isNotEmpty() }?.let { places ->
             searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_places)))
             searchResults.addAll(places)
         }
 
-        searchResults
+        return@withContext searchResults
     }
 
     private suspend fun getStops(query: String): List<SearchResult.StopItem> = withContext(Dispatchers.IO) {
@@ -77,7 +73,7 @@ class SearchRepository @Inject constructor(private val database: TransitDatabase
             .executeCall()
             .body()
             ?.features()
-            ?.map { SearchResult.PlaceItem(it.placeName().orEmpty(), it.text().orEmpty()) }
+            ?.map { feature ->  SearchResult.PlaceItem(feature.placeName().orEmpty(), feature.text().orEmpty()) }
             .orEmpty()
     }
 }
