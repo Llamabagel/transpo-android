@@ -5,27 +5,24 @@
 package ca.llamabagel.transpo.ui.map
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
 import com.mapbox.geojson.Feature
-import com.mapbox.geojson.FeatureCollection
+import com.mapbox.geojson.MultiPoint
 import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
-import com.mapbox.mapboxsdk.style.expressions.Expression.interpolate
-import com.mapbox.mapboxsdk.style.expressions.Expression.exponential
-import com.mapbox.mapboxsdk.style.expressions.Expression.zoom
-import com.mapbox.mapboxsdk.style.expressions.Expression.stop
+import com.mapbox.mapboxsdk.style.expressions.Expression.*
 import com.mapbox.mapboxsdk.style.layers.CircleLayer
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory.circleColor
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory.circleRadius
@@ -95,8 +92,9 @@ class MapFragment : Fragment() {
         viewModel.getStops()
         viewModel.stops.observe(this, Observer { stops ->
 
-            val features = stops.map { Feature.fromGeometry(Point.fromLngLat(it.longitude, it.latitude)) }
-            val source = GeoJsonSource("stops", FeatureCollection.fromFeatures(features))
+            val points = stops.map { Point.fromLngLat(it.longitude, it.latitude) }
+            val multiPoint = MultiPoint.fromLngLats(points)
+            val source = GeoJsonSource("stops", Feature.fromGeometry(multiPoint))
 
             val circleLayer = CircleLayer("stops-layer", "stops")
 
