@@ -30,6 +30,6 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
     }
 
     fun fetchSearchResults(query: String) = viewModelScope.launch {
-        _searchResults.value = searchRepository.getStops(query)
+        _searchResults.value = searchRepository.getSearchResults(query)
     }
 }

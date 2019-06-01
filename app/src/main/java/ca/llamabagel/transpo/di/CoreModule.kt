@@ -4,6 +4,8 @@
 
 package ca.llamabagel.transpo.di
 
+import android.content.Context
+import androidx.annotation.StringRes
 import ca.llamabagel.transpo.BuildConfig
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -39,5 +41,11 @@ class CoreModule {
 
     @Provides
     fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient =
-            OkHttpClient.Builder().addInterceptor(interceptor).build()
+        OkHttpClient.Builder().addInterceptor(interceptor).build()
+
+    @Provides
+    @Singleton
+    fun provideStringsProvider(context: Context): StringsGen = object : StringsGen {
+        override fun get(@StringRes strResId: Int) = context.getString(strResId)
+    }
 }

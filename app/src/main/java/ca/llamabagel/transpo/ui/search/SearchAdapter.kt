@@ -25,6 +25,9 @@ class SearchAdapter(private val list: List<SearchResult>) : RecyclerView.Adapter
             SearchResultType.STOP.id -> SearchStopViewHolder(
                 DataBindingUtil.inflate(layoutInflater, SEARCH_RESULT_STOP_LAYOUT, parent, false)
             )
+            SearchResultType.PLACE.id -> SearchPlaceViewHolder(
+                DataBindingUtil.inflate(layoutInflater, SEARCH_RESULT_PLACE_LAYOUT, parent, false)
+            )
             else -> throw IllegalArgumentException("Unknown search result type")
         }
     }
@@ -36,6 +39,7 @@ class SearchAdapter(private val list: List<SearchResult>) : RecyclerView.Adapter
             is SearchResult.CategoryHeader -> (holder as SearchCategoryViewHolder).bind(item)
             is SearchResult.RouteItem -> (holder as SearchRouteViewHolder).bind(item)
             is SearchResult.StopItem -> (holder as SearchStopViewHolder).bind(item)
+            is SearchResult.PlaceItem -> (holder as SearchPlaceViewHolder).bind(item)
         }
     }
 

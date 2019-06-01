@@ -8,6 +8,7 @@ buildscript {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+        mavenCentral()
 
     }
     dependencies {
@@ -36,6 +37,7 @@ buildscript {
             lifecycle               : '2.1.0-beta01',
             material                : '1.1.0-alpha06',
             mapbox                  : '8.0.0',
+            mapboxJavaSdk           : '4.8.0',
             navigation              : '2.0.0',
             okhttp                  : '3.14.2',
             retrofit                : '2.5.0',

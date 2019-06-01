@@ -5,7 +5,7 @@
 package ca.llamabagel.transpo.ui.search.viewholders
 
 enum class SearchResultType(val id: Int) {
-    CATEGORY(0), ROUTE(1), STOP(2)
+    CATEGORY(0), ROUTE(1), STOP(2), PLACE(3)
 }
 
 sealed class SearchResult {
@@ -29,5 +29,11 @@ sealed class SearchResult {
         val code: String,
         val routes: String,
         override val id: Int = SearchResultType.STOP.id
+    ) : SearchResult()
+
+    data class PlaceItem(
+        val primary: String,
+        val secondary: String,
+        override val id: Int = SearchResultType.PLACE.id
     ) : SearchResult()
 }
