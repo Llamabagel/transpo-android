@@ -6,6 +6,4 @@ package ca.llamabagel.transpo.ui.planner
 
 import androidx.lifecycle.ViewModel
 
-class PlannerViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
-}
+class PlannerViewModel : ViewModel() // TODO: Implement the ViewModel

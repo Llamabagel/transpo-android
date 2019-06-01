@@ -1,9 +1,12 @@
+# Checklist
+- [ ] I ran `./gradlew test connectedAndroidTest detekt`
+- [ ] I rebased off of `upstream/master`
+- [ ] At least 1 approving review - **@dellisd**, **@GustavoSanMartin**
+
 # Issues
-[issueName](issueURL)
+Closed #
 
 # Summary
 Brief summary of what you committed
 
 # Screenshots
-Column1 | Column2
---- | ---

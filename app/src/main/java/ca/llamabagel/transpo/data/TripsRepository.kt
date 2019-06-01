@@ -10,6 +10,7 @@ import ca.llamabagel.transpo.data.db.TransitDatabase
 import ca.llamabagel.transpo.models.trips.ApiResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import javax.inject.Inject
 
 class TripsRepository @Inject constructor(
@@ -24,7 +25,7 @@ class TripsRepository @Inject constructor(
     suspend fun getTrips(stopCode: String): Result<ApiResponse> = withContext(Dispatchers.IO) {
         try {
             Result.Success(apiService.getTrips(stopCode).await())
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             Result.Error(e)
         }
     }

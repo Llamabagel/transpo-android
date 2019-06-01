@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
+  -->
+
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+                name="place"
+                type="ca.llamabagel.transpo.ui.search.viewholders.SearchResult.PlaceItem"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xlarge"
+            android:layout_marginTop="@dimen/small">
+
+        <TextView
+                android:id="@+id/stop_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="@{place.primary}"
+                android:textSize="18sp"/>
+
+        <TextView
+                android:id="@+id/stop_routes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/stop_name"
+                android:text="@{place.secondary}"
+                android:layout_marginTop="@dimen/xxxsmall"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

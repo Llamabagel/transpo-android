@@ -16,14 +16,17 @@ class SearchAdapter(private val list: List<SearchResult>) : RecyclerView.Adapter
 
         val layoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            SearchResultType.CATEGORY.id -> SearchCategoryViewHolder(
+            SEARCH_CATEGORY_HEADER_LAYOUT -> SearchCategoryViewHolder(
                 DataBindingUtil.inflate(layoutInflater, SEARCH_CATEGORY_HEADER_LAYOUT, parent, false)
             )
-            SearchResultType.ROUTE.id -> SearchRouteViewHolder(
+            SEARCH_RESULT_ROUTE_LAYOUT -> SearchRouteViewHolder(
                 DataBindingUtil.inflate(layoutInflater, SEARCH_RESULT_ROUTE_LAYOUT, parent, false)
             )
-            SearchResultType.STOP.id -> SearchStopViewHolder(
+            SEARCH_RESULT_STOP_LAYOUT -> SearchStopViewHolder(
                 DataBindingUtil.inflate(layoutInflater, SEARCH_RESULT_STOP_LAYOUT, parent, false)
+            )
+            SEARCH_RESULT_PLACE_LAYOUT -> SearchPlaceViewHolder(
+                DataBindingUtil.inflate(layoutInflater, SEARCH_RESULT_PLACE_LAYOUT, parent, false)
             )
             else -> throw IllegalArgumentException("Unknown search result type")
         }
@@ -36,8 +39,14 @@ class SearchAdapter(private val list: List<SearchResult>) : RecyclerView.Adapter
             is SearchResult.CategoryHeader -> (holder as SearchCategoryViewHolder).bind(item)
             is SearchResult.RouteItem -> (holder as SearchRouteViewHolder).bind(item)
             is SearchResult.StopItem -> (holder as SearchStopViewHolder).bind(item)
+            is SearchResult.PlaceItem -> (holder as SearchPlaceViewHolder).bind(item)
         }
     }
 
-    override fun getItemViewType(position: Int) = list[position].id
+    override fun getItemViewType(position: Int) = when (list[position]) {
+        is SearchResult.CategoryHeader -> SEARCH_CATEGORY_HEADER_LAYOUT
+        is SearchResult.RouteItem -> SEARCH_RESULT_ROUTE_LAYOUT
+        is SearchResult.StopItem -> SEARCH_RESULT_STOP_LAYOUT
+        is SearchResult.PlaceItem -> SEARCH_RESULT_PLACE_LAYOUT
+    }
 }

@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
 
+private const val KEYBOARD_DELAY_TIME = 200L
+
 class SearchActivity : AppCompatActivity() {
 
     private val viewModel: SearchViewModel by viewModels { injector.searchViewModelFactory() }
@@ -34,7 +36,7 @@ class SearchActivity : AppCompatActivity() {
                 searchBar.postDelayed({
                     val keyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     keyboard.showSoftInput(searchBar.findFocus(), 0)
-                }, 200)
+                }, KEYBOARD_DELAY_TIME)
             }
         })
 

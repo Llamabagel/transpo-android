@@ -50,7 +50,8 @@ class HomeFragment : Fragment() {
             val info = it[0]
 
             val finished = info.state.isFinished
-            requireView().findViewById<ProgressBar>(R.id.progress_bar).visibility = if (finished) View.INVISIBLE else View.VISIBLE
+            requireView().findViewById<ProgressBar>(R.id.progress_bar).visibility =
+                if (finished) View.INVISIBLE else View.VISIBLE
         })
 
         requireView().findViewById<Button>(R.id.open_button).setOnClickListener {
