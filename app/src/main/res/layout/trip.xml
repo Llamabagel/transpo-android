@@ -12,11 +12,21 @@
         <variable
                 name="tripUiModel"
                 type="ca.llamabagel.transpo.ui.trips.TripUiModel"/>
+
+        <variable
+                name="handler"
+                type="ca.llamabagel.transpo.ui.trips.adapter.SingleTripViewHolder.Handler"/>
+
+        <import type="ca.llamabagel.transpo.ui.trips.adapter.SingleTripViewHolder.Handler"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/medium_list_item_height">
+            android:layout_height="@dimen/medium_list_item_height"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{() -> handler.onClick()}">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -26,11 +36,11 @@
                 android:layout_marginStart="@dimen/small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="@{tripUiModel.routeNumber}"
+                android:text="@{tripUiModel.route.number}"
                 tools:text="44"/>
 
         <TextView
-                android:text="@{tripUiModel.destination}"
+                android:text="@{tripUiModel.trip.destination}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/trip_destination"

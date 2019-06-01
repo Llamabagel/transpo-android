@@ -9,13 +9,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.R
-import ca.llamabagel.transpo.databinding.RouteBinding
 import ca.llamabagel.transpo.databinding.TripBinding
-import ca.llamabagel.transpo.models.trips.Route
 import ca.llamabagel.transpo.ui.trips.TripAdapterItem
 import ca.llamabagel.transpo.ui.trips.TripItem
 
-class TripsAdapter(private val items: List<TripAdapterItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TripsAdapter(
+    private val items: List<TripAdapterItem>,
+    private val itemClickListener: (TripAdapterItem) -> Unit = {},
+    private val itemSelectionListener: (TripAdapterItem, Boolean) -> Unit = { _, _ -> }
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -23,7 +25,7 @@ class TripsAdapter(private val items: List<TripAdapterItem>) : RecyclerView.Adap
         return when (viewType) {
             R.layout.trip -> {
                 val binding = DataBindingUtil.inflate<TripBinding>(layoutInflater, R.layout.trip, parent, false)
-                SingleTripViewHolder(binding)
+                SingleTripViewHolder(binding, itemClickListener, itemSelectionListener)
             }
             else -> throw IllegalArgumentException("No ViewHolder for type $viewType")
         }
@@ -38,13 +40,6 @@ class TripsAdapter(private val items: List<TripAdapterItem>) : RecyclerView.Adap
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is SingleTripViewHolder -> holder.bind((items[position] as TripItem).tripUiModel)
-        }
-    }
-
-    class RouteHolder(private val binding: RouteBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(route: Route) {
-            binding.route = route
         }
     }
 }

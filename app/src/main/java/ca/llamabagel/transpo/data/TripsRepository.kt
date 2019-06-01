@@ -21,7 +21,11 @@ class TripsRepository @Inject constructor(
         database.stopQueries.getStopById(stopId).executeAsOneOrNull()
     }
 
-    suspend fun getTrips(stopCode: String): ApiResponse = withContext(Dispatchers.IO) {
-        apiService.getTrips(stopCode).await()
+    suspend fun getTrips(stopCode: String): Result<ApiResponse> = withContext(Dispatchers.IO) {
+        try {
+            Result.Success(apiService.getTrips(stopCode).await())
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
     }
 }

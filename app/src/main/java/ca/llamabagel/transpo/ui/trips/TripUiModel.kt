@@ -8,25 +8,10 @@ import ca.llamabagel.transpo.models.trips.Route
 import ca.llamabagel.transpo.models.trips.Trip
 
 data class TripUiModel(
-    val routeNumber: String,
-    val routeType: String,
-    val destination: String,
-    val adjustedScheduleTime: Int,
-    val adjustmentAge: Float,
-    val lastTripOfSchedule: Boolean,
-    val busType: String,
-    val hasBikeRack: Boolean
+    val route: Route,
+    val trip: Trip,
+    val selected: Boolean = false
 ) {
-    constructor(route: Route, trip: Trip) : this(
-        route.number,
-        route.number,
-        trip.destination,
-        trip.adjustedScheduleTime,
-        trip.adjustmentAge,
-        trip.lastTripOfSchedule,
-        trip.busType,
-        trip.hasBikeRack
-    )
 
-    val adjustedScheduleTimeString = adjustedScheduleTime.toString()
+    val adjustedScheduleTimeString get() = trip.adjustedScheduleTime.toString()
 }
