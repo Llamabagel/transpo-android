@@ -7,11 +7,7 @@ package ca.llamabagel.transpo.ui.trips
 import ca.llamabagel.transpo.models.trips.Route
 import ca.llamabagel.transpo.models.trips.Trip
 
-data class TripUiModel(
-    val route: Route,
-    val trip: Trip,
-    val selected: Boolean = false
-) {
+data class TripUiModel(val route: Route, val trip: Trip, val selected: Boolean = false) {
 
     val adjustedScheduleTimeString get() = trip.adjustedScheduleTime.toString()
 }

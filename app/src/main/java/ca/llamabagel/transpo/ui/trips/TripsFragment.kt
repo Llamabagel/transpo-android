@@ -112,9 +112,15 @@ class TripsFragment : Fragment() {
             if (points.size > 1) {
                 val lngLatBounds =
                     LatLngBounds.Builder().includes(points.map { LatLng(it.latitude(), it.longitude()) }).build()
+                // TODO: Replace with actual measurement, once we determine what that will be
                 map.moveCamera(CameraUpdateFactory.newLatLngBounds(lngLatBounds, 32))
             } else if (points.isNotEmpty()) {
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(points[0].latitude(), points[0].longitude()), 15.0))
+                map.moveCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        LatLng(points[0].latitude(), points[0].longitude()),
+                        15.0 // TODO: Replace with actual measurement, once we determine what that will be
+                    )
+                )
             }
             val source = GeoJsonSource("trip-id", geometry)
             map.style?.addSource(source)
