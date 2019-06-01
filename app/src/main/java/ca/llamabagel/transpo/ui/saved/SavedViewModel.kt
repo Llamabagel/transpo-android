@@ -6,6 +6,4 @@ package ca.llamabagel.transpo.ui.saved
 
 import androidx.lifecycle.ViewModel
 
-class SavedViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
-}
+class SavedViewModel : ViewModel() // TODO: Implement the ViewModel

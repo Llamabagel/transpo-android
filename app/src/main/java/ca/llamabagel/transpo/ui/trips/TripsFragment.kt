@@ -93,6 +93,7 @@ class TripsFragment : Fragment() {
         view?.findViewById<MapView>(R.id.map_view)?.onLowMemory()
     }
 
+    @Suppress("MagicNumber")
     private fun prepareMap(map: MapboxMap) {
         // TODO: Move this into a domain layer or something like damn
         viewModel.viewerData.observe(this, Observer { items ->

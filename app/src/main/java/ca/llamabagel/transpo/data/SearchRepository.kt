@@ -65,7 +65,7 @@ class SearchRepository @Inject constructor(private val database: TransitDatabase
         database.routeQueries
             .getRoutes("$query%")
             .executeAsList()
-            .map { SearchResult.RouteItem("Name", it.short_name, it.type.toString()) } //TODO: update name parameter
+            .map { SearchResult.RouteItem("Name", it.short_name, it.type.toString()) } // TODO: update name parameter
     }
 
     private suspend fun getPlaces(query: String): List<SearchResult.PlaceItem> = withContext(Dispatchers.IO) {

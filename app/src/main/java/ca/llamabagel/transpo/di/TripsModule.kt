@@ -22,7 +22,11 @@ abstract class TripsModule {
     companion object {
         @Provides
         @JvmStatic
-        fun provideTripsService(adapter: CoroutineCallAdapterFactory, converter: Converter.Factory, okHttpClient: OkHttpClient): TripsService = Retrofit.Builder()
+        fun provideTripsService(
+            adapter: CoroutineCallAdapterFactory,
+            converter: Converter.Factory,
+            okHttpClient: OkHttpClient
+        ): TripsService = Retrofit.Builder()
             .baseUrl(BuildConfig.API_ENDPOINT)
             .client(okHttpClient)
             .addCallAdapterFactory(adapter)

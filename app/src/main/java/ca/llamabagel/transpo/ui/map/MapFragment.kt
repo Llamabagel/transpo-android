@@ -90,6 +90,7 @@ class MapFragment : Fragment() {
         view?.findViewById<MapView>(R.id.map_view)?.onLowMemory()
     }
 
+    @Suppress("MagicNumber")
     private fun prepareMap(map: MapboxMap) {
         viewModel.getStops()
         viewModel.stops.observe(this, Observer { stops ->
