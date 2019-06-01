@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.ui.trips.adapter.TripsAdapter
@@ -34,7 +35,19 @@ class StopFragment : Fragment() {
         viewModel.displayData.observe(this, Observer { data ->
             data ?: return@Observer
 
-            view.findViewById<RecyclerView>(R.id.recycler_view).adapter = TripsAdapter(data)
+            view.findViewById<RecyclerView>(R.id.recycler_view).adapter = TripsAdapter(data,
+                itemClickListener = { item ->
+                    when (item) {
+                        is TripItem -> {
+                            viewModel.updateRouteSelection(
+                                item.tripUiModel.route.number,
+                                item.tripUiModel.route.directionId,
+                                true
+                            )
+                            findNavController().navigate(R.id.tripsFragment)
+                        }
+                    }
+                })
         })
     }
 

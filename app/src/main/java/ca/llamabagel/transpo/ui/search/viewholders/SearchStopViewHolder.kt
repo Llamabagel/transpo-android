@@ -15,5 +15,4 @@ class SearchStopViewHolder(private val binding: SearchStopBinding) : RecyclerVie
     fun bind(stop: SearchResult.StopItem) {
         binding.stop = stop
     }
-
 }
