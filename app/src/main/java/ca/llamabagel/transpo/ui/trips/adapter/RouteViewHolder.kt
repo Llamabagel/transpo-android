@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.models.trips.Route
 import ca.llamabagel.transpo.ui.trips.TripAdapterItem
 
-class RouteViewHolder(private val binding: ViewDataBinding,
-                      private val itemClickListener: (TripAdapterItem) -> Unit,
-                      private val itemSelectionListener: (TripAdapterItem, Boolean) -> Unit) : RecyclerView.ViewHolder(binding.root) {
-
+class RouteViewHolder(
+    private val binding: ViewDataBinding,
+    private val itemClickListener: (TripAdapterItem) -> Unit,
+    private val itemSelectionListener: (TripAdapterItem, Boolean) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
     fun bind(route: Route) {
-
     }
 }

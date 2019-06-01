@@ -15,7 +15,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.R
-import ca.llamabagel.transpo.di.injector
 import ca.llamabagel.transpo.ui.trips.adapter.TripsAdapter
 import com.mapbox.geojson.Feature
 import com.mapbox.geojson.MultiPoint
@@ -70,28 +69,28 @@ class TripsFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        view?.findViewById<MapView>(R.id.mapView)?.onStart()
+        view?.findViewById<MapView>(R.id.map_view)?.onStart()
     }
 
     override fun onResume() {
         super.onResume()
-        view?.findViewById<MapView>(R.id.mapView)?.onResume()
+        view?.findViewById<MapView>(R.id.map_view)?.onResume()
     }
 
     override fun onStop() {
         super.onStop()
-        view?.findViewById<MapView>(R.id.mapView)?.onStop()
+        view?.findViewById<MapView>(R.id.map_view)?.onStop()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        view?.findViewById<MapView>(R.id.mapView)?.onDestroy()
+        view?.findViewById<MapView>(R.id.map_view)?.onDestroy()
         viewModel.clearSelection()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        view?.findViewById<MapView>(R.id.mapView)?.onLowMemory()
+        view?.findViewById<MapView>(R.id.map_view)?.onLowMemory()
     }
 
     private fun prepareMap(map: MapboxMap) {
