@@ -20,12 +20,9 @@
             tools:context=".ui.TripsActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
-                style="?toolbarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/toolbar"
-                app:titleTextColor="@color/silver"
-                app:subtitleTextColor="@color/silver"
                 app:title="@{viewModel.stop.name}"
                 app:subtitle="@{viewModel.stop.code}"
                 app:layout_constraintEnd_toEndOf="parent"

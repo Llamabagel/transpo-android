@@ -39,8 +39,7 @@ class TripsActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         navController.setGraph(R.navigation.trips, intent.extras)
 
-        findViewById<Toolbar>(R.id.toolbar)
-            .setupWithNavController(navController, AppBarConfiguration(setOf()))
+        findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, AppBarConfiguration(setOf()))
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             Log.d("BackButton?", "$destination")
         }

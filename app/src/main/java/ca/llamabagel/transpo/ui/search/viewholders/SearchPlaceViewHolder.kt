@@ -10,13 +10,22 @@ import ca.llamabagel.transpo.databinding.SearchPlaceBinding
 
 const val SEARCH_RESULT_PLACE_LAYOUT = R.layout.search_place
 
-class SearchPlaceViewHolder(private val binding: SearchPlaceBinding) : RecyclerView.ViewHolder(binding.root) {
+class SearchPlaceViewHolder(
+    private val binding: SearchPlaceBinding,
+    private val searchResultClickListener: (SearchResult) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(place: SearchResult.PlaceItem, onClick: (searchResult: SearchResult) -> Unit) {
-        binding.place = place
+    private lateinit var place: SearchResult.PlaceItem
 
-        itemView.setOnClickListener {
-            onClick(place)
+    internal inner class Handler {
+        fun onClick() {
+            searchResultClickListener(place)
         }
+    }
+
+    fun bind(place: SearchResult.PlaceItem) {
+        this.place = place
+        binding.place = place
+        binding.handler = Handler()
     }
 }

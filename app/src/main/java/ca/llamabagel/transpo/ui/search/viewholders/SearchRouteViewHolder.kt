@@ -10,13 +10,22 @@ import ca.llamabagel.transpo.databinding.SearchRouteBinding
 
 const val SEARCH_RESULT_ROUTE_LAYOUT = R.layout.search_route
 
-class SearchRouteViewHolder(private val binding: SearchRouteBinding) : RecyclerView.ViewHolder(binding.root) {
+class SearchRouteViewHolder(
+    private val binding: SearchRouteBinding,
+    private val searchResultClickListener: (SearchResult) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(route: SearchResult.RouteItem, onClick: (searchResult: SearchResult) -> Unit) {
-        binding.route = route
+    private lateinit var route: SearchResult.RouteItem
 
-        itemView.setOnClickListener {
-            onClick(route)
+    internal inner class Handler {
+        fun onClick() {
+            searchResultClickListener(route)
         }
+    }
+
+    fun bind(route: SearchResult.RouteItem) {
+        this.route = route
+        binding.route = route
+        binding.handler = Handler()
     }
 }

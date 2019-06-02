@@ -14,6 +14,15 @@ inline fun <reified T : Activity> Activity.startActivity(context: Context, extra
     startActivity(intent)
 }
 
+inline fun <reified T : Activity> Activity.startActivityForResult(
+    context: Context,
+    requestCode: Int,
+    extras: Intent.() -> Unit = {}
+) {
+    val intent = Intent(context, T::class.java).apply(extras)
+    startActivityForResult(intent, requestCode)
+}
+
 inline val Any.TAG: String get() = this::class.java.simpleName
 
 private const val PACKAGE_NAME = "ca.llamabagel.transpo"

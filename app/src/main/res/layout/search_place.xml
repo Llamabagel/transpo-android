@@ -12,14 +12,21 @@
         <variable
                 name="place"
                 type="ca.llamabagel.transpo.ui.search.viewholders.SearchResult.PlaceItem"/>
+
+        <variable
+                name="handler"
+                type="ca.llamabagel.transpo.ui.search.viewholders.SearchPlaceViewHolder.Handler"/>
+
+        <import type="ca.llamabagel.transpo.ui.search.viewholders.SearchPlaceViewHolder.Handler"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xlarge"
-            android:layout_marginTop="@dimen/small">
+            android:layout_marginTop="@dimen/small"
+            android:onClick="@{() -> handler.onClick()}">
 
         <TextView
                 android:id="@+id/stop_name"

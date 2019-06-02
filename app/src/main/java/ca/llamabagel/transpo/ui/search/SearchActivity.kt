@@ -4,7 +4,9 @@
 
 package ca.llamabagel.transpo.ui.search
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
@@ -16,12 +18,14 @@ import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
 import ca.llamabagel.transpo.ui.search.viewholders.SearchResult
 import ca.llamabagel.transpo.ui.trips.STOP_ID_EXTRA
-import ca.llamabagel.transpo.ui.trips.TripsActivity
-import ca.llamabagel.transpo.utils.startActivity
 
 private const val KEYBOARD_DELAY_TIME = 200L
 
-class SearchActivity : AppCompatActivity(), SearchResultClickListener {
+class SearchActivity : AppCompatActivity() {
+
+    companion object {
+        const val SEARCH_REQUEST_CODE = 1
+    }
 
     private val viewModel: SearchViewModel by viewModels { injector.searchViewModelFactory() }
 
@@ -55,16 +59,16 @@ class SearchActivity : AppCompatActivity(), SearchResultClickListener {
         }
 
         viewModel.searchResults.observe(this, Observer {
-            recycler.adapter = SearchAdapter(it, this)
+            recycler.adapter = SearchAdapter(it, ::onItemClicked)
         })
     }
 
-    override fun onItemClicked(item: SearchResult) {
+    private fun onItemClicked(item: SearchResult) {
         when (item) {
             is SearchResult.StopItem -> {
-                startActivity<TripsActivity>(this) {
-                    putExtra(STOP_ID_EXTRA, item.id)
-                }
+                val returnIntent = Intent().apply { putExtra(STOP_ID_EXTRA, item.id) }
+                setResult(Activity.RESULT_OK, returnIntent)
+                finish()
             }
             is SearchResult.RouteItem -> {
             }
