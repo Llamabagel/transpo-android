@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.R
+import ca.llamabagel.transpo.ui.trips.adapter.TripItem
 import ca.llamabagel.transpo.ui.trips.adapter.TripsAdapter
 import com.mapbox.geojson.Feature
 import com.mapbox.geojson.MultiPoint
@@ -44,19 +45,15 @@ class TripsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.trips_fragment, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.trips_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.viewerData.observe(this, Observer {
-            view.findViewById<RecyclerView>(R.id.recycler_view).apply {
-                adapter = TripsAdapter(it)
-            }
-        })
+        val adapter = TripsAdapter()
+        view.findViewById<RecyclerView>(R.id.recycler_view).adapter = adapter
+
+        viewModel.viewerData.observe(this, Observer(adapter::submitList))
 
         val mapView = view.findViewById<MapView>(R.id.map_view)
         mapView.onCreate(savedInstanceState)

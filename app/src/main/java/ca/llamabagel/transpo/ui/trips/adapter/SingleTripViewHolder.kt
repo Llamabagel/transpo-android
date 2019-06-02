@@ -6,8 +6,6 @@ package ca.llamabagel.transpo.ui.trips.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.databinding.TripBinding
-import ca.llamabagel.transpo.ui.trips.TripAdapterItem
-import ca.llamabagel.transpo.ui.trips.TripItem
 import ca.llamabagel.transpo.ui.trips.TripUiModel
 
 class SingleTripViewHolder(
