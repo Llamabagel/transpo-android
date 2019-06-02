@@ -20,7 +20,6 @@
             tools:context=".ui.TripsActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
-                style="?toolbarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/toolbar"

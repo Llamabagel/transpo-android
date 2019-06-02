@@ -29,8 +29,11 @@
 
     <style name="Widget.Transpo.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
         <item name="android:elevation" tools:targetApi="lollipop">4dp</item>
-        <item name="android:background">@color/colorPrimary</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
+    </style>
+
+    <style name="SearchBar" parent="Widget.AppCompat.EditText">
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

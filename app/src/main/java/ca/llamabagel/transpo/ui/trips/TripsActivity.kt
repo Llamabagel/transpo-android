@@ -20,6 +20,8 @@ import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.databinding.ActivityTripsBinding
 import ca.llamabagel.transpo.di.injector
 
+const val STOP_ID_EXTRA = "stop_id"
+
 class TripsActivity : AppCompatActivity() {
 
     private val args: TripsActivityArgs by navArgs()
@@ -37,8 +39,7 @@ class TripsActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         navController.setGraph(R.navigation.trips, intent.extras)
 
-        findViewById<Toolbar>(R.id.toolbar)
-            .setupWithNavController(navController, AppBarConfiguration(setOf()))
+        findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, AppBarConfiguration(setOf()))
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             Log.d("BackButton?", "$destination")
         }
@@ -49,7 +50,7 @@ class TripsActivity : AppCompatActivity() {
             if (stop == null) {
                 Toast.makeText(
                     this,
-                    "Could not load stop with id ${intent.getStringExtra("stop_id")}",
+                    "Could not load stop with id ${intent.getStringExtra(STOP_ID_EXTRA)}",
                     Toast.LENGTH_SHORT
                 ).show()
                 finish()

@@ -10,7 +10,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.ui.search.viewholders.*
 
-class SearchAdapter(private val list: List<SearchResult>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SearchAdapter(
+    private val list: List<SearchResult>,
+    private val searchResultClickListener: (SearchResult) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -20,13 +23,16 @@ class SearchAdapter(private val list: List<SearchResult>) : RecyclerView.Adapter
                 DataBindingUtil.inflate(layoutInflater, SEARCH_CATEGORY_HEADER_LAYOUT, parent, false)
             )
             SEARCH_RESULT_ROUTE_LAYOUT -> SearchRouteViewHolder(
-                DataBindingUtil.inflate(layoutInflater, SEARCH_RESULT_ROUTE_LAYOUT, parent, false)
+                DataBindingUtil.inflate(layoutInflater, SEARCH_RESULT_ROUTE_LAYOUT, parent, false),
+                searchResultClickListener
             )
             SEARCH_RESULT_STOP_LAYOUT -> SearchStopViewHolder(
-                DataBindingUtil.inflate(layoutInflater, SEARCH_RESULT_STOP_LAYOUT, parent, false)
+                DataBindingUtil.inflate(layoutInflater, SEARCH_RESULT_STOP_LAYOUT, parent, false),
+                searchResultClickListener
             )
             SEARCH_RESULT_PLACE_LAYOUT -> SearchPlaceViewHolder(
-                DataBindingUtil.inflate(layoutInflater, SEARCH_RESULT_PLACE_LAYOUT, parent, false)
+                DataBindingUtil.inflate(layoutInflater, SEARCH_RESULT_PLACE_LAYOUT, parent, false),
+                searchResultClickListener
             )
             else -> throw IllegalArgumentException("Unknown search result type")
         }

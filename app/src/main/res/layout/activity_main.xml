@@ -31,9 +31,9 @@
                     android:hint="@string/search_hint"
                     android:focusable="false"
                     android:ems="10"
+                    style="@style/SearchBar"
                     android:id="@+id/search_bar"/>
         </com.google.android.material.appbar.MaterialToolbar>
-
 
     </com.google.android.material.appbar.AppBarLayout>
 

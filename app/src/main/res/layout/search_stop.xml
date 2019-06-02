@@ -12,14 +12,21 @@
         <variable
                 name="stop"
                 type="ca.llamabagel.transpo.ui.search.viewholders.SearchResult.StopItem"/>
+
+        <variable
+                name="handler"
+                type="ca.llamabagel.transpo.ui.search.viewholders.SearchStopViewHolder.Handler"/>
+
+        <import type="ca.llamabagel.transpo.ui.search.viewholders.SearchStopViewHolder.Handler"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xlarge"
-            android:layout_marginTop="@dimen/small">
+            android:layout_marginTop="@dimen/small"
+            android:onClick="@{() -> handler.onClick()}">
 
         <TextView
                 android:id="@+id/stop_name"

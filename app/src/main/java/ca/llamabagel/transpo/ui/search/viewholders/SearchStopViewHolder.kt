@@ -10,9 +10,23 @@ import ca.llamabagel.transpo.databinding.SearchStopBinding
 
 const val SEARCH_RESULT_STOP_LAYOUT = R.layout.search_stop
 
-class SearchStopViewHolder(private val binding: SearchStopBinding) : RecyclerView.ViewHolder(binding.root) {
+class SearchStopViewHolder(
+    private val binding: SearchStopBinding,
+    private val searchResultClickListener: (SearchResult) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
+
+    private lateinit var stop: SearchResult.StopItem
+
+    internal inner class Handler {
+        fun onClick() {
+            searchResultClickListener(stop)
+        }
+    }
 
     fun bind(stop: SearchResult.StopItem) {
+        this.stop = stop
         binding.stop = stop
+        binding.handler = Handler()
+
     }
 }

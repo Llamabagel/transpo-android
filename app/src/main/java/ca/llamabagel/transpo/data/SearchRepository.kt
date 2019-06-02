@@ -54,7 +54,7 @@ class SearchRepository @Inject constructor(private val database: TransitDatabase
         database.stopQueries
             .getStopsByName("$query*")
             .executeAsList()
-            .map { SearchResult.StopItem(it.name, "• ${it.code}", strings.get(R.string.search_stop_no_trips)) }
+            .map { SearchResult.StopItem(it.name, "• ${it.code}", strings.get(R.string.search_stop_no_trips), it.id) }
     }
 
     private suspend fun getRoutes(query: String): List<SearchResult.RouteItem> = withContext(Dispatchers.IO) {
@@ -73,7 +73,7 @@ class SearchRepository @Inject constructor(private val database: TransitDatabase
             .executeCall()
             .body()
             ?.features()
-            ?.map { feature ->  SearchResult.PlaceItem(feature.placeName().orEmpty(), feature.text().orEmpty()) }
+            ?.map { feature -> SearchResult.PlaceItem(feature.placeName().orEmpty(), feature.text().orEmpty()) }
             .orEmpty()
     }
 }
