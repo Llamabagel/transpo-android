@@ -6,9 +6,9 @@ package ca.llamabagel.transpo.utils
 
 import androidx.recyclerview.widget.DiffUtil
 
-data class ListDiffResult<T : Any>(val list: List<T> = emptyList(), val diffResult: DiffUtil.DiffResult = EMPTY_RESULT)
+data class ListDiffResult<T : Any>(val list: List<T> = emptyList(), val diffResult: DiffUtil.DiffResult = EmptyResult)
 
-private val EMPTY_RESULT = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+private val EmptyResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = throw AssertionError()
 
     override fun getOldListSize(): Int = 0
