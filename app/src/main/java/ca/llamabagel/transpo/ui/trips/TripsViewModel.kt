@@ -13,6 +13,8 @@ import ca.llamabagel.transpo.data.Result
 import ca.llamabagel.transpo.data.TripsRepository
 import ca.llamabagel.transpo.data.db.Stop
 import ca.llamabagel.transpo.models.trips.ApiResponse
+import ca.llamabagel.transpo.ui.trips.adapter.TripAdapterItem
+import ca.llamabagel.transpo.ui.trips.adapter.TripItem
 import ca.llamabagel.transpo.utils.TAG
 import ca.llamabagel.transpo.ui.trips.adapter.TripsAdapter
 import kotlinx.coroutines.launch
@@ -21,6 +23,9 @@ import javax.inject.Inject
 class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepository) : ViewModel() {
 
     private lateinit var apiData: Result<ApiResponse>
+
+    private val _isRefreshing = MutableLiveData<Boolean>()
+    val isRefreshing: LiveData<Boolean> = _isRefreshing
 
     private val _stop = MutableLiveData<Stop?>()
     val stop: LiveData<Stop?> = _stop
@@ -40,8 +45,10 @@ class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepos
     fun getTrips() = viewModelScope.launch {
         if (_stop.value == null) {
             Log.i(TAG, "No stop loaded")
+            return@launch
         }
 
+        _isRefreshing.value = true
         apiData = tripsRepository.getTrips(_stop.value!!.code)
 
         when (val copy = apiData) {
@@ -57,6 +64,7 @@ class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepos
                 // TODO: Handle errors
             }
         }
+        _isRefreshing.value = false
     }
 
     fun updateRouteSelection(number: String, directionId: Int, selected: Boolean) {

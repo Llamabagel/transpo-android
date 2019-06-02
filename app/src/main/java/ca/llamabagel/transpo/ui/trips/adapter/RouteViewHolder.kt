@@ -7,7 +7,6 @@ package ca.llamabagel.transpo.ui.trips.adapter
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.models.trips.Route
-import ca.llamabagel.transpo.ui.trips.TripAdapterItem
 
 class RouteViewHolder(
     private val binding: ViewDataBinding,

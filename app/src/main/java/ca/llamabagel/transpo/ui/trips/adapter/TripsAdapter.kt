@@ -7,17 +7,15 @@ package ca.llamabagel.transpo.ui.trips.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.databinding.TripBinding
-import ca.llamabagel.transpo.ui.trips.TripAdapterItem
-import ca.llamabagel.transpo.ui.trips.TripItem
 
 class TripsAdapter(
-    private val items: List<TripAdapterItem>,
     private val itemClickListener: (TripAdapterItem) -> Unit = {},
     private val itemSelectionListener: (TripAdapterItem, Boolean) -> Unit = { _, _ -> }
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : ListAdapter<TripAdapterItem, RecyclerView.ViewHolder>(TripAdapterItem.DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -31,15 +29,14 @@ class TripsAdapter(
         }
     }
 
-    override fun getItemViewType(position: Int): Int = when (items[position]) {
+    override fun getItemViewType(position: Int): Int = when (getItem(position)) {
         is TripItem -> R.layout.trip
     }
 
-    override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is SingleTripViewHolder -> holder.bind((items[position] as TripItem).tripUiModel)
+            is SingleTripViewHolder -> holder.bind((getItem(position) as TripItem).tripUiModel)
         }
     }
 }
