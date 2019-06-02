@@ -12,7 +12,11 @@ const val SEARCH_RESULT_PLACE_LAYOUT = R.layout.search_place
 
 class SearchPlaceViewHolder(private val binding: SearchPlaceBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(place: SearchResult.PlaceItem) {
+    fun bind(place: SearchResult.PlaceItem, onClick: (searchResult: SearchResult) -> Unit) {
         binding.place = place
+
+        itemView.setOnClickListener {
+            onClick(place)
+        }
     }
 }

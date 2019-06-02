@@ -10,7 +10,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.ui.search.viewholders.*
 
-class SearchAdapter(private val list: List<SearchResult>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+interface SearchResultClickListener {
+    fun onItemClicked(item: SearchResult)
+}
+
+class SearchAdapter(
+    private val list: List<SearchResult>,
+    private val searchResultClickListener: SearchResultClickListener
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -37,9 +44,15 @@ class SearchAdapter(private val list: List<SearchResult>) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = list[position]) {
             is SearchResult.CategoryHeader -> (holder as SearchCategoryViewHolder).bind(item)
-            is SearchResult.RouteItem -> (holder as SearchRouteViewHolder).bind(item)
-            is SearchResult.StopItem -> (holder as SearchStopViewHolder).bind(item)
-            is SearchResult.PlaceItem -> (holder as SearchPlaceViewHolder).bind(item)
+            is SearchResult.RouteItem -> (holder as SearchRouteViewHolder).bind(item) {
+                searchResultClickListener.onItemClicked(item)
+            }
+            is SearchResult.StopItem -> (holder as SearchStopViewHolder).bind(item) {
+                searchResultClickListener.onItemClicked(item)
+            }
+            is SearchResult.PlaceItem -> (holder as SearchPlaceViewHolder).bind(item) {
+                searchResultClickListener.onItemClicked(item)
+            }
         }
     }
 

@@ -12,7 +12,11 @@ const val SEARCH_RESULT_STOP_LAYOUT = R.layout.search_stop
 
 class SearchStopViewHolder(private val binding: SearchStopBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(stop: SearchResult.StopItem) {
+    fun bind(stop: SearchResult.StopItem, onClick: (searchResult: SearchResult) -> Unit) {
         binding.stop = stop
+
+        itemView.setOnClickListener {
+            onClick(stop)
+        }
     }
 }

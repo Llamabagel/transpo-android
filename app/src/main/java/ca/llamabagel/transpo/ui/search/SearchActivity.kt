@@ -14,10 +14,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
+import ca.llamabagel.transpo.ui.search.viewholders.SearchResult
+import ca.llamabagel.transpo.ui.trips.STOP_ID_EXTRA
+import ca.llamabagel.transpo.ui.trips.TripsActivity
+import ca.llamabagel.transpo.utils.startActivity
 
 private const val KEYBOARD_DELAY_TIME = 200L
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), SearchResultClickListener {
 
     private val viewModel: SearchViewModel by viewModels { injector.searchViewModelFactory() }
 
@@ -51,7 +55,21 @@ class SearchActivity : AppCompatActivity() {
         }
 
         viewModel.searchResults.observe(this, Observer {
-            recycler.adapter = SearchAdapter(it)
+            recycler.adapter = SearchAdapter(it, this)
         })
+    }
+
+    override fun onItemClicked(item: SearchResult) {
+        when (item) {
+            is SearchResult.StopItem -> {
+                startActivity<TripsActivity>(this) {
+                    putExtra(STOP_ID_EXTRA, item.id)
+                }
+            }
+            is SearchResult.RouteItem -> {
+            }
+            is SearchResult.PlaceItem -> {
+            }
+        }
     }
 }

@@ -12,7 +12,11 @@ const val SEARCH_RESULT_ROUTE_LAYOUT = R.layout.search_route
 
 class SearchRouteViewHolder(private val binding: SearchRouteBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(route: SearchResult.RouteItem) {
+    fun bind(route: SearchResult.RouteItem, onClick: (searchResult: SearchResult) -> Unit) {
         binding.route = route
+
+        itemView.setOnClickListener {
+            onClick(route)
+        }
     }
 }
