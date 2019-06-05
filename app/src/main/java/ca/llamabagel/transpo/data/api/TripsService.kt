@@ -12,5 +12,5 @@ import retrofit2.http.Path
 interface TripsService {
 
     @GET("trips/{code}")
-    fun getTrips(@Path("code") stopCode: String): Deferred<ApiResponse>
+    suspend fun getTrips(@Path("code") stopCode: String): ApiResponse
 }

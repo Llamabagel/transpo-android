@@ -24,7 +24,7 @@ class TripsRepository @Inject constructor(
 
     suspend fun getTrips(stopCode: String): Result<ApiResponse> = withContext(Dispatchers.IO) {
         try {
-            Result.Success(apiService.getTrips(stopCode).await())
+            Result.Success(apiService.getTrips(stopCode))
         } catch (e: IOException) {
             Result.Error(e)
         }

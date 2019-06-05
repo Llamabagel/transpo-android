@@ -14,8 +14,8 @@ import retrofit2.http.POST
 
 interface DataService {
     @GET("data/android/1/")
-    fun getDataPackage(): Deferred<DataPackage>
+    suspend fun getDataPackage(): DataPackage
 
     @POST("data/metadata/")
-    fun getMetadata(@Body request: MetadataRequest): Deferred<AppMetadata>
+    suspend fun getMetadata(@Body request: MetadataRequest): AppMetadata
 }
