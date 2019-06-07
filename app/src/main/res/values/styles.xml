@@ -4,16 +4,30 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <!-- TODO: Override navigationBarColor for SDK < 27 since they can't use light navigation bar styles -->
     <style name="Transpo" parent="Theme.MaterialComponents.DayNight.NoActionBar" tools:targetApi="27">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="toolbarStyle">@style/Widget.Transpo.Toolbar</item>
         <item name="android:navigationBarColor">?colorSurface</item>
-        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:statusBarColor">@color/darkModeBackground</item>
+    </style>
+
+    <style name="Widget.Transpo.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
+        <item name="android:elevation" tools:targetApi="lollipop">4dp</item>
+        <item name="android:background">?colorSurface</item>
+        <item name="titleTextColor">?colorOnSurface</item>
+        <item name="subtitleTextColor">?colorOnSurface</item>
+    </style>
+
+    <style name="SearchBar" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColorHint">?android:textColorHint</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@drawable/search_bar_background</item>
+        <item name="android:paddingStart">@dimen/xsmall</item>
+        <item name="android:paddingEnd">@dimen/xsmall</item>
+        <item name="android:padding">@dimen/xxsmall</item>
     </style>
 
     <style name="Transpo.Translucent">
@@ -25,15 +39,6 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
-    </style>
-
-    <style name="Widget.Transpo.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
-        <item name="android:elevation" tools:targetApi="lollipop">4dp</item>
-        <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
-    </style>
-
-    <style name="SearchBar" parent="Widget.AppCompat.EditText">
-        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

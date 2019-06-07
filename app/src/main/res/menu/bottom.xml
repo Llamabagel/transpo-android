@@ -6,18 +6,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
             android:id="@+id/home"
-            android:title="Home"
+            android:title="@string/bottom_nav_home"
             android:icon="@drawable/ic_home"/>
     <item
             android:id="@+id/saved"
-            android:title="Saved"
+            android:title="@string/bottom_nav_saved"
             android:icon="@drawable/ic_star_border"/>
     <item
             android:id="@+id/map"
-            android:title="Map"
+            android:title="@string/bottom_nav_map"
             android:icon="@drawable/ic_map"/>
     <item
             android:id="@+id/planner"
-            android:title="Planner"
+            android:title="@string/bottom_nav_planner"
             android:icon="@drawable/ic_directions"/>
 </menu>

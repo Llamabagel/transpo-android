@@ -19,4 +19,10 @@
     <string name="search_category_routes">Routes</string>
     <string name="search_category_places">Places</string>
     <string name="search_stop_no_trips">No upcoming trips</string>
+
+    <!-- bottom nav menu -->
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_saved">Saved</string>
+    <string name="bottom_nav_map">Map</string>
+    <string name="bottom_nav_planner">Planner</string>
 </resources>

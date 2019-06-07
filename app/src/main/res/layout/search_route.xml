@@ -5,7 +5,8 @@
 
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -23,9 +24,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xlarge"
-            android:layout_marginTop="@dimen/small"
-            android:onClick="@{() -> handler.onClick()}">
+            android:onClick="@{() -> handler.onClick()}"
+            android:background="?colorSurface">
 
         <TextView
                 android:id="@+id/route_number"
@@ -34,8 +34,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="@dimen/xlarge"
+                android:layout_marginTop="@dimen/small"
                 android:text="@{route.number}"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                tools:text="97"/>
 
         <TextView
                 android:id="@+id/route_name"
@@ -44,7 +47,9 @@
                 android:text="@{route.name}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/route_number"
-                android:layout_marginStart="@dimen/medium"/>
+                android:layout_marginTop="@dimen/small"
+                android:layout_marginStart="@dimen/medium"
+                tools:text="Bayshore"/>
 
         <TextView
                 android:id="@+id/route_type"
@@ -53,7 +58,8 @@
                 app:layout_constraintTop_toBottomOf="@id/route_name"
                 app:layout_constraintStart_toEndOf="@id/route_number"
                 android:text="@{route.type}"
-                android:layout_marginStart="@dimen/medium"/>
+                android:layout_marginStart="@dimen/medium"
+                tools:text="Rapid Route"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

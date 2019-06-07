@@ -18,7 +18,9 @@
         <activity android:name=".ui.trips.TripsActivity">
         </activity>
 
-        <activity android:name=".ui.search.SearchActivity">
+        <activity
+                android:name=".ui.search.SearchActivity"
+                android:theme="@style/Transpo.Translucent">
         </activity>
 
         <provider

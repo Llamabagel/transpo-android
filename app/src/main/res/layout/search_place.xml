@@ -5,7 +5,8 @@
 
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -24,27 +25,30 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xlarge"
-            android:layout_marginTop="@dimen/small"
-            android:onClick="@{() -> handler.onClick()}">
+            android:onClick="@{() -> handler.onClick()}"
+            android:background="?colorSurface">
 
         <TextView
-                android:id="@+id/stop_name"
+                android:id="@+id/place_primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="@{place.primary}"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:layout_marginStart="@dimen/xlarge"
+                android:layout_marginTop="@dimen/small"
+                tools:text="Parliament of Canada"/>
 
         <TextView
-                android:id="@+id/stop_routes"
+                android:id="@+id/place_secondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stop_name"
+                app:layout_constraintStart_toStartOf="@id/place_primary"
+                app:layout_constraintTop_toBottomOf="@id/place_primary"
                 android:text="@{place.secondary}"
-                android:layout_marginTop="@dimen/xxxsmall"/>
+                android:layout_marginTop="@dimen/xxxsmall"
+                tools:text="111 Wellington St, Ottawa, ON K1A 0A9"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
