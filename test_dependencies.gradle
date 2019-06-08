@@ -4,6 +4,10 @@
 
 dependencies {
     testImplementation "androidx.arch.core:core-testing:${versions.lifecycle}"
+    testImplementation "org.mockito:mockito-core:${versions.mockito}"
+    testImplementation "org.mockito:mockito-inline:${versions.mockitoInline}"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.mockitoKotlin}"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutinesTest}"
     androidTestImplementation "android.arch.work:work-testing:${versions.workManager}"
     testImplementation "junit:junit:${versions.junit}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espressoCore}"
