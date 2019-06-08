@@ -18,9 +18,7 @@ class SearchPlaceViewHolder(
     private lateinit var place: SearchResult.PlaceItem
 
     internal inner class Handler {
-        fun onClick() {
-            searchResultClickListener(place)
-        }
+        fun onClick() = searchResultClickListener(place)
     }
 
     fun bind(place: SearchResult.PlaceItem) {
