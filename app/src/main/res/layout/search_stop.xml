@@ -5,7 +5,8 @@
 
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -24,38 +25,43 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xlarge"
-            android:layout_marginTop="@dimen/small"
-            android:onClick="@{() -> handler.onClick()}">
+            android:onClick="@{() -> handler.onClick()}"
+            android:background="?colorSurface">
+
 
         <TextView
-                android:id="@+id/stop_name"
+                android:id="@+id/place_primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xlarge"
+                android:layout_marginTop="@dimen/small"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="@{stop.name}"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                tools:text="Stop Name"/>
 
         <TextView
                 android:id="@+id/stop_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/stop_name"
-                app:layout_constraintTop_toTopOf="@id/stop_name"
-                app:layout_constraintBottom_toBottomOf="@+id/stop_name"
+                app:layout_constraintStart_toEndOf="@id/place_primary"
+                app:layout_constraintTop_toTopOf="@id/place_primary"
+                app:layout_constraintBottom_toBottomOf="@+id/place_primary"
                 android:text="@{stop.code}"
                 android:textSize="12sp"
-                android:layout_marginStart="@dimen/xxsmall"/>
+                android:layout_marginStart="@dimen/xxsmall"
+                tools:text="• 1234"/>
 
         <TextView
-                android:id="@+id/stop_routes"
+                android:id="@+id/place_secondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stop_name"
+                app:layout_constraintStart_toStartOf="@id/place_primary"
+                app:layout_constraintTop_toBottomOf="@id/place_primary"
                 android:text="@{stop.routes}"
-                android:layout_marginTop="@dimen/xxxsmall"/>
+                android:layout_marginTop="@dimen/xxxsmall"
+                tools:text="16, 94, 95, 96, 97"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,7 +5,8 @@
 
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -17,8 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/small"
-            android:layout_marginTop="@dimen/small">
+            android:background="?colorSurface">
 
         <TextView
                 android:id="@+id/search_category"
@@ -26,7 +26,10 @@
                 android:layout_height="wrap_content"
                 android:text="@{category.header}"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="@dimen/small"
+                android:layout_marginTop="@dimen/small"
+                tools:text="Routes"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

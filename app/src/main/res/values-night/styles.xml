@@ -10,9 +10,16 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="toolbarStyle">@style/Widget.Transpo.Toolbar</item>
+        <item name="colorSurface">@color/darkModeBackground</item>
         <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:statusBarColor">?colorSurface</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Widget.Transpo.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
+        <item name="android:background">@color/darkModeBackground</item>
+        <item name="titleTextColor">?colorOnSurface</item>
+        <item name="subtitleTextColor">?colorOnSurface</item>
     </style>
 
 </resources>

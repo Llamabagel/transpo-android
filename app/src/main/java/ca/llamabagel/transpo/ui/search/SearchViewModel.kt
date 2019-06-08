@@ -22,7 +22,7 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
     private val _keyboardState = MutableLiveData<KeyboardState>().apply { value = KeyboardState.OPEN }
     val keyboardState: LiveData<KeyboardState> = _keyboardState
 
-    private val _searchResults = MutableLiveData<List<SearchResult>>()
+    private val _searchResults = MutableLiveData<List<SearchResult>>().apply { value = emptyList() }
     val searchResults: LiveData<List<SearchResult>> = _searchResults
 
     fun notifyClosed() {
