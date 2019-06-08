@@ -4,7 +4,7 @@ The open source project behind Route 613. Next stop: 2.0!
 This is a complete open source rewrite of Route 613. The main objective of this rewrite is to adopt a better architecture to improve the reliability of the app and make it easier to add new features.
 
 ## Development Setup
-Development on this project requires Android Studio 3.4 or newer, as well as the Android SDK for Android P (28).
+Development on this project requires Android Studio 3.4 or newer, as well as the Android SDK for Android Q (29).
 
 The built setup requires a `config.properties` file to be created in the root directory of the project that includes configuration information for the API backend and for using the Mapbox SDK.  
 The configuration must include:
