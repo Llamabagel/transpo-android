@@ -18,9 +18,7 @@ class SearchStopViewHolder(
     private lateinit var stop: SearchResult.StopItem
 
     internal inner class Handler {
-        fun onClick() {
-            searchResultClickListener(stop)
-        }
+        fun onClick() = searchResultClickListener(stop)
     }
 
     fun bind(stop: SearchResult.StopItem) {

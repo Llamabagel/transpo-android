@@ -18,9 +18,7 @@ class SearchRouteViewHolder(
     private lateinit var route: SearchResult.RouteItem
 
     internal inner class Handler {
-        fun onClick() {
-            searchResultClickListener(route)
-        }
+        fun onClick() = searchResultClickListener(route)
     }
 
     fun bind(route: SearchResult.RouteItem) {
