@@ -9,6 +9,7 @@ import ca.llamabagel.transpo.data.SearchRepository
 import ca.llamabagel.transpo.ui.search.viewholders.SearchResult
 import ca.llamabagel.transpo.utils.stubReturn
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -63,6 +64,11 @@ class SearchViewModelTest {
     @Test
     fun `when activity starts, there are no search results`() {
         assertEquals(searchViewModel.searchResults.value, emptyList<SearchResult>())
+    }
+
+    @Test
+    fun `when query is not typed in, search repository is not called`() {
+        verifyZeroInteractions(searchRepository)
     }
 
     @Test
