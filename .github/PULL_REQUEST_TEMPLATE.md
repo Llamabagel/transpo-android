@@ -10,3 +10,6 @@ Closed #
 Brief summary of what you committed
 
 # Screenshots
+Column 1 | Column 2
+--- | ---
+ |
