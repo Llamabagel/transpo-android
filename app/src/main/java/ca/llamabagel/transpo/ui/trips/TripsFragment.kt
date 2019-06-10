@@ -102,8 +102,8 @@ class TripsFragment : Fragment() {
             val points = items.asSequence()
                 .filter { item -> item is TripItem }
                 .map { item -> item as TripItem }
-                .filter { trip -> trip.tripUiModel.trip.adjustmentAge > 0 }
-                .map { trip -> Point.fromLngLat(trip.tripUiModel.trip.longitude!!, trip.tripUiModel.trip.latitude!!) }
+                .filter { (_, trip) -> trip.adjustmentAge > 0 }
+                .map { (_, trip) -> Point.fromLngLat(trip.longitude!!, trip.latitude!!) }
                 .toList()
 
             val geometry = Feature.fromGeometry(MultiPoint.fromLngLats(points))

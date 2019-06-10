@@ -50,8 +50,8 @@ class StopFragment : Fragment() {
         when (item) {
             is TripItem -> {
                 viewModel.updateRouteSelection(
-                    item.tripUiModel.route.number,
-                    item.tripUiModel.route.directionId,
+                    item.route.number,
+                    item.route.directionId,
                     true
                 )
                 findNavController().navigate(R.id.tripsFragment)

@@ -10,19 +10,28 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ca.llamabagel.transpo.data.Result
-import ca.llamabagel.transpo.data.TripsRepository
 import ca.llamabagel.transpo.data.db.Stop
 import ca.llamabagel.transpo.models.trips.ApiResponse
 import ca.llamabagel.transpo.ui.trips.adapter.TripAdapterItem
 import ca.llamabagel.transpo.ui.trips.adapter.TripItem
 import ca.llamabagel.transpo.utils.TAG
 import ca.llamabagel.transpo.ui.trips.adapter.TripsAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepository) : ViewModel() {
+@ExperimentalCoroutinesApi
+class TripsViewModel @Inject constructor(
+    private val getStop: GetStopUseCase,
+    private val updateTripData: UpdateTripDataUseCase,
+    private val getNextBusTrips: GetNextBusTripsUseCase) : ViewModel() {
 
     private lateinit var apiData: Result<ApiResponse>
+
+    private var resultsObserver: Flow<List<TripAdapterItem>>
 
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing: LiveData<Boolean> = _isRefreshing
@@ -38,8 +47,16 @@ class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepos
     private val _viewerData = MutableLiveData<List<TripAdapterItem>>()
     val viewerData: LiveData<List<TripAdapterItem>> = _viewerData
 
+    init {
+        resultsObserver = getNextBusTrips()
+    }
+
     fun loadStop(stopId: String) = viewModelScope.launch {
-        _stop.value = tripsRepository.getStop(stopId)
+        _stop.value = (getStop(stopId) as? Result.Success)?.data
+
+        resultsObserver.collect {
+            _displayData.postValue(it)
+        }
     }
 
     fun getTrips() = viewModelScope.launch {
@@ -49,21 +66,13 @@ class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepos
         }
 
         _isRefreshing.value = true
-        apiData = tripsRepository.getTrips(_stop.value!!.code)
-
-        when (val copy = apiData) {
-            is Result.Success -> {
-                _displayData.value = copy.data.routes.flatMap { route ->
-                    route.trips.map { trip -> TripUiModel(route, trip) }
-                }
-                    .sortedBy { it.trip.adjustedScheduleTime }
-                    .map(::TripItem)
-                updateViewerData()
-            }
+        when (updateTripData(_stop.value!!.code)) {
+            is Result.Success -> {}
             is Result.Error -> {
                 // TODO: Handle errors
             }
         }
+
         _isRefreshing.value = false
     }
 
@@ -81,14 +90,14 @@ class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepos
     }
 
     private fun updateViewerData() {
-        if (selectedRoutes.isEmpty()) return
+        /*if (selectedRoutes.isEmpty()) return
 
         val routeData = (apiData as Result.Success).data.routes
         _viewerData.value = routeData
             .filter { route -> selectedRoutes.contains(RouteSelection(route.number, route.directionId)) }
             .flatMap { route -> route.trips.map { trip -> TripUiModel(route, trip) } }
             .sortedBy { model -> model.trip.adjustedScheduleTime }
-            .map(::TripItem)
+            .map(::TripItem)*/
     }
 }
 

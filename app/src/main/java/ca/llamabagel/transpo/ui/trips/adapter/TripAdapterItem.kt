@@ -6,7 +6,8 @@ package ca.llamabagel.transpo.ui.trips.adapter
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
-import ca.llamabagel.transpo.ui.trips.TripUiModel
+import ca.llamabagel.transpo.models.trips.Route
+import ca.llamabagel.transpo.models.trips.Trip
 
 sealed class TripAdapterItem {
     abstract infix fun sameAs(other: TripAdapterItem): Boolean
@@ -25,13 +26,15 @@ sealed class TripAdapterItem {
     }
 }
 
-data class TripItem(val tripUiModel: TripUiModel) : TripAdapterItem() {
+data class TripItem(val route: Route, val trip: Trip, val selected: Boolean = false) : TripAdapterItem() {
+    val adjustedScheduleTimeString: String get() = trip.adjustedScheduleTime.toString()
+
     override infix fun sameAs(other: TripAdapterItem): Boolean {
         if (other !is TripItem) return false
 
-        return other.tripUiModel.route.number == tripUiModel.route.number &&
-                other.tripUiModel.route.directionId == tripUiModel.route.directionId &&
-                other.tripUiModel.trip.startTime == tripUiModel.trip.startTime
+        return other.route.number == route.number &&
+                other.route.directionId == route.directionId &&
+                other.trip.startTime == trip.startTime
     }
 }
 
