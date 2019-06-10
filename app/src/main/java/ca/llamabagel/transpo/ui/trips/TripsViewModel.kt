@@ -31,7 +31,7 @@ class TripsViewModel @Inject constructor(
 
     private lateinit var apiData: Result<ApiResponse>
 
-    private var resultsObserver: Flow<List<TripAdapterItem>>
+    //private var resultsObserver: Flow<List<TripAdapterItem>>
 
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing: LiveData<Boolean> = _isRefreshing
@@ -48,13 +48,13 @@ class TripsViewModel @Inject constructor(
     val viewerData: LiveData<List<TripAdapterItem>> = _viewerData
 
     init {
-        resultsObserver = getNextBusTrips()
     }
 
     fun loadStop(stopId: String) = viewModelScope.launch {
         _stop.value = (getStop(stopId) as? Result.Success)?.data
 
-        resultsObserver.collect {
+        getNextBusTrips().collect {
+            Log.d("Collector!", "Collected: $it")
             _displayData.postValue(it)
         }
     }

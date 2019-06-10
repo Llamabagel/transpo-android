@@ -23,7 +23,8 @@ class GetNextBusTripsUseCase @Inject constructor(private val repository: TripsRe
     @ExperimentalCoroutinesApi
     operator fun invoke(groupByDirection: Boolean = false): Flow<List<TripAdapterItem>> {
 
-        return repository.cachedResult.asFlow()
+        return repository.cachedResult
+            .asFlow()
             .flowOn(Dispatchers.Default)
             .map { (_, routes) ->
                 routes.flatMap { route ->

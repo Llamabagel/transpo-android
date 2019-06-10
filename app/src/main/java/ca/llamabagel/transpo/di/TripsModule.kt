@@ -5,9 +5,7 @@
 package ca.llamabagel.transpo.di
 
 import ca.llamabagel.transpo.BuildConfig
-import ca.llamabagel.transpo.data.TripsRepository
 import ca.llamabagel.transpo.data.api.TripsService
-import ca.llamabagel.transpo.data.db.TransitDatabase
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -32,10 +30,5 @@ abstract class TripsModule {
             .addCallAdapterFactory(adapter)
             .addConverterFactory(converter)
             .build().create(TripsService::class.java)
-
-        @Provides
-        @JvmStatic
-        fun provideTripsRepository(transitDatabase: TransitDatabase, tripsService: TripsService) =
-            TripsRepository(transitDatabase, tripsService)
     }
 }
