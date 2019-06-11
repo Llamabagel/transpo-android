@@ -4,6 +4,7 @@
 
 package ca.llamabagel.transpo.ui.trips
 
+import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,9 +12,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ca.llamabagel.transpo.data.Result
 import ca.llamabagel.transpo.data.db.Stop
+import ca.llamabagel.transpo.data.db.StopId
 import ca.llamabagel.transpo.ui.trips.adapter.TripAdapterItem
 import ca.llamabagel.transpo.ui.trips.adapter.TripsAdapter
 import ca.llamabagel.transpo.utils.TAG
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +28,7 @@ class TripsViewModel @Inject constructor(
     private val clearStopCache: ClearStopCacheUseCase
 ) : ViewModel() {
 
-    private lateinit var stopId: String
+    private var stopId: StopId = StopId("")
 
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing: LiveData<Boolean> = _isRefreshing
@@ -41,12 +44,12 @@ class TripsViewModel @Inject constructor(
     private val _viewerData = MutableLiveData<List<TripAdapterItem>>()
     val viewerData: LiveData<List<TripAdapterItem>> = _viewerData
 
-    fun loadStop(stopId: String) = viewModelScope.launch {
-        this@TripsViewModel.stopId = stopId
+    fun loadStop(id: String) = viewModelScope.launch {
+        stopId = StopId(id)
         _stop.value = (getStop(stopId) as? Result.Success)?.data
 
         viewModelScope.launch {
-            getNextBusTrips(_stop.value!!.code).collect {
+            getNextBusTrips(stopId).collect {
                 _displayData.postValue(it)
             }
         }
@@ -97,7 +100,7 @@ class TripsViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         if (_stop.value != null) {
-            clearStopCache(_stop.value!!.code)
+            clearStopCache(stopId)
         }
     }
 }
@@ -106,4 +109,5 @@ class TripsViewModel @Inject constructor(
  * Represents the selection of a route, with its corresponding directionId
  * from the [TripsAdapter].
  */
-data class RouteSelection(val number: String, val directionId: Int)
+@Parcelize
+data class RouteSelection(val number: String, val directionId: Int) : Parcelable

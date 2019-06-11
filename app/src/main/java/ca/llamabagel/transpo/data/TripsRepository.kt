@@ -8,18 +8,15 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import ca.llamabagel.transpo.data.api.TripsService
 import ca.llamabagel.transpo.data.db.Stop
+import ca.llamabagel.transpo.data.db.StopCode
+import ca.llamabagel.transpo.data.db.StopId
 import ca.llamabagel.transpo.data.db.TransitDatabase
 import ca.llamabagel.transpo.models.trips.ApiResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import java.io.IOException
-import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,28 +27,42 @@ class TripsRepository @Inject constructor(
     private val apiService: TripsService,
     private val sharedPreferences: SharedPreferences
 ) {
-    private val cachedResults: MutableMap<String, ConflatedBroadcastChannel<ApiResponse>> = mutableMapOf()
+    private val cachedResults: MutableMap<StopCode, ConflatedBroadcastChannel<ApiResponse>> = mutableMapOf()
+    private val cachedStopCodes: MutableMap<StopId, StopCode> = mutableMapOf()
 
-    fun getResultCache(stopCode: String): ConflatedBroadcastChannel<ApiResponse> =
+    suspend fun getResultCache(stopId: StopId): ConflatedBroadcastChannel<ApiResponse> = withContext(Dispatchers.IO) {
+        val stopCode =
+            cachedStopCodes.getOrPut(stopId, { database.stopQueries.getStopById(stopId).executeAsOne().code })
+
         cachedResults.getOrPut(stopCode, { ConflatedBroadcastChannel() })
-
-    fun clearCacheFor(stopCode: String) {
-        cachedResults.remove(stopCode)
     }
 
-    suspend fun getStop(stopId: String): Result<Stop> = withContext(Dispatchers.IO) {
+    fun clearCacheFor(stopId: StopId) {
+        cachedStopCodes[stopId]?.let(cachedResults::remove)
+    }
+
+    suspend fun getStop(stopId: StopId): Result<Stop> = withContext(Dispatchers.IO) {
         try {
             val stop = database.stopQueries.getStopById(stopId).executeAsOne()
+
+            // Cache the stop code for other uses
+            if (!cachedStopCodes.containsKey(stopId)) {
+                cachedStopCodes[stopId] = stop.code
+            }
+
             Result.Success(stop)
         } catch (e: Exception) {
             Result.Error(e)
         }
     }
 
-    suspend fun getTrips(stopCode: String): Result<Unit> = withContext(Dispatchers.IO) {
+    suspend fun getTrips(stopId: StopId): Result<Unit> = withContext(Dispatchers.IO) {
         try {
+            val stopCode =
+                cachedStopCodes.getOrPut(stopId, { database.stopQueries.getStopById(stopId).executeAsOne().code })
+
             cachedResults.getOrPut(stopCode, { ConflatedBroadcastChannel() })
-                .offer(apiService.getTrips(stopCode).await())
+                .offer(apiService.getTrips(stopCode.value).await())
             Result.Success(Unit)
         } catch (e: IOException) {
             Result.Error(e)

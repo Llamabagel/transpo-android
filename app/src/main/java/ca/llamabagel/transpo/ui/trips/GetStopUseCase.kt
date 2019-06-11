@@ -7,6 +7,7 @@ package ca.llamabagel.transpo.ui.trips
 import ca.llamabagel.transpo.data.Result
 import ca.llamabagel.transpo.data.TripsRepository
 import ca.llamabagel.transpo.data.db.Stop
+import ca.llamabagel.transpo.data.db.StopId
 import javax.inject.Inject
 
 /**
@@ -15,5 +16,5 @@ import javax.inject.Inject
  */
 class GetStopUseCase @Inject constructor(private val repository: TripsRepository) {
 
-    suspend operator fun invoke(id: String): Result<Stop>  = repository.getStop(id)
+    suspend operator fun invoke(id: StopId): Result<Stop>  = repository.getStop(id)
 }

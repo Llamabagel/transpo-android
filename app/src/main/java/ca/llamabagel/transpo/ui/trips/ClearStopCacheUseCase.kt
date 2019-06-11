@@ -5,13 +5,14 @@
 package ca.llamabagel.transpo.ui.trips
 
 import ca.llamabagel.transpo.data.TripsRepository
+import ca.llamabagel.transpo.data.db.StopId
 import javax.inject.Inject
 
 /**
  * Use case that ensures that a cached stop result is cleared for the given owning object
  */
 class ClearStopCacheUseCase @Inject constructor(private val repository: TripsRepository) {
-    operator fun invoke(stopCode: String) {
-        repository.clearCacheFor(stopCode)
+    operator fun invoke(stopId: StopId) {
+        repository.clearCacheFor(stopId)
     }
 }
