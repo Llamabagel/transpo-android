@@ -13,4 +13,4 @@
 .externalNativeBuild
 
 # Local configuration information (api endpoints, etc.)
-/config.properties
+config.properties
