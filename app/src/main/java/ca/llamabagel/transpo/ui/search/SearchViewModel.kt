@@ -4,12 +4,16 @@
 
 package ca.llamabagel.transpo.ui.search
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ca.llamabagel.transpo.data.SearchRepository
 import ca.llamabagel.transpo.ui.search.viewholders.SearchResult
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,7 +21,25 @@ enum class KeyboardState {
     OPEN, CLOSED
 }
 
-class SearchViewModel @Inject constructor(private val searchRepository: SearchRepository) : ViewModel() {
+@FlowPreview
+@ExperimentalCoroutinesApi
+class SearchViewModel @Inject constructor(
+    private val searchRepository: SearchRepository,
+    searchUseCase: GetSearchResultsUseCase
+) : ViewModel() {
+
+    init {
+        val searchResultObserver = searchUseCase()
+
+        viewModelScope.launch {
+            searchResultObserver.collect {
+                Log.d("Collector!", "Collected: $it")
+                _searchResults.postValue(it)
+            }
+        }
+    }
+
+
 
     private val _keyboardState = MutableLiveData<KeyboardState>().apply { value = KeyboardState.OPEN }
     val keyboardState: LiveData<KeyboardState> = _keyboardState
@@ -30,6 +52,6 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
     }
 
     fun fetchSearchResults(query: String) = viewModelScope.launch {
-        _searchResults.value = searchRepository.getSearchResults(query)
+        searchRepository.getSearchResults(query)
     }
 }

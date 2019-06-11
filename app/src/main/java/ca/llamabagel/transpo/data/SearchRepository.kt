@@ -15,6 +15,12 @@ import ca.llamabagel.transpo.di.StringsGen
 import ca.llamabagel.transpo.ui.search.viewholders.SearchResult
 import com.mapbox.api.geocoding.v5.MapboxGeocoding
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.combineLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -25,46 +31,50 @@ object OttawaBoundaries {
     const val MAX_LNG = -75.351405
 }
 
+@ExperimentalCoroutinesApi
 class SearchRepository @Inject constructor(private val database: TransitDatabase, private val strings: StringsGen) {
 
-    suspend fun getSearchResults(query: String): List<SearchResult> = withContext(Dispatchers.IO) {
-        if (query.isEmpty()) return@withContext emptyList<SearchResult>()
+    val searchResult = ConflatedBroadcastChannel<List<SearchResult>>()
 
-        val searchResults = mutableListOf<SearchResult>()
+    fun getSearchResults(query: String) {
 
-        getStops(query).takeIf { it.isNotEmpty() }?.let { stops ->
-            searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_routes)))
-            searchResults.addAll(stops)
+        getRoutes(query).combineLatest(getStops(query), getPlaces(query)) { routes, stops, places ->
+            val searchResults = mutableListOf<SearchResult>()
+
+            routes.takeIf { it.isNotEmpty() }?.let {
+                searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_routes)))
+                searchResults.addAll(routes)
+            }
+
+            stops.takeIf { it.isNotEmpty() }?.let {
+                searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_stops)))
+                searchResults.addAll(stops)
+            }
+
+            places.takeIf { it.isNotEmpty() }?.let {
+                searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_places)))
+                searchResults.addAll(places)
+            }
+
+            searchResult.offer(searchResults)
         }
-
-        getRoutes(query).takeIf { it.isNotEmpty() }?.let { routes ->
-            searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_routes)))
-            searchResults.addAll(routes)
-        }
-
-        getPlaces(query).takeIf { it.isNotEmpty() }?.let { places ->
-            searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_places)))
-            searchResults.addAll(places)
-        }
-
-        return@withContext searchResults
     }
 
-    private suspend fun getStops(query: String): List<SearchResult.StopItem> = withContext(Dispatchers.IO) {
+    private fun getStops(query: String): Flow<List<SearchResult.StopItem>> = flow {
         database.stopQueries
             .getStopsByName("$query*")
             .executeAsList()
             .map { SearchResult.StopItem(it.name, "• ${it.code}", strings.get(R.string.search_stop_no_trips), it.id) }
     }
 
-    private suspend fun getRoutes(query: String): List<SearchResult.RouteItem> = withContext(Dispatchers.IO) {
+    private fun getRoutes(query: String): Flow<List<SearchResult.RouteItem>> = flow {
         database.routeQueries
             .getRoutes("$query%")
             .executeAsList()
             .map { SearchResult.RouteItem("Name", it.short_name, it.type.toString()) } // TODO: update name parameter
     }
 
-    private suspend fun getPlaces(query: String): List<SearchResult.PlaceItem> = withContext(Dispatchers.IO) {
+    private fun getPlaces(query: String): Flow<List<SearchResult.PlaceItem>> = flow {
         MapboxGeocoding.builder()
             .accessToken(MAPBOX_KEY)
             .query(query)
