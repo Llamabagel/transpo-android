@@ -21,9 +21,9 @@ class GetNextBusTripsUseCase @Inject constructor(private val repository: TripsRe
 
     @FlowPreview
     @ExperimentalCoroutinesApi
-    operator fun invoke(groupByDirection: Boolean = false): Flow<List<TripAdapterItem>> {
+    operator fun invoke(stopCode: String, groupByDirection: Boolean = false): Flow<List<TripAdapterItem>> {
 
-        return repository.cachedResult
+        return repository.getResultCache(stopCode)
             .asFlow()
             .flowOn(Dispatchers.Default)
             .map { (_, routes) ->

@@ -11,27 +11,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ca.llamabagel.transpo.data.Result
 import ca.llamabagel.transpo.data.db.Stop
-import ca.llamabagel.transpo.models.trips.ApiResponse
 import ca.llamabagel.transpo.ui.trips.adapter.TripAdapterItem
-import ca.llamabagel.transpo.ui.trips.adapter.TripItem
-import ca.llamabagel.transpo.utils.TAG
 import ca.llamabagel.transpo.ui.trips.adapter.TripsAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
+import ca.llamabagel.transpo.utils.TAG
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 class TripsViewModel @Inject constructor(
     private val getStop: GetStopUseCase,
     private val updateTripData: UpdateTripDataUseCase,
-    private val getNextBusTrips: GetNextBusTripsUseCase) : ViewModel() {
+    private val getNextBusTrips: GetNextBusTripsUseCase,
+    private val clearStopCache: ClearStopCacheUseCase
+) : ViewModel() {
 
-    private lateinit var apiData: Result<ApiResponse>
-
-    private var resultsObserver: Flow<List<TripAdapterItem>>
+    private lateinit var stopId: String
 
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing: LiveData<Boolean> = _isRefreshing
@@ -47,19 +41,15 @@ class TripsViewModel @Inject constructor(
     private val _viewerData = MutableLiveData<List<TripAdapterItem>>()
     val viewerData: LiveData<List<TripAdapterItem>> = _viewerData
 
-    init {
-        resultsObserver = getNextBusTrips()
+    fun loadStop(stopId: String) = viewModelScope.launch {
+        this@TripsViewModel.stopId = stopId
+        _stop.value = (getStop(stopId) as? Result.Success)?.data
 
         viewModelScope.launch {
-            resultsObserver.collect {
-                Log.d("Collector!", "Collected: $it")
+            getNextBusTrips(_stop.value!!.code).collect {
                 _displayData.postValue(it)
             }
         }
-    }
-
-    fun loadStop(stopId: String) = viewModelScope.launch {
-        _stop.value = (getStop(stopId) as? Result.Success)?.data
     }
 
     fun getTrips() = viewModelScope.launch {
@@ -69,8 +59,9 @@ class TripsViewModel @Inject constructor(
         }
 
         _isRefreshing.value = true
-        when (updateTripData(_stop.value!!.code)) {
-            is Result.Success -> {}
+        when (updateTripData(stopId)) {
+            is Result.Success -> {
+            }
             is Result.Error -> {
                 // TODO: Handle errors
             }
@@ -101,6 +92,13 @@ class TripsViewModel @Inject constructor(
             .flatMap { route -> route.trips.map { trip -> TripUiModel(route, trip) } }
             .sortedBy { model -> model.trip.adjustedScheduleTime }
             .map(::TripItem)*/
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        if (_stop.value != null) {
+            clearStopCache(_stop.value!!.code)
+        }
     }
 }
 
