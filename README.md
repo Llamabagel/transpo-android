@@ -1,6 +1,9 @@
 # Transpo-Android \[🚧 Under Construction 🚧\]
 The open source project behind Route 613. Next stop: 2.0!
 
+[![CircleCI](https://circleci.com/gh/Llamabagel/transpo-android.svg?style=svg)](https://circleci.com/gh/Llamabagel/transpo-android)
+[![codecov](https://codecov.io/gh/Llamabagel/transpo-android/branch/master/graph/badge.svg)](https://codecov.io/gh/Llamabagel/transpo-android)
+
 This is a complete open source rewrite of Route 613. The main objective of this rewrite is to adopt a better architecture to improve the reliability of the app and make it easier to add new features.
 
 ## Development Setup
