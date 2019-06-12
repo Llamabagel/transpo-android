@@ -82,9 +82,7 @@ class TripsRepository @Inject constructor(
      * Rebroadcasts the last response
      */
     private fun rebroadcast() {
-        cachedResults.forEach { (_, v) ->
-            v.offer(v.value)
-        }
+        cachedResults.forEach { (_, broadcastChannel) -> broadcastChannel.offer(broadcastChannel.value) }
     }
 
     companion object {

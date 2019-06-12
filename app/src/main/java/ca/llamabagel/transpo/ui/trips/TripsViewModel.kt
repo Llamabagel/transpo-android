@@ -78,23 +78,11 @@ class TripsViewModel @Inject constructor(
             selected -> selectedRoutes.add(RouteSelection(number, directionId))
             else -> selectedRoutes.remove(RouteSelection(number, directionId))
         }
-        updateViewerData()
     }
 
     fun clearSelection() {
         selectedRoutes.clear()
         _viewerData.value = emptyList()
-    }
-
-    private fun updateViewerData() {
-        /*if (selectedRoutes.isEmpty()) return
-
-        val routeData = (apiData as Result.Success).data.routes
-        _viewerData.value = routeData
-            .filter { route -> selectedRoutes.contains(RouteSelection(route.number, route.directionId)) }
-            .flatMap { route -> route.trips.map { trip -> TripUiModel(route, trip) } }
-            .sortedBy { model -> model.trip.adjustedScheduleTime }
-            .map(::TripItem)*/
     }
 
     override fun onCleared() {

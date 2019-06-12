@@ -35,7 +35,7 @@ class TripsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is SingleTripViewHolder -> holder.bind((getItem(position) as TripItem))
+            is SingleTripViewHolder -> holder.bind(getItem(position) as TripItem)
         }
     }
 }
