@@ -18,9 +18,13 @@ import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
 import ca.llamabagel.transpo.ui.search.viewholders.SearchResult
 import ca.llamabagel.transpo.ui.trips.STOP_ID_EXTRA
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
 private const val KEYBOARD_DELAY_TIME = 200L
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class SearchActivity : AppCompatActivity() {
 
     companion object {
@@ -38,6 +42,7 @@ class SearchActivity : AppCompatActivity() {
         val searchBar = findViewById<CustomSearchView>(R.id.search_bar)
         val recycler = findViewById<RecyclerView>(R.id.search_results_list)
 
+        viewModel.startListeningToSearchResults()
         viewModel.keyboardState.observe(this, Observer {
             if (it == KeyboardState.OPEN) {
                 searchBar.requestFocus()
@@ -49,13 +54,11 @@ class SearchActivity : AppCompatActivity() {
         })
 
         searchBar.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                viewModel.notifyClosed()
-            }
+            viewModel.searchBarFocusChanged(hasFocus)
         }
 
         searchBar.doOnTextChanged { text, _, _, _ ->
-            viewModel.fetchSearchResults(text.toString())
+            viewModel.fetchSearchResults(text)
         }
 
         viewModel.searchResults.observe(this, Observer {
