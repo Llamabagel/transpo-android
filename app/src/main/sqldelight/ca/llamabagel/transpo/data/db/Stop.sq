@@ -9,7 +9,7 @@ CREATE TABLE stop (
     latitude REAL As Double NOT NULL,
     longitude REAL As Double NOT NULL,
     location_type INTEGER As Integer NOT NULL,
-    parent_station TEXT,
+    parent_station TEXT As StopId,
     FOREIGN KEY (parent_station) REFERENCES stop(id) ON DELETE CASCADE
 );
 
