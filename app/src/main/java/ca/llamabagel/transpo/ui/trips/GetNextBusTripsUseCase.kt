@@ -21,7 +21,6 @@ import javax.inject.Inject
 
 class GetNextBusTripsUseCase @Inject constructor(private val repository: TripsRepository,
                                                  private val dispatcherProvider: CoroutinesDispatcherProvider) {
-
     @FlowPreview
     @ExperimentalCoroutinesApi
     suspend operator fun invoke(stopId: StopId, groupByDirection: Boolean = false): Flow<List<TripAdapterItem>> =

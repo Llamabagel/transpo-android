@@ -24,15 +24,7 @@ class TripsRepositoryTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    private val transitDatabase: TransitDatabase = getDatabase()
-    private val apiService: TripsService = createTestTripsService(createMockServer())
-
-    private val repository =
-        TripsRepository(transitDatabase, apiService, mock(), provideFakeCoroutinesDispatcherProvider())
-
-    /* @Before
-     fun setUp() {
-     }*/
+    private val repository = provideFakeTripsRepository()
 
     @Test
     fun `get stop returns success`() = runBlockingTest {

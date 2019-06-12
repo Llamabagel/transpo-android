@@ -18,9 +18,9 @@ fun createMockServer(): MockWebServer {
 
 private val dispatcher = object : Dispatcher() {
     override fun dispatch(request: RecordedRequest?): MockResponse = when (request?.path) {
-        "/trips/7225" -> MockResponse().setResponseCode(200).setBody(
+        "/trips/7196" -> MockResponse().setResponseCode(200).setBody(
             """
-            {"stopCode":"7225","routes":[{"number":"44","directionId":1,"direction":"Northbound","heading":"Gatineau","trips":[{"destination":"Terrasses de la Chaudière","startTime":"23:20","adjustedScheduleTime":9,"adjustmentAge":0.15,"lastTripOfSchedule":false,"busType":"H","hasBikeRack":false,"punctuality":0,"latitude":45.371135,"longitude":-75.661478,"gpsSpeed":47.8},{"destination":"Terrasses de la Chaudière","startTime":"23:50","adjustedScheduleTime":39,"adjustmentAge":-2.0,"lastTripOfSchedule":true,"busType":"H","hasBikeRack":false,"punctuality":0}]},{"number":"112","directionId":1,"direction":"Westbound","heading":"Billings Bridge","trips":[{"destination":"Billings Bridge","startTime":"23:33","adjustedScheduleTime":20,"adjustmentAge":3.65,"lastTripOfSchedule":true,"busType":"","hasBikeRack":false,"punctuality":0,"latitude":45.399238,"longitude":-75.623216,"gpsSpeed":53.4}]}],"inactiveRoutes":[],"responseTime":"Jun 12, 2019 3:25:08 AM"}
+                {"stopCode":"7196","routes":[{"number":"44","directionId":0,"direction":"Southbound","heading":"Billings Bridge","trips":[{"destination":"Billings Bridge","startTime":"17:37","adjustedScheduleTime":25,"adjustmentAge":0.31,"lastTripOfSchedule":false,"busType":"L","hasBikeRack":true,"punctuality":0,"latitude":45.411798,"longitude":-75.66499,"gpsSpeed":37.8},{"destination":"Billings Bridge","startTime":"17:52","adjustedScheduleTime":30,"adjustmentAge":0.55,"lastTripOfSchedule":false,"busType":"","hasBikeRack":false,"punctuality":0,"latitude":45.415977,"longitude":-75.674179,"gpsSpeed":44.5},{"destination":"Billings Bridge","startTime":"18:07","adjustedScheduleTime":38,"adjustmentAge":0.4,"lastTripOfSchedule":false,"busType":"L","hasBikeRack":false,"punctuality":0,"latitude":45.416352,"longitude":-75.706729,"gpsSpeed":20.3}]}],"inactiveRoutes":[],"responseTime":"Jun 12, 2019 10:21:55 PM"}
             """.trimIndent()
         )
         "/trips/3000" -> MockResponse().setResponseCode(200).setBody(
