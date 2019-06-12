@@ -46,8 +46,7 @@ class TransitDatabaseModule {
                 override fun decode(databaseValue: String): StopCode = StopCode(databaseValue)
 
                 override fun encode(value: StopCode): String = value.value
-            },
-            parent_stationAdapter = stopIdAdapter
+            }
         )
     }
 }

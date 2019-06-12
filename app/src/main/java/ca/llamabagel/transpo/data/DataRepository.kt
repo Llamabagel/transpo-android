@@ -43,7 +43,7 @@ class DataRepository(
                     latitude,
                     longitude,
                     locationType,
-                    parentStation?.let(::StopId)
+                    parentStation
                 )
                 database.stopQueries.insertfts(id, code, name, latitude, longitude, locationType, parentStation)
             }

@@ -19,8 +19,8 @@ fun getDatabase(): TransitDatabase {
 }
 
 object TestStops {
-    val mackenzieKing1A = Stop.Impl(StopId("CD900"), StopCode("3000"), "Mackenzie King 1A", 45.42414, -75.6893711, 0, StopId("MAC"))
-    val mackenzieKing2A = Stop.Impl(StopId("CD910"), StopCode("3000"), "Mackenzie King 2A", 45.424126, -75.689985, 0, StopId("MAC"))
+    val mackenzieKing1A = Stop.Impl(StopId("CD900"), StopCode("3000"), "Mackenzie King 1A", 45.42414, -75.6893711, 0, "MAC")
+    val mackenzieKing2A = Stop.Impl(StopId("CD910"), StopCode("3000"), "Mackenzie King 2A", 45.424126, -75.689985, 0, "MAC")
     val mackenzieKing = Stop.Impl(StopId("MAC"), StopCode("3000"), "Mackenzie King Station", 45.424237, -75.689459, 1, null)
 
     val walkleyJasper = Stop.Impl(StopId("AH060"), StopCode("7196"), "Walkley / Jasper", 45.373063, -75.656894, 0, null)
