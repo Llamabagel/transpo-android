@@ -40,9 +40,6 @@ class TripsActivity : AppCompatActivity() {
         navController.setGraph(R.navigation.trips, intent.extras)
 
         findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, AppBarConfiguration(setOf()))
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            Log.d("BackButton?", "$destination")
-        }
 
         viewModel.loadStop(args.stopId)
 

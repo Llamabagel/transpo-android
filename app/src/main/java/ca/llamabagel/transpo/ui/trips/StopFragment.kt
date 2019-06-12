@@ -49,12 +49,10 @@ class StopFragment : Fragment() {
     private fun itemSelected(item: TripAdapterItem) {
         when (item) {
             is TripItem -> {
-                viewModel.updateRouteSelection(
-                    item.tripUiModel.route.number,
-                    item.tripUiModel.route.directionId,
-                    true
-                )
-                findNavController().navigate(R.id.tripsFragment)
+                val action = StopFragmentDirections.actionStopFragmentToTripsFragment(arrayOf(
+                    RouteSelection(item.route.number, item.route.directionId)
+                ))
+                findNavController().navigate(action)
             }
         }
     }

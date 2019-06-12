@@ -49,9 +49,16 @@ android {
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
+
+        kotlinOptions {
+            freeCompilerArgs = ["-XXLanguage:+InlineClasses"]
+        }
     }
     dataBinding {
         enabled = true
+    }
+    androidExtensions {
+        experimental = true
     }
 }
 

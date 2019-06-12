@@ -31,6 +31,9 @@
         <action
                 android:id="@+id/action_tripsFragment_to_tripDetailsFragment"
                 app:destination="@id/tripDetailsFragment"/>
+        <argument
+                android:name="selected_routes"
+                app:argType="ca.llamabagel.transpo.ui.trips.RouteSelection[]"/>
     </fragment>
     <fragment
             android:id="@+id/tripDetailsFragment"

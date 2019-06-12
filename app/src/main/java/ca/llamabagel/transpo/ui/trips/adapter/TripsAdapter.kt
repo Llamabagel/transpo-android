@@ -33,10 +33,9 @@ class TripsAdapter(
         is TripItem -> R.layout.trip
     }
 
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is SingleTripViewHolder -> holder.bind((getItem(position) as TripItem).tripUiModel)
+            is SingleTripViewHolder -> holder.bind(getItem(position) as TripItem)
         }
     }
 }

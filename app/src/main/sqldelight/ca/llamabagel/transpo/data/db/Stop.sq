@@ -1,8 +1,10 @@
 import java.lang.Integer;
+import ca.llamabagel.transpo.data.db.StopId;
+import ca.llamabagel.transpo.data.db.StopCode;
 
 CREATE TABLE stop (
-    id TEXT NOT NULL PRIMARY KEY,
-    code TEXT NOT NULL,
+    id TEXT As StopId NOT NULL PRIMARY KEY,
+    code TEXT As StopCode NOT NULL,
     name TEXT NOT NULL,
     latitude REAL As Double NOT NULL,
     longitude REAL As Double NOT NULL,

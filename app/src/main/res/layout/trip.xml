@@ -11,7 +11,7 @@
     <data>
         <variable
                 name="tripUiModel"
-                type="ca.llamabagel.transpo.ui.trips.TripUiModel"/>
+                type="ca.llamabagel.transpo.ui.trips.adapter.TripItem"/>
 
         <variable
                 name="handler"

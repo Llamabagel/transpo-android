@@ -4,25 +4,31 @@
 
 package ca.llamabagel.transpo.ui.trips
 
+import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ca.llamabagel.transpo.data.Result
-import ca.llamabagel.transpo.data.TripsRepository
 import ca.llamabagel.transpo.data.db.Stop
-import ca.llamabagel.transpo.models.trips.ApiResponse
+import ca.llamabagel.transpo.data.db.StopId
 import ca.llamabagel.transpo.ui.trips.adapter.TripAdapterItem
-import ca.llamabagel.transpo.ui.trips.adapter.TripItem
-import ca.llamabagel.transpo.utils.TAG
 import ca.llamabagel.transpo.ui.trips.adapter.TripsAdapter
+import ca.llamabagel.transpo.utils.TAG
+import kotlinx.android.parcel.Parcelize
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepository) : ViewModel() {
+class TripsViewModel @Inject constructor(
+    private val getStop: GetStopUseCase,
+    private val updateTripData: UpdateTripDataUseCase,
+    private val getNextBusTrips: GetNextBusTripsUseCase,
+    private val clearStopCache: ClearStopCacheUseCase
+) : ViewModel() {
 
-    private lateinit var apiData: Result<ApiResponse>
+    private var stopId: StopId = StopId("")
 
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing: LiveData<Boolean> = _isRefreshing
@@ -38,8 +44,15 @@ class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepos
     private val _viewerData = MutableLiveData<List<TripAdapterItem>>()
     val viewerData: LiveData<List<TripAdapterItem>> = _viewerData
 
-    fun loadStop(stopId: String) = viewModelScope.launch {
-        _stop.value = tripsRepository.getStop(stopId)
+    fun loadStop(id: String) = viewModelScope.launch {
+        stopId = StopId(id)
+        _stop.value = (getStop(stopId) as? Result.Success)?.data
+
+        viewModelScope.launch {
+            getNextBusTrips(stopId).collect {
+                _displayData.postValue(it)
+            }
+        }
     }
 
     fun getTrips() = viewModelScope.launch {
@@ -49,21 +62,14 @@ class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepos
         }
 
         _isRefreshing.value = true
-        apiData = tripsRepository.getTrips(_stop.value!!.code)
-
-        when (val copy = apiData) {
+        when (updateTripData(stopId)) {
             is Result.Success -> {
-                _displayData.value = copy.data.routes.flatMap { route ->
-                    route.trips.map { trip -> TripUiModel(route, trip) }
-                }
-                    .sortedBy { it.trip.adjustedScheduleTime }
-                    .map(::TripItem)
-                updateViewerData()
             }
             is Result.Error -> {
                 // TODO: Handle errors
             }
         }
+
         _isRefreshing.value = false
     }
 
@@ -72,7 +78,6 @@ class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepos
             selected -> selectedRoutes.add(RouteSelection(number, directionId))
             else -> selectedRoutes.remove(RouteSelection(number, directionId))
         }
-        updateViewerData()
     }
 
     fun clearSelection() {
@@ -80,15 +85,11 @@ class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepos
         _viewerData.value = emptyList()
     }
 
-    private fun updateViewerData() {
-        if (selectedRoutes.isEmpty()) return
-
-        val routeData = (apiData as Result.Success).data.routes
-        _viewerData.value = routeData
-            .filter { route -> selectedRoutes.contains(RouteSelection(route.number, route.directionId)) }
-            .flatMap { route -> route.trips.map { trip -> TripUiModel(route, trip) } }
-            .sortedBy { model -> model.trip.adjustedScheduleTime }
-            .map(::TripItem)
+    override fun onCleared() {
+        super.onCleared()
+        if (_stop.value != null) {
+            clearStopCache(stopId)
+        }
     }
 }
 
@@ -96,4 +97,5 @@ class TripsViewModel @Inject constructor(private val tripsRepository: TripsRepos
  * Represents the selection of a route, with its corresponding directionId
  * from the [TripsAdapter].
  */
-data class RouteSelection(val number: String, val directionId: Int)
+@Parcelize
+data class RouteSelection(val number: String, val directionId: Int) : Parcelable

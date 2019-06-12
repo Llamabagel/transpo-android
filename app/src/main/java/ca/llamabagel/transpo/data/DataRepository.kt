@@ -6,6 +6,8 @@ package ca.llamabagel.transpo.data
 
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.data.api.DataService
+import ca.llamabagel.transpo.data.db.StopCode
+import ca.llamabagel.transpo.data.db.StopId
 import ca.llamabagel.transpo.data.db.TransitDatabase
 import ca.llamabagel.transpo.models.app.AppMetadata
 import ca.llamabagel.transpo.models.app.MetadataRequest
@@ -34,7 +36,15 @@ class DataRepository(
         database.transaction {
             database.stopQueries.deleteAll()
             dataPackage.data.stops.forEach { (id, code, name, latitude, longitude, locationType, parentStation) ->
-                database.stopQueries.insert(id, code, name, latitude, longitude, locationType, parentStation)
+                database.stopQueries.insert(
+                    StopId(id),
+                    StopCode(code),
+                    name,
+                    latitude,
+                    longitude,
+                    locationType,
+                    parentStation
+                )
                 database.stopQueries.insertfts(id, code, name, latitude, longitude, locationType, parentStation)
             }
 

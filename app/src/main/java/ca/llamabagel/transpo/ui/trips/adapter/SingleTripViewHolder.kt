@@ -14,20 +14,20 @@ class SingleTripViewHolder(
     private val itemSelectionListener: (TripAdapterItem, Boolean) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var tripUiModel: TripUiModel
+    private lateinit var tripItem: TripItem
 
     internal inner class Handler {
         fun onClick() {
-            itemClickListener(TripItem(tripUiModel))
+            itemClickListener(tripItem)
         }
 
         fun onLongClick() {
-            itemSelectionListener(TripItem(tripUiModel), !tripUiModel.selected)
+            itemSelectionListener(tripItem, !tripItem.selected)
         }
     }
 
-    fun bind(trip: TripUiModel) {
-        tripUiModel = trip
+    fun bind(trip: TripItem) {
+        tripItem = trip
         binding.tripUiModel = trip
         binding.handler = Handler()
     }
