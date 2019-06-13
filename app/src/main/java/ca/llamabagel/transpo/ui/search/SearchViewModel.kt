@@ -4,6 +4,7 @@
 
 package ca.llamabagel.transpo.ui.search
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,7 +41,12 @@ class SearchViewModel @Inject constructor(
         if (!hasFocus) _keyboardState.value = KeyboardState.CLOSED
     }
 
-    fun fetchSearchResults(query: CharSequence?) = viewModelScope.launch {
-        updateQueryUseCase.invoke(query?.toString().orEmpty())
+    fun fetchSearchResults(query: CharSequence?) {
+        val queryString = query?.toString().orEmpty()
+
+        viewModelScope.launch {
+
+            updateQueryUseCase.invoke(queryString)
+        }
     }
 }

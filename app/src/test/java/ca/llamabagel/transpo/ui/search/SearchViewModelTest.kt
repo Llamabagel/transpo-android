@@ -5,14 +5,10 @@
 package ca.llamabagel.transpo.ui.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import ca.llamabagel.transpo.data.SearchRepository
 import ca.llamabagel.transpo.ui.search.viewholders.SearchResult
-import ca.llamabagel.transpo.utils.stubReturn
-import com.nhaarman.mockitokotlin2.stub
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
@@ -25,7 +21,6 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
 @ExperimentalCoroutinesApi
@@ -56,18 +51,17 @@ class SearchViewModelTest {
 
 //    @Test //TODO: figure out why this fails
 //    fun `when activity starts, searchUseCase is started`() = runBlockingTest {
-//        `when`(searchUseCase.invoke()).thenReturn(flowOf())
 //        searchViewModel.startListeningToSearchResults()
 //        verify(searchUseCase).invoke()
 //    }
 
     @Test
-    fun `when activity starts, keyboard state is set to open`()  {
+    fun `when activity starts, keyboard state is set to open`() {
         assertEquals(searchViewModel.keyboardState.value, KeyboardState.OPEN)
     }
 
     @Test
-    fun `when search bar loses focus, keyboard state is set to closed`()  {
+    fun `when search bar loses focus, keyboard state is set to closed`() {
         searchViewModel.searchBarFocusChanged(false)
         assertEquals(searchViewModel.keyboardState.value, KeyboardState.CLOSED)
     }
@@ -89,16 +83,14 @@ class SearchViewModelTest {
     }
 //
 //    @Test //TODO: figure out why this fails
-//    fun `when search query typed in, search repository is called`() = runBlockingTest {
-//        `when`(updateQueryUseCase.invoke("someQuery")).thenReturn(Unit)
+//    fun `when search query typed in, search repository is called`() {
 //        searchViewModel.fetchSearchResults("someQuery")
 //
-//        verify(updateQueryUseCase).invoke("someQuery")
+//        verify(updateQueryUseCase)
 //    }
 
     @Test
     fun `when query is null, empty string is searched from repository`() = runBlockingTest {
-        `when`(updateQueryUseCase.invoke("")).thenReturn(Unit)
         searchViewModel.fetchSearchResults(null)
 
         verify(updateQueryUseCase).invoke("")

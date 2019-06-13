@@ -8,7 +8,7 @@ import ca.llamabagel.transpo.data.db.*
 import ca.llamabagel.transpo.di.TransitDatabaseModule.Companion.STOP_ADAPTER
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 
-fun getDatabase(): TransitDatabase {
+fun getTransitDatabase(): TransitDatabase {
     val driver = JdbcSqliteDriver()
     TransitDatabase.Schema.create(driver)
 
