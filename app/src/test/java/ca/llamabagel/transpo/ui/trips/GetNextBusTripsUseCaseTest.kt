@@ -39,7 +39,7 @@ class GetNextBusTripsUseCaseTest {
         val trips = flow.first()
         // Verify sorted order of trips
         assertTrue(trips.filterIsInstance<TripItem>().zipWithNext().all { (first, second) ->
-            first.trip.adjustedScheduleTime < second.trip.adjustedScheduleTime
+            first.trip.adjustedScheduleTime <= second.trip.adjustedScheduleTime
         })
     }
 
