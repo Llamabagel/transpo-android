@@ -16,7 +16,7 @@ class GetStopUseCaseTest {
     private val getStop = GetStopUseCase(provideFakeTripsRepository())
 
     @Test
-    fun `get stop`() = runBlocking {
+    fun `when get stop then return correct result`() = runBlocking {
         val stop = getStop(TestStops.mackenzieKing1A.id)
 
         assertTrue(stop is Result.Success)

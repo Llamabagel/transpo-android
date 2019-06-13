@@ -12,7 +12,6 @@ import ca.llamabagel.transpo.data.db.StopCode
 import ca.llamabagel.transpo.data.db.StopId
 import ca.llamabagel.transpo.data.db.TransitDatabase
 import ca.llamabagel.transpo.models.trips.ApiResponse
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.withContext
@@ -42,9 +41,7 @@ class TripsRepository @Inject constructor(
     }
 
     fun clearCacheFor(stopId: StopId) {
-        if (cachedStopCodes[stopId] != null) {
-            cachedResults.remove(cachedStopCodes[stopId])
-        }
+        cachedResults.remove(cachedStopCodes[stopId])
     }
 
     suspend fun getStop(stopId: StopId): Result<Stop> = withContext(dispatcherProvider.io) {

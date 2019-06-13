@@ -18,7 +18,7 @@ class UpdateTripDataUseCaseTest {
     private val updateTripData = UpdateTripDataUseCase(repository)
 
     @Test
-    fun `update trips gets broadcast`() = runBlocking {
+    fun `when trips updated then new data is broadcast`() = runBlocking {
         updateTripData(TestStops.walkleyJasper.id)
 
         val flow = repository.getResultCache(TestStops.walkleyJasper.id).asFlow()

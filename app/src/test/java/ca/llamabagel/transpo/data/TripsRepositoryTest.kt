@@ -27,21 +27,21 @@ class TripsRepositoryTest {
     private val repository = provideFakeTripsRepository()
 
     @Test
-    fun `get stop returns success`() = runBlockingTest {
+    fun `when get valid stop then return success`() = runBlockingTest {
         val result = repository.getStop(TestStops.walkleyJasper.id)
 
         assertEquals(Result.Success(TestStops.walkleyJasper), result)
     }
 
     @Test
-    fun `get stop returns error`() = runBlockingTest {
+    fun `when get invalid stop then returns error`() = runBlockingTest {
         val result = repository.getStop(StopId("NOT A REAL STOP"))
 
         assertTrue(result is Result.Error)
     }
 
     @Test
-    fun `api responses broadcast`() = runBlocking<Unit> {
+    fun `when api data updated then broadcast new data`() = runBlocking<Unit> {
         val broadcastChannel = repository.getResultCache(TestStops.mackenzieKing1A.id)
 
         val result = repository.getTrips(TestStops.mackenzieKing1A.id)
@@ -51,7 +51,7 @@ class TripsRepositoryTest {
     }
 
     @Test
-    fun `clear cache removes channel`() = runBlockingTest {
+    fun `when cache cleared for stop then cache is removed`() = runBlockingTest {
         val channel = repository.getResultCache(TestStops.walkleyJasper.id)
 
         repository.clearCacheFor(TestStops.walkleyJasper.id)

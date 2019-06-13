@@ -21,7 +21,7 @@ class GetNextBusTripsUseCaseTest {
     private val getNextBusTrips = GetNextBusTripsUseCase(repository, provideFakeCoroutinesDispatcherProvider())
 
     @Test
-    fun `get bus trips simple`() = runBlocking {
+    fun `when get bust trips then number of trips is correct`() = runBlocking {
         val flow = getNextBusTrips(TestStops.walkleyJasper.id)
 
         repository.getTrips(TestStops.walkleyJasper.id)
@@ -31,14 +31,16 @@ class GetNextBusTripsUseCaseTest {
     }
 
     @Test
-    fun `get bus trips complex`() = runBlocking {
+    fun `when get bus trips then order of trips is correct`() = runBlocking {
         val flow = getNextBusTrips(TestStops.mackenzieKing.id)
 
         repository.getTrips(TestStops.mackenzieKing.id)
 
         val trips = flow.first()
-        assertEquals(44, trips.size)
-        assertEquals(2, (trips[0] as TripItem).trip.adjustedScheduleTime)
-        assertEquals(4, (trips[1] as TripItem).trip.adjustedScheduleTime)
+        // Verify sorted order of trips
+        assertTrue(trips.filterIsInstance<TripItem>().zipWithNext().all { (first, second) ->
+            first.trip.adjustedScheduleTime < second.trip.adjustedScheduleTime
+        })
     }
+
 }

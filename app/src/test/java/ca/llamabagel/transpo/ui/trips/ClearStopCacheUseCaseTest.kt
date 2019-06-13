@@ -19,7 +19,7 @@ class ClearStopCacheUseCaseTest {
     private val clearStopCache = ClearStopCacheUseCase(repository)
 
     @Test
-    fun `clear stop cache`() = runBlocking<Unit> {
+    fun `when stop cache cleared then old cache is removed`() = runBlocking<Unit> {
         val initialCache = repository.getResultCache(TestStops.mackenzieKing1A.id)
         clearStopCache(TestStops.mackenzieKing1A.id)
         val newCache = repository.getResultCache(TestStops.mackenzieKing1A.id)
