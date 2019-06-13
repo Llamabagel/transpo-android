@@ -1,7 +1,9 @@
-version: 2
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.5
 jobs:
   build:
-    working_director: ~/transpo-android
+    working_directory: ~/transpo-android
     docker:
       - image: circleci/android:api-28-alpha
     environment:
@@ -10,9 +12,6 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      #      - run:
-      #         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-      #         command: sudo chmod +x ./gradlew
       - run:
           name: Setup local config
           command: echo -e "api.endpoint=$API_ENDPOINT\nmapbox.key=$MAPBOX_KEY" > config.properties
@@ -25,7 +24,9 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew clean lint detekt test
+          command: ./gradlew clean lint detekt test jacocoTestReport
+      - codecov/upload:
+          file:
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: app/build/reports
           destination: reports

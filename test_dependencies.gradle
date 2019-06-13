@@ -13,5 +13,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espressoCore}"
     androidTestImplementation "androidx.test:rules:${versions.testRules}"
     androidTestImplementation "androidx.test.ext:junit:${versions.testRunner}"
+    testImplementation "com.squareup.sqldelight:sqlite-driver:${versions.sqldelight}"
+    testImplementation "com.squareup.okhttp3:mockwebserver:${versions.okhttp}"
 
 }

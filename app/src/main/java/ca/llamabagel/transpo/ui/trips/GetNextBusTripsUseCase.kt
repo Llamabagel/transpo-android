@@ -4,6 +4,7 @@
 
 package ca.llamabagel.transpo.ui.trips
 
+import ca.llamabagel.transpo.data.CoroutinesDispatcherProvider
 import ca.llamabagel.transpo.data.TripsRepository
 import ca.llamabagel.transpo.data.db.StopId
 import ca.llamabagel.transpo.models.trips.ApiResponse
@@ -18,16 +19,16 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetNextBusTripsUseCase @Inject constructor(private val repository: TripsRepository) {
-
+class GetNextBusTripsUseCase @Inject constructor(private val repository: TripsRepository,
+                                                 private val dispatcherProvider: CoroutinesDispatcherProvider) {
     @FlowPreview
     @ExperimentalCoroutinesApi
     suspend operator fun invoke(stopId: StopId, groupByDirection: Boolean = false): Flow<List<TripAdapterItem>> =
         repository.getResultCache(stopId)
             .asFlow()
-            .flowOn(Dispatchers.Default)
+            .flowOn(dispatcherProvider.computation)
             .map { response -> transformResponse(response) }
-            .flowOn(Dispatchers.Main)
+            .flowOn(dispatcherProvider.main)
 
     private fun transformResponse(response: ApiResponse): List<TripAdapterItem> =
             response.routes

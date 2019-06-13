@@ -12,7 +12,6 @@ import ca.llamabagel.transpo.data.db.StopCode
 import ca.llamabagel.transpo.data.db.StopId
 import ca.llamabagel.transpo.data.db.TransitDatabase
 import ca.llamabagel.transpo.models.trips.ApiResponse
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.withContext
@@ -25,23 +24,27 @@ import javax.inject.Singleton
 class TripsRepository @Inject constructor(
     private val database: TransitDatabase,
     private val apiService: TripsService,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
+    private val dispatcherProvider: CoroutinesDispatcherProvider
 ) {
     private val cachedResults: MutableMap<StopCode, ConflatedBroadcastChannel<ApiResponse>> = mutableMapOf()
     private val cachedStopCodes: MutableMap<StopId, StopCode> = mutableMapOf()
 
-    suspend fun getResultCache(stopId: StopId): ConflatedBroadcastChannel<ApiResponse> = withContext(Dispatchers.IO) {
-        val stopCode =
-            cachedStopCodes.getOrPut(stopId, { database.stopQueries.getStopById(stopId).executeAsOne().code })
+    suspend fun getResultCache(stopId: StopId): ConflatedBroadcastChannel<ApiResponse> {
+        val stopCode = cachedStopCodes.getOrPut(
+            stopId, {
+                withContext(dispatcherProvider.io) { database.stopQueries.getStopById(stopId).executeAsOne().code }
+            }
+        )
 
-        cachedResults.getOrPut(stopCode, { ConflatedBroadcastChannel() })
+        return cachedResults.getOrPut(stopCode, { ConflatedBroadcastChannel() })
     }
 
     fun clearCacheFor(stopId: StopId) {
-        cachedStopCodes[stopId]?.let(cachedResults::remove)
+        cachedResults.remove(cachedStopCodes[stopId])
     }
 
-    suspend fun getStop(stopId: StopId): Result<Stop> = withContext(Dispatchers.IO) {
+    suspend fun getStop(stopId: StopId): Result<Stop> = withContext(dispatcherProvider.io) {
         try {
             val stop = database.stopQueries.getStopById(stopId).executeAsOne()
 
@@ -56,7 +59,7 @@ class TripsRepository @Inject constructor(
         }
     }
 
-    suspend fun getTrips(stopId: StopId): Result<Unit> = withContext(Dispatchers.IO) {
+    suspend fun getTrips(stopId: StopId): Result<Unit> = withContext(dispatcherProvider.io) {
         try {
             val stopCode =
                 cachedStopCodes.getOrPut(stopId, { database.stopQueries.getStopById(stopId).executeAsOne().code })
@@ -70,13 +73,13 @@ class TripsRepository @Inject constructor(
     }
 
     @SuppressLint("ApplySharedPref")
-    suspend fun setGroupByRoute(group: Boolean) = withContext(Dispatchers.IO) {
+    suspend fun setGroupByRoute(group: Boolean) = withContext(dispatcherProvider.io) {
         sharedPreferences.edit().putBoolean(KEY_GROUP_BY_ROUTE, group).commit()
         rebroadcast()
     }
 
     suspend fun getGroupByRoute(): Boolean =
-        withContext(Dispatchers.IO) { sharedPreferences.getBoolean(KEY_GROUP_BY_ROUTE, false) }
+        withContext(dispatcherProvider.io) { sharedPreferences.getBoolean(KEY_GROUP_BY_ROUTE, false) }
 
     /**
      * Rebroadcasts the last response

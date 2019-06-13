@@ -4,6 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'com.squareup.sqldelight'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'jacoco-android'
 
 apply from: '../core_dependencies.gradle'
 apply from: '../test_dependencies.gradle'
@@ -70,4 +71,13 @@ sqldelight {
     TransitDatabase {
         packageName = "ca.llamabagel.transpo.data.db"
     }
+}
+
+jacoco {
+    toolVersion = "0.8.3"
+}
+
+jacocoAndroidUnitTestReport {
+    html.enabled false
+    xml.enabled true
 }

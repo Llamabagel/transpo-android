@@ -31,16 +31,22 @@ class TransitDatabaseModule {
 
     @Provides
     @Singleton
-    fun provideStopAdapter(): Stop.Adapter = Stop.Adapter(
-        idAdapter = object : ColumnAdapter<StopId, String> {
+    fun provideStopAdapter(): Stop.Adapter = STOP_ADAPTER
+
+    companion object {
+        private val stopIdAdapter = object : ColumnAdapter<StopId, String> {
             override fun decode(databaseValue: String): StopId = StopId(databaseValue)
 
             override fun encode(value: StopId): String = value.value
-        },
-        codeAdapter = object : ColumnAdapter<StopCode, String> {
-            override fun decode(databaseValue: String): StopCode = StopCode(databaseValue)
-
-            override fun encode(value: StopCode): String = value.value
         }
-    )
+
+        val STOP_ADAPTER = Stop.Adapter(
+            idAdapter = stopIdAdapter,
+            codeAdapter = object : ColumnAdapter<StopCode, String> {
+                override fun decode(databaseValue: String): StopCode = StopCode(databaseValue)
+
+                override fun encode(value: StopCode): String = value.value
+            }
+        )
+    }
 }
