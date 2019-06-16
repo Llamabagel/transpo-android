@@ -4,7 +4,6 @@
 
 package ca.llamabagel.transpo.ui.search
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,8 +22,8 @@ enum class KeyboardState {
 @FlowPreview
 @ExperimentalCoroutinesApi
 class SearchViewModel @Inject constructor(
-    private val searchUseCase: GetSearchResultsUseCase,
-    private val updateQueryUseCase: UpdateQueryUseCase
+    private val getSearchResults: GetSearchResultsUseCase,
+    private val updateQuery: UpdateQueryUseCase
 ) : ViewModel() {
 
     private val _keyboardState = MutableLiveData<KeyboardState>().apply { value = KeyboardState.OPEN }
@@ -33,8 +32,10 @@ class SearchViewModel @Inject constructor(
     private val _searchResults = MutableLiveData<List<SearchResult>>().apply { value = emptyList() }
     val searchResults: LiveData<List<SearchResult>> = _searchResults
 
-    fun startListeningToSearchResults() = viewModelScope.launch {
-        searchUseCase.invoke().collect { _searchResults.postValue(it) }
+    init {
+        viewModelScope.launch {
+            getSearchResults().collect { _searchResults.postValue(it) }
+        }
     }
 
     fun searchBarFocusChanged(hasFocus: Boolean) {
@@ -45,8 +46,7 @@ class SearchViewModel @Inject constructor(
         val queryString = query?.toString().orEmpty()
 
         viewModelScope.launch {
-
-            updateQueryUseCase.invoke(queryString)
+            updateQuery(queryString)
         }
     }
 }

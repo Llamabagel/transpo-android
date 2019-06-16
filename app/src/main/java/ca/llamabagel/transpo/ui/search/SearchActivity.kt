@@ -42,7 +42,6 @@ class SearchActivity : AppCompatActivity() {
         val searchBar = findViewById<CustomSearchView>(R.id.search_bar)
         val recycler = findViewById<RecyclerView>(R.id.search_results_list)
 
-        viewModel.startListeningToSearchResults()
         viewModel.keyboardState.observe(this, Observer {
             if (it == KeyboardState.OPEN) {
                 searchBar.requestFocus()

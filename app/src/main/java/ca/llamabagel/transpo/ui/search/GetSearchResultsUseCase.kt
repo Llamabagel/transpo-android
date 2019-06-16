@@ -22,9 +22,8 @@ class GetSearchResultsUseCase @Inject constructor(
 ) {
 
     @FlowPreview
-    operator fun invoke(): Flow<List<SearchResult>> = repository.routeChannel
-        .asFlow()
-        .combineLatest(repository.stopChannel.asFlow(), repository.placeChannel.asFlow()) { routes, stops, places ->
+    operator fun invoke(): Flow<List<SearchResult>> = repository.routeFlow
+        .combineLatest(repository.stopFlow, repository.placeFlow) { routes, stops, places ->
 
             val searchResults = mutableListOf<SearchResult>()
 

@@ -6,6 +6,7 @@ package ca.llamabagel.transpo.utils
 
 import ca.llamabagel.transpo.di.StringsGen
 
-class FakeStringsGen(private val stubString: String = "") : StringsGen {
-    override fun get(strResId: Int): String = stubString
+
+class FakeStringsGen : StringsGen {
+    override fun get(strResId: Int): String = strResId.toString()
 }
