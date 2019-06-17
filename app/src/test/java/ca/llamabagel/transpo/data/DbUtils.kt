@@ -8,7 +8,7 @@ import ca.llamabagel.transpo.data.db.*
 import ca.llamabagel.transpo.di.TransitDatabaseModule.Companion.STOP_ADAPTER
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 
-fun getDatabase(): TransitDatabase {
+fun getTransitDatabase(): TransitDatabase {
     val driver = JdbcSqliteDriver()
     TransitDatabase.Schema.create(driver)
 
@@ -19,9 +19,12 @@ fun getDatabase(): TransitDatabase {
 }
 
 object TestStops {
-    val mackenzieKing1A = Stop.Impl(StopId("CD900"), StopCode("3000"), "Mackenzie King 1A", 45.42414, -75.6893711, 0, "MAC")
-    val mackenzieKing2A = Stop.Impl(StopId("CD910"), StopCode("3000"), "Mackenzie King 2A", 45.424126, -75.689985, 0, "MAC")
-    val mackenzieKing = Stop.Impl(StopId("MAC"), StopCode("3000"), "Mackenzie King Station", 45.424237, -75.689459, 1, null)
+    val mackenzieKing1A =
+        Stop.Impl(StopId("CD900"), StopCode("3000"), "Mackenzie King 1A", 45.42414, -75.6893711, 0, "MAC")
+    val mackenzieKing2A =
+        Stop.Impl(StopId("CD910"), StopCode("3000"), "Mackenzie King 2A", 45.424126, -75.689985, 0, "MAC")
+    val mackenzieKing =
+        Stop.Impl(StopId("MAC"), StopCode("3000"), "Mackenzie King Station", 45.424237, -75.689459, 1, null)
 
     val walkleyJasper = Stop.Impl(StopId("AH060"), StopCode("7196"), "Walkley / Jasper", 45.373063, -75.656894, 0, null)
 }
@@ -47,6 +50,15 @@ private fun populateTestData(database: TransitDatabase) {
 
 private fun StopQueries.insert(stop: Stop.Impl) {
     insert(stop.id, stop.code, stop.name, stop.latitude, stop.longitude, stop.location_type, stop.parent_station)
+    insertfts(
+        stop.id.value,
+        stop.code.value,
+        stop.name,
+        stop.latitude,
+        stop.longitude,
+        stop.location_type,
+        stop.parent_station
+    )
 }
 
 private fun RouteQueries.insert(route: Route.Impl) {

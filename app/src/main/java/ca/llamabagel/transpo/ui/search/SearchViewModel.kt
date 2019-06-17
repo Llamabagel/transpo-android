@@ -8,8 +8,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ca.llamabagel.transpo.data.SearchRepository
 import ca.llamabagel.transpo.ui.search.viewholders.SearchResult
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,7 +19,12 @@ enum class KeyboardState {
     OPEN, CLOSED
 }
 
-class SearchViewModel @Inject constructor(private val searchRepository: SearchRepository) : ViewModel() {
+@FlowPreview
+@ExperimentalCoroutinesApi
+class SearchViewModel @Inject constructor(
+    private val getSearchResults: GetSearchResultsUseCase,
+    private val updateQuery: UpdateQueryUseCase
+) : ViewModel() {
 
     private val _keyboardState = MutableLiveData<KeyboardState>().apply { value = KeyboardState.OPEN }
     val keyboardState: LiveData<KeyboardState> = _keyboardState
@@ -25,11 +32,23 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
     private val _searchResults = MutableLiveData<List<SearchResult>>().apply { value = emptyList() }
     val searchResults: LiveData<List<SearchResult>> = _searchResults
 
-    fun notifyClosed() {
-        _keyboardState.value = KeyboardState.CLOSED
+    init {
+        viewModelScope.launch {
+            getSearchResults().collect {
+                _searchResults.postValue(it)
+            }
+        }
     }
 
-    fun fetchSearchResults(query: String) = viewModelScope.launch {
-        _searchResults.value = searchRepository.getSearchResults(query)
+    fun searchBarFocusChanged(hasFocus: Boolean) {
+        if (!hasFocus) _keyboardState.value = KeyboardState.CLOSED
+    }
+
+    fun fetchSearchResults(query: CharSequence?) {
+        val queryString = query?.toString().orEmpty()
+
+        viewModelScope.launch {
+            updateQuery(queryString)
+        }
     }
 }

@@ -5,49 +5,42 @@
 package ca.llamabagel.transpo.ui.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import ca.llamabagel.transpo.data.SearchRepository
+import ca.llamabagel.transpo.R
+import ca.llamabagel.transpo.data.TestStops
+import ca.llamabagel.transpo.data.provideFakeSearchRepository
 import ca.llamabagel.transpo.ui.search.viewholders.SearchResult
-import ca.llamabagel.transpo.utils.stubReturn
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.verifyZeroInteractions
-import kotlinx.coroutines.Dispatchers
+import ca.llamabagel.transpo.utils.CoroutinesTestRule
+import ca.llamabagel.transpo.utils.FakeStringsGen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
+@FlowPreview
 @RunWith(JUnit4::class)
 class SearchViewModelTest {
 
     @get:Rule
-    val rule = InstantTaskExecutorRule()
+    val chain: RuleChain = RuleChain.outerRule(CoroutinesTestRule()).around(InstantTaskExecutorRule())
 
-    @Mock
-    private lateinit var searchRepository: SearchRepository
-
-    @InjectMocks
     private lateinit var searchViewModel: SearchViewModel
-
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
-        Dispatchers.setMain(mainThreadSurrogate)
+        val fakeRepo = provideFakeSearchRepository()
+        searchViewModel = SearchViewModel(
+            GetSearchResultsUseCase(fakeRepo, FakeStringsGen()),
+            UpdateQueryUseCase(fakeRepo)
+        )
     }
 
     @Test
@@ -56,9 +49,15 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `when keyboard is closed, keyboard state is set to closed`() {
-        searchViewModel.notifyClosed()
+    fun `when search bar loses focus, keyboard state is set to closed`() {
+        searchViewModel.searchBarFocusChanged(false)
         assertEquals(searchViewModel.keyboardState.value, KeyboardState.CLOSED)
+    }
+
+    @Test
+    fun `when search bar gains focus, keyboard state is not set to closed`() {
+        searchViewModel.searchBarFocusChanged(true)
+        assertEquals(searchViewModel.keyboardState.value, KeyboardState.OPEN)
     }
 
     @Test
@@ -67,21 +66,26 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `when query is not typed in, search repository is not called`() {
-        verifyZeroInteractions(searchRepository)
+    fun `when search query typed in, search result live data is updated`() = runBlockingTest {
+        searchViewModel.fetchSearchResults("Walkley")
+
+        assertEquals(walkleyResult, searchViewModel.searchResults.value)
     }
 
     @Test
-    fun `when search query typed in, search repository is called`() = runBlockingTest {
-        searchRepository.getSearchResults("someQuery").stubReturn(emptyList<SearchResult>())
-        searchViewModel.fetchSearchResults("someQuery")
+    fun `when query is null, search results live data emits empty list`() = runBlockingTest {
+        searchViewModel.fetchSearchResults(null)
 
-        verify(searchRepository).getSearchResults("someQuery")
+        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
     }
 
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
-        mainThreadSurrogate.close()
-    }
+    private val walkleyResult = listOf(
+        SearchResult.CategoryHeader(R.string.search_category_stops.toString()),
+        SearchResult.StopItem(
+            TestStops.walkleyJasper.name,
+            "• ${TestStops.walkleyJasper.code.value}",
+            R.string.search_stop_no_trips.toString(),
+            TestStops.walkleyJasper.id.value
+        )
+    )
 }
