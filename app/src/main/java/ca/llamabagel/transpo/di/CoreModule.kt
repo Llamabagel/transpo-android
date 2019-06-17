@@ -9,6 +9,8 @@ import androidx.annotation.StringRes
 import ca.llamabagel.transpo.BuildConfig
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.mapbox.api.geocoding.v5.MapboxGeocoding
+import com.mapbox.api.geocoding.v5.models.CarmenFeature
 import dagger.Module
 import dagger.Provides
 import kotlinx.serialization.json.Json
@@ -47,5 +49,24 @@ class CoreModule {
     @Singleton
     fun provideStringsProvider(context: Context): StringsGen = object : StringsGen {
         override fun get(@StringRes strResId: Int) = context.getString(strResId)
+    }
+
+    @Provides
+    fun geocoderProvider(): GeocodingWrapper = object : GeocodingWrapper {
+        override fun getAutocompleteResults(
+            query: String,
+            minLongitude: Double,
+            minLatitude: Double,
+            maxLongitude: Double,
+            maxLatitude: Double
+        ): List<CarmenFeature> = MapboxGeocoding.builder()
+            .accessToken(BuildConfig.MAPBOX_KEY)
+            .query(query)
+            .bbox(minLongitude, minLatitude, maxLongitude, maxLatitude)
+            .build()
+            .executeCall()
+            .body()
+            ?.features()
+            .orEmpty()
     }
 }

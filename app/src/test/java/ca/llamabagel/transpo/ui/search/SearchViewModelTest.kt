@@ -5,6 +5,8 @@
 package ca.llamabagel.transpo.ui.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import ca.llamabagel.transpo.R
+import ca.llamabagel.transpo.data.TestStops
 import ca.llamabagel.transpo.data.provideFakeSearchRepository
 import ca.llamabagel.transpo.ui.search.viewholders.SearchResult
 import ca.llamabagel.transpo.utils.CoroutinesTestRule
@@ -34,9 +36,10 @@ class SearchViewModelTest {
 
     @Before
     fun setUp() {
+        val fakeRepo = provideFakeSearchRepository()
         searchViewModel = SearchViewModel(
-            GetSearchResultsUseCase(provideFakeSearchRepository(), FakeStringsGen()),
-            UpdateQueryUseCase(provideFakeSearchRepository())
+            GetSearchResultsUseCase(fakeRepo, FakeStringsGen()),
+            UpdateQueryUseCase(fakeRepo)
         )
     }
 
@@ -62,17 +65,27 @@ class SearchViewModelTest {
         assertEquals(searchViewModel.searchResults.value, emptyList<SearchResult>())
     }
 
-//    @Test //TODO: figure out why this fails
-//    fun `when search query typed in, search repository is called`() = runBlockingTest {
-//        searchViewModel.fetchSearchResults("MAC")
-//
-//        assert(searchViewModel.searchResults.value?.isNotEmpty() == true)
-//    }
+    @Test
+    fun `when search query typed in, search result live data is updated`() = runBlockingTest {
+        searchViewModel.fetchSearchResults("Walkley")
+
+        assertEquals(walkleyResult, searchViewModel.searchResults.value)
+    }
 
     @Test
-    fun `when query is null, empty string is searched from repository`() = runBlockingTest {
+    fun `when query is null, search results live data emits empty list`() = runBlockingTest {
         searchViewModel.fetchSearchResults(null)
 
-        assert(searchViewModel.searchResults.value?.isEmpty() == true)
+        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
     }
+
+    private val walkleyResult = listOf(
+        SearchResult.CategoryHeader(R.string.search_category_stops.toString()),
+        SearchResult.StopItem(
+            TestStops.walkleyJasper.name,
+            "• ${TestStops.walkleyJasper.code.value}",
+            R.string.search_stop_no_trips.toString(),
+            TestStops.walkleyJasper.id.value
+        )
+    )
 }

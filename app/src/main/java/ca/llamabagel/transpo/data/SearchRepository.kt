@@ -4,16 +4,15 @@
 
 package ca.llamabagel.transpo.data
 
-import ca.llamabagel.transpo.BuildConfig.MAPBOX_KEY
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.data.OttawaBoundaries.MAX_LAT
 import ca.llamabagel.transpo.data.OttawaBoundaries.MAX_LNG
 import ca.llamabagel.transpo.data.OttawaBoundaries.MIN_LAT
 import ca.llamabagel.transpo.data.OttawaBoundaries.MIN_LNG
 import ca.llamabagel.transpo.data.db.TransitDatabase
+import ca.llamabagel.transpo.di.GeocodingWrapper
 import ca.llamabagel.transpo.di.StringsGen
 import ca.llamabagel.transpo.ui.search.viewholders.SearchResult
-import com.mapbox.api.geocoding.v5.MapboxGeocoding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -35,7 +34,8 @@ object OttawaBoundaries {
 class SearchRepository @Inject constructor(
     private val database: TransitDatabase,
     private val strings: StringsGen,
-    private val dispatcher: CoroutinesDispatcherProvider
+    private val dispatcher: CoroutinesDispatcherProvider,
+    private val geocoder: GeocodingWrapper
 ) {
 
     private val routeChannel = ConflatedBroadcastChannel<List<SearchResult.RouteItem>>()
@@ -76,14 +76,8 @@ class SearchRepository @Inject constructor(
     }
 
     private suspend fun getPlaces(query: String) = withContext(dispatcher.io) {
-        val places = MapboxGeocoding.builder()
-            .accessToken(MAPBOX_KEY)
-            .query(query)
-            .bbox(MIN_LNG, MIN_LAT, MAX_LNG, MAX_LAT)
-            .build()
-            .executeCall()
-            .body()
-            ?.features()
+        val places = geocoder.takeIf { query.isNotEmpty() }
+            ?.getAutocompleteResults(query, MIN_LNG, MIN_LAT, MAX_LNG, MAX_LAT)
             ?.map { feature -> SearchResult.PlaceItem(feature.placeName().orEmpty(), feature.text().orEmpty()) }
             .orEmpty()
 

@@ -34,7 +34,9 @@ class SearchViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getSearchResults().collect { _searchResults.postValue(it) }
+            getSearchResults().collect {
+                _searchResults.postValue(it)
+            }
         }
     }
 
