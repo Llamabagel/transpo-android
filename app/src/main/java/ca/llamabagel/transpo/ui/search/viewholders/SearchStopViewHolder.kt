@@ -25,6 +25,5 @@ class SearchStopViewHolder(
         this.stop = stop
         binding.stop = stop
         binding.handler = Handler()
-
     }
 }

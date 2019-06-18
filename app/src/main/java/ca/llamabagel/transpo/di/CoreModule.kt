@@ -7,14 +7,13 @@ package ca.llamabagel.transpo.di
 import android.content.Context
 import androidx.annotation.StringRes
 import ca.llamabagel.transpo.BuildConfig
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mapbox.api.geocoding.v5.MapboxGeocoding
 import com.mapbox.api.geocoding.v5.models.CarmenFeature
 import dagger.Module
 import dagger.Provides
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
@@ -24,12 +23,9 @@ import javax.inject.Singleton
 class CoreModule {
 
     @Provides
-    fun provideCallAdapterFactory(): CoroutineCallAdapterFactory = CoroutineCallAdapterFactory()
-
-    @Provides
     @Singleton
     fun provideSerializationConverterFactory(): Converter.Factory =
-        Json.asConverterFactory(MediaType.get("application/json"))
+        Json.asConverterFactory("application/json".toMediaType())
 
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =

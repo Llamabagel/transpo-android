@@ -5,14 +5,13 @@
 package ca.llamabagel.transpo.ui.trips
 
 import ca.llamabagel.transpo.data.TestStops
-import ca.llamabagel.transpo.data.TripsRepository
 import ca.llamabagel.transpo.data.provideFakeTripsRepository
 import ca.llamabagel.transpo.ui.trips.adapter.TripItem
 import ca.llamabagel.transpo.utils.provideFakeCoroutinesDispatcherProvider
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class GetNextBusTripsUseCaseTest {
@@ -42,5 +41,4 @@ class GetNextBusTripsUseCaseTest {
             first.trip.adjustedScheduleTime <= second.trip.adjustedScheduleTime
         })
     }
-
 }

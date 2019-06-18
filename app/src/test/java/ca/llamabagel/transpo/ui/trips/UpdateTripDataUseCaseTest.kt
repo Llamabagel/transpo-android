@@ -24,5 +24,4 @@ class UpdateTripDataUseCaseTest {
         val flow = repository.getResultCache(TestStops.walkleyJasper.id).asFlow()
         assertEquals(TestStops.walkleyJasper.code.value, flow.first().stopCode)
     }
-
 }
