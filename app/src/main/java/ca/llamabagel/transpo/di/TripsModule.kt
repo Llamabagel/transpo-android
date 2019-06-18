@@ -6,7 +6,6 @@ package ca.llamabagel.transpo.di
 
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.data.api.TripsService
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -21,13 +20,11 @@ abstract class TripsModule {
         @Provides
         @JvmStatic
         fun provideTripsService(
-            adapter: CoroutineCallAdapterFactory,
             converter: Converter.Factory,
             okHttpClient: OkHttpClient
         ): TripsService = Retrofit.Builder()
             .baseUrl(BuildConfig.API_ENDPOINT)
             .client(okHttpClient)
-            .addCallAdapterFactory(adapter)
             .addConverterFactory(converter)
             .build().create(TripsService::class.java)
     }

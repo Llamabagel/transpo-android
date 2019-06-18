@@ -37,4 +37,3 @@ data class TripItem(val route: Route, val trip: Trip, val selected: Boolean = fa
                 other.trip.startTime == trip.startTime
     }
 }
-

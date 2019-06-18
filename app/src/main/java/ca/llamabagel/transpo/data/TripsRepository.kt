@@ -65,7 +65,7 @@ class TripsRepository @Inject constructor(
                 cachedStopCodes.getOrPut(stopId, { database.stopQueries.getStopById(stopId).executeAsOne().code })
 
             cachedResults.getOrPut(stopCode, { ConflatedBroadcastChannel() })
-                .offer(apiService.getTrips(stopCode.value).await())
+                .offer(apiService.getTrips(stopCode.value))
             Result.Success(Unit)
         } catch (e: IOException) {
             Result.Error(e)

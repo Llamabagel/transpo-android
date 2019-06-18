@@ -10,7 +10,6 @@ import ca.llamabagel.transpo.data.DataRepository
 import ca.llamabagel.transpo.data.LocalMetadataSource
 import ca.llamabagel.transpo.data.api.DataService
 import ca.llamabagel.transpo.data.db.TransitDatabase
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import retrofit2.Converter
@@ -27,10 +26,9 @@ class DataModule {
     ) = DataRepository(dataService, database, localMetadataSource)
 
     @Provides
-    fun provideDataService(adapter: CoroutineCallAdapterFactory, converter: Converter.Factory): DataService {
+    fun provideDataService(converter: Converter.Factory): DataService {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.API_ENDPOINT)
-            .addCallAdapterFactory(adapter)
             .addConverterFactory(converter)
             .build()
             .create(DataService::class.java)

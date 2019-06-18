@@ -65,7 +65,7 @@ class GetSearchResultsUseCaseTest {
     private val route44Result = listOf(
         SearchResult.CategoryHeader(R.string.search_category_routes.toString()),
         SearchResult.RouteItem(
-            "Name", //TODO: Update name parameter
+            "Name", // TODO: Update name parameter
             TestRoutes.route44.short_name,
             TestRoutes.route44.type.toString()
         )
@@ -79,7 +79,7 @@ class GetSearchResultsUseCaseTest {
     private val search2Result = listOf(
         SearchResult.CategoryHeader(R.string.search_category_routes.toString()),
         SearchResult.RouteItem(
-            "Name", //TODO: Update name parameter
+            "Name", // TODO: Update name parameter
             TestRoutes.route2.short_name,
             TestRoutes.route2.type.toString()
         ),

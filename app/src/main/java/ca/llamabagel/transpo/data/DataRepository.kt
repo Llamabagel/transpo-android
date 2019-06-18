@@ -27,11 +27,11 @@ class DataRepository(
                 1, BuildConfig.VERSION_CODE, "android"
             )
 
-        dataService.getMetadata(request).await()
+        dataService.getMetadata(request)
     }
 
     suspend fun updateLocalData() = withContext(Dispatchers.IO) {
-        val dataPackage = dataService.getDataPackage().await()
+        val dataPackage = dataService.getDataPackage()
 
         database.transaction {
             database.stopQueries.deleteAll()

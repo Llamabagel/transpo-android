@@ -13,6 +13,4 @@ class TripsMapViewModel @Inject constructor(
 ) : ViewModel() {
 
     private lateinit var stopId: String
-
-
 }

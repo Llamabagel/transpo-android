@@ -30,7 +30,6 @@ sealed class SearchResult {
 
             return other.header == header
         }
-
     }
 
     data class RouteItem(val name: String, val number: String, val type: String) : SearchResult() {

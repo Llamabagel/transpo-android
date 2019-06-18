@@ -17,7 +17,7 @@ fun createMockServer(): MockWebServer {
 }
 
 private val dispatcher = object : Dispatcher() {
-    override fun dispatch(request: RecordedRequest?): MockResponse = when (request?.path) {
+    override fun dispatch(request: RecordedRequest): MockResponse = when (request.path) {
         "/trips/7196" -> MockResponse().setResponseCode(200).setBody(
             """
                 {"stopCode":"7196","routes":[{"number":"44","directionId":0,"direction":"Southbound","heading":"Billings Bridge","trips":[{"destination":"Billings Bridge","startTime":"17:37","adjustedScheduleTime":25,"adjustmentAge":0.31,"lastTripOfSchedule":false,"busType":"L","hasBikeRack":true,"punctuality":0,"latitude":45.411798,"longitude":-75.66499,"gpsSpeed":37.8},{"destination":"Billings Bridge","startTime":"17:52","adjustedScheduleTime":30,"adjustmentAge":0.55,"lastTripOfSchedule":false,"busType":"","hasBikeRack":false,"punctuality":0,"latitude":45.415977,"longitude":-75.674179,"gpsSpeed":44.5},{"destination":"Billings Bridge","startTime":"18:07","adjustedScheduleTime":38,"adjustmentAge":0.4,"lastTripOfSchedule":false,"busType":"L","hasBikeRack":false,"punctuality":0,"latitude":45.416352,"longitude":-75.706729,"gpsSpeed":20.3}]}],"inactiveRoutes":[],"responseTime":"Jun 12, 2019 10:21:55 PM"}

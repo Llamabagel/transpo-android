@@ -16,5 +16,5 @@ import javax.inject.Inject
  */
 class GetStopUseCase @Inject constructor(private val repository: TripsRepository) {
 
-    suspend operator fun invoke(id: StopId): Result<Stop>  = repository.getStop(id)
+    suspend operator fun invoke(id: StopId): Result<Stop> = repository.getStop(id)
 }

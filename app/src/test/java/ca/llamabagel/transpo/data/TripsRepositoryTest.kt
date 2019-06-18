@@ -5,11 +5,7 @@
 package ca.llamabagel.transpo.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import ca.llamabagel.transpo.data.api.TripsService
 import ca.llamabagel.transpo.data.db.StopId
-import ca.llamabagel.transpo.data.db.TransitDatabase
-import ca.llamabagel.transpo.utils.provideFakeCoroutinesDispatcherProvider
-import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.*
