@@ -11,7 +11,7 @@ private val mockServer = createMockServer()
 
 fun provideFakeTripsRepository(): TripsRepository =
     TripsRepository(
-        getTransitDatabase(),
+        provideFakeTransitDatabase(),
         createTestTripsService(mockServer),
         mock(),
         provideFakeCoroutinesDispatcherProvider()

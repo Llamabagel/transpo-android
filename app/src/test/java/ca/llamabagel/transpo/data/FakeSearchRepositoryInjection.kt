@@ -12,7 +12,7 @@ import kotlinx.coroutines.FlowPreview
 @ExperimentalCoroutinesApi
 @FlowPreview
 fun provideFakeSearchRepository() = SearchRepository(
-    getTransitDatabase(),
+    provideFakeTransitDatabase(),
     FakeStringsGen(),
     provideFakeCoroutinesDispatcherProvider(),
     FakeGeocoder()

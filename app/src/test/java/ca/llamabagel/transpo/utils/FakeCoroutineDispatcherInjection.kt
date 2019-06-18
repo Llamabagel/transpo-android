@@ -6,6 +6,7 @@ package ca.llamabagel.transpo.utils
 
 import ca.llamabagel.transpo.data.CoroutinesDispatcherProvider
 import kotlinx.coroutines.Dispatchers.Unconfined
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 
 fun provideFakeCoroutinesDispatcherProvider(): CoroutinesDispatcherProvider =
-    CoroutinesDispatcherProvider(Unconfined, Unconfined, Unconfined)
+    CoroutinesDispatcherProvider(TestCoroutineDispatcher(), Unconfined, Unconfined)

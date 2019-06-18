@@ -17,8 +17,11 @@ import ca.llamabagel.transpo.ui.trips.adapter.TripAdapterItem
 import ca.llamabagel.transpo.ui.trips.adapter.TripsAdapter
 import ca.llamabagel.transpo.utils.TAG
 import kotlinx.android.parcel.Parcelize
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TripsViewModel @Inject constructor(
@@ -44,33 +47,38 @@ class TripsViewModel @Inject constructor(
     private val _viewerData = MutableLiveData<List<TripAdapterItem>>()
     val viewerData: LiveData<List<TripAdapterItem>> = _viewerData
 
-    fun loadStop(id: String) = viewModelScope.launch {
+    fun loadStop(id: String) {
         stopId = StopId(id)
-        _stop.value = (getStop(stopId) as? Result.Success)?.data
-
         viewModelScope.launch {
+            _stop.value = (getStop(stopId) as? Result.Success)?.data
+
             getNextBusTrips(stopId).collect {
-                _displayData.postValue(it)
+                runBlocking {
+                    _displayData.value = it
+                    println("Test DatA")
+                }
             }
         }
     }
 
-    fun getTrips() = viewModelScope.launch {
+    fun getTrips() {
         if (_stop.value == null) {
             Log.i(TAG, "No stop loaded")
-            return@launch
+            return
         }
 
         _isRefreshing.value = true
-        when (updateTripData(stopId)) {
-            is Result.Success -> {
+        viewModelScope.launch {
+            when (updateTripData(stopId)) {
+                is Result.Success -> {
+                }
+                is Result.Error -> {
+                    // TODO: Handle errors
+                }
             }
-            is Result.Error -> {
-                // TODO: Handle errors
-            }
-        }
 
-        _isRefreshing.value = false
+            _isRefreshing.value = false
+        }
     }
 
     fun updateRouteSelection(number: String, directionId: Int, selected: Boolean) {
