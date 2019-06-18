@@ -11,7 +11,6 @@ import ca.llamabagel.transpo.ui.search.viewholders.SearchResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.combineLatest
 import javax.inject.Inject
 
@@ -44,5 +43,4 @@ class GetSearchResultsUseCase @Inject constructor(
 
             return@combineLatest searchResults
     }
-
 }
