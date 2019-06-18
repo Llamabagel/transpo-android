@@ -7,13 +7,14 @@ package ca.llamabagel.transpo.ui.search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.ui.search.viewholders.*
 
 class SearchAdapter(
     private val list: List<SearchResult>,
     private val searchResultClickListener: (SearchResult) -> Unit
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : ListAdapter<SearchResult, RecyclerView.ViewHolder>(SearchResult.DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
