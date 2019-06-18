@@ -7,13 +7,12 @@ package ca.llamabagel.transpo.ui.search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.ui.search.viewholders.*
 
-class SearchAdapter(
-    private val list: List<SearchResult>,
-    private val searchResultClickListener: (SearchResult) -> Unit
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SearchAdapter(private val searchResultClickListener: (SearchResult) -> Unit) :
+    ListAdapter<SearchResult, RecyclerView.ViewHolder>(SearchResult.DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -34,22 +33,20 @@ class SearchAdapter(
                 DataBindingUtil.inflate(layoutInflater, SEARCH_RESULT_PLACE_LAYOUT, parent, false),
                 searchResultClickListener
             )
-            else -> throw IllegalArgumentException("Unknown search result type")
+            else -> throw IllegalArgumentException("No ViewHolder for type $viewType")
         }
     }
-
-    override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (val item = list[position]) {
-            is SearchResult.CategoryHeader -> (holder as SearchCategoryViewHolder).bind(item)
-            is SearchResult.RouteItem -> (holder as SearchRouteViewHolder).bind(item)
-            is SearchResult.StopItem -> (holder as SearchStopViewHolder).bind(item)
-            is SearchResult.PlaceItem -> (holder as SearchPlaceViewHolder).bind(item)
+        when (holder) {
+            is SearchCategoryViewHolder -> holder.bind(getItem(position) as SearchResult.CategoryHeader)
+            is SearchRouteViewHolder -> holder.bind(getItem(position) as SearchResult.RouteItem)
+            is SearchStopViewHolder -> holder.bind(getItem(position) as SearchResult.StopItem)
+            is SearchPlaceViewHolder -> holder.bind(getItem(position) as SearchResult.PlaceItem)
         }
     }
 
-    override fun getItemViewType(position: Int) = when (list[position]) {
+    override fun getItemViewType(position: Int) = when (getItem(position)) {
         is SearchResult.CategoryHeader -> SEARCH_CATEGORY_HEADER_LAYOUT
         is SearchResult.RouteItem -> SEARCH_RESULT_ROUTE_LAYOUT
         is SearchResult.StopItem -> SEARCH_RESULT_STOP_LAYOUT

@@ -40,7 +40,9 @@ class SearchActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         val searchBar = findViewById<CustomSearchView>(R.id.search_bar)
-        val recycler = findViewById<RecyclerView>(R.id.search_results_list)
+        val adapter = SearchAdapter(::onItemClicked)
+
+        findViewById<RecyclerView>(R.id.search_results_list).adapter = adapter
 
         viewModel.keyboardState.observe(this, Observer {
             if (it == KeyboardState.OPEN) {
@@ -60,9 +62,7 @@ class SearchActivity : AppCompatActivity() {
             viewModel.fetchSearchResults(text)
         }
 
-        viewModel.searchResults.observe(this, Observer {
-            recycler.adapter = SearchAdapter(it, ::onItemClicked)
-        })
+        viewModel.searchResults.observe(this, Observer(adapter::submitList))
     }
 
     private fun onItemClicked(item: SearchResult) {
