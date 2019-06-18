@@ -38,12 +38,10 @@ allprojects {
     detekt {
         config = files("$rootDir/default-detekt-config.yml")
         filters = ".*build.*,.*/resources/.*,.*/tmp/.*"
-        //Optional baseline, uncomment & run gradle command detektBaseline to exclude existing issues
-        //baseline = file("detekt-baseline.xml")
+        // Optional baseline, uncomment & run gradle command detektBaseline to exclude existing issues
+        // baseline = file("detekt-baseline.xml")
     }
-
 }
-
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
