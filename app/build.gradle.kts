@@ -13,9 +13,6 @@ plugins {
     id("jacoco-android")
 }
 
-val props = Properties()
-with(file("../config.properties").inputStream()) { props.load(this) }
-
 android {
     compileSdkVersion(Versions.COMPILE_SDK)
     defaultConfig {
@@ -25,19 +22,29 @@ android {
         versionCode = 1
         versionName = "git describe --tag".execute().text.trim()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val props = Properties()
+        val localPropsFile = project.rootProject.file("local.properties")
+        if (localPropsFile.exists()) {
+            props.load(localPropsFile.inputStream())
+        }
+
+        if (props.containsKey("api.endpoint") && props.containsKey("mapbox.key")) {
+            buildConfigField("String", "API_ENDPOINT", "\"${props.getProperty("api.endpoint")}\"")
+            buildConfigField("String", "MAPBOX_KEY", "\"${props.getProperty("mapbox.key")}\"")
+        } else {
+            throw GradleException("mapbox.key and api.endpoint not declared in local.properties")
+        }
     }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            buildConfigField("String", "API_ENDPOINT", "\"${props.getProperty("api.endpoint")}\"")
-            buildConfigField("String", "MAPBOX_KEY", "\"${props.getProperty("mapbox.key")}\"")
         }
 
         getByName("debug") {
             applicationIdSuffix = ".debug"
-            buildConfigField("String", "API_ENDPOINT", "\"${props.getProperty("api.endpoint")}\"")
-            buildConfigField("String", "MAPBOX_KEY", "\"${props.getProperty("mapbox.key")}\"")
         }
     }
     compileOptions {
