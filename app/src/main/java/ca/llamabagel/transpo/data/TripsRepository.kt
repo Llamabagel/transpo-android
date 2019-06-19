@@ -6,7 +6,7 @@ package ca.llamabagel.transpo.data
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import ca.llamabagel.transpo.data.api.TripsService
+import ca.llamabagel.transpo.data.api.ApiService
 import ca.llamabagel.transpo.data.db.Stop
 import ca.llamabagel.transpo.data.db.StopCode
 import ca.llamabagel.transpo.data.db.StopId
@@ -23,7 +23,7 @@ import javax.inject.Singleton
 @ExperimentalCoroutinesApi
 class TripsRepository @Inject constructor(
     private val database: TransitDatabase,
-    private val apiService: TripsService,
+    private val apiService: ApiService,
     private val sharedPreferences: SharedPreferences,
     private val dispatcherProvider: CoroutinesDispatcherProvider
 ) {

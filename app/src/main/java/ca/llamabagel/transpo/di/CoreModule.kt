@@ -7,6 +7,7 @@ package ca.llamabagel.transpo.di
 import android.content.Context
 import androidx.annotation.StringRes
 import ca.llamabagel.transpo.BuildConfig
+import ca.llamabagel.transpo.data.api.ApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mapbox.api.geocoding.v5.MapboxGeocoding
 import com.mapbox.api.geocoding.v5.models.CarmenFeature
@@ -17,6 +18,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
+import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
@@ -48,7 +50,7 @@ class CoreModule {
     }
 
     @Provides
-    fun geocoderProvider(): GeocodingWrapper = object : GeocodingWrapper {
+    fun provideGeocoder(): GeocodingWrapper = object : GeocodingWrapper {
         override fun getAutocompleteResults(
             query: String,
             minLongitude: Double,
@@ -65,4 +67,15 @@ class CoreModule {
             ?.features()
             .orEmpty()
     }
+
+    @Provides
+    @Singleton
+    fun provideTripsService(
+        converter: Converter.Factory,
+        okHttpClient: OkHttpClient
+    ): ApiService = Retrofit.Builder()
+        .baseUrl(BuildConfig.API_ENDPOINT)
+        .client(okHttpClient)
+        .addConverterFactory(converter)
+        .build().create(ApiService::class.java)
 }

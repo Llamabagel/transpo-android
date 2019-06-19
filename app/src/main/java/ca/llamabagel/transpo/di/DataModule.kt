@@ -5,34 +5,22 @@
 package ca.llamabagel.transpo.di
 
 import android.content.SharedPreferences
-import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.data.DataRepository
 import ca.llamabagel.transpo.data.LocalMetadataSource
-import ca.llamabagel.transpo.data.api.DataService
+import ca.llamabagel.transpo.data.api.ApiService
 import ca.llamabagel.transpo.data.db.TransitDatabase
 import dagger.Module
 import dagger.Provides
-import retrofit2.Converter
-import retrofit2.Retrofit
 
 @Module
 class DataModule {
 
     @Provides
     fun provideDataRepository(
-        dataService: DataService,
+        apiService: ApiService,
         database: TransitDatabase,
         localMetadataSource: LocalMetadataSource
-    ) = DataRepository(dataService, database, localMetadataSource)
-
-    @Provides
-    fun provideDataService(converter: Converter.Factory): DataService {
-        return Retrofit.Builder()
-            .baseUrl(BuildConfig.API_ENDPOINT)
-            .addConverterFactory(converter)
-            .build()
-            .create(DataService::class.java)
-    }
+    ) = DataRepository(apiService, database, localMetadataSource)
 
     @Provides
     fun provideLocalMetadataSource(sharedPreferences: SharedPreferences) =

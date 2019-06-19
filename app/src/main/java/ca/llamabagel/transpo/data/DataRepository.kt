@@ -5,7 +5,7 @@
 package ca.llamabagel.transpo.data
 
 import ca.llamabagel.transpo.BuildConfig
-import ca.llamabagel.transpo.data.api.DataService
+import ca.llamabagel.transpo.data.api.ApiService
 import ca.llamabagel.transpo.data.db.StopCode
 import ca.llamabagel.transpo.data.db.StopId
 import ca.llamabagel.transpo.data.db.TransitDatabase
@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class DataRepository(
-    private val dataService: DataService,
+    private val apiService: ApiService,
     private val database: TransitDatabase,
     private val localMetadataSource: LocalMetadataSource
 ) {
@@ -27,11 +27,11 @@ class DataRepository(
                 1, BuildConfig.VERSION_CODE, "android"
             )
 
-        dataService.getMetadata(request)
+        apiService.getMetadata(request)
     }
 
     suspend fun updateLocalData() = withContext(Dispatchers.IO) {
-        val dataPackage = dataService.getDataPackage()
+        val dataPackage = apiService.getDataPackage()
 
         database.transaction {
             database.stopQueries.deleteAll()
