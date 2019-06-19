@@ -2,7 +2,7 @@
  * Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
  */
 
-package ca.llamabagel.transpo.saved
+package ca.llamabagel.transpo.saved.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

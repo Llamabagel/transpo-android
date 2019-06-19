@@ -2,7 +2,7 @@
  * Copyright (c) 2019 Derek Ellis. Subject to the MIT license.
  */
 
-package ca.llamabagel.transpo.home
+package ca.llamabagel.transpo.home.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

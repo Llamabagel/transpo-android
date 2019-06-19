@@ -11,7 +11,7 @@
 
     <fragment
             android:id="@+id/home"
-            android:name="ca.llamabagel.transpo.home.HomeFragment"
+            android:name="ca.llamabagel.transpo.home.ui.HomeFragment"
             android:label="home_fragment"
             tools:layout="@layout/home_fragment"/>
     <fragment
@@ -21,12 +21,12 @@
             tools:layout="@layout/map_fragment"/>
     <fragment
             android:id="@+id/planner"
-            android:name="ca.llamabagel.transpo.planner.PlannerFragment"
+            android:name="ca.llamabagel.transpo.planner.ui.PlannerFragment"
             android:label="planner_fragment"
             tools:layout="@layout/planner_fragment"/>
     <fragment
             android:id="@+id/saved"
-            android:name="ca.llamabagel.transpo.saved.SavedFragment"
+            android:name="ca.llamabagel.transpo.saved.ui.SavedFragment"
             android:label="saved_fragment"
             tools:layout="@layout/saved_fragment"/>
     <activity
