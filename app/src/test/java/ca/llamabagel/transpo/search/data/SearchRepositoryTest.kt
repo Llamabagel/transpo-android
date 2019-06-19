@@ -53,6 +53,27 @@ class SearchRepositoryTest {
     }
 
     @Test
+    fun `when the query is not empty, but there are no stop results, empty list is returned`() = runBlockingTest {
+        repository.getSearchResults("ldkfjgdlfkjgd")
+
+        assertEquals(emptyList<SearchResult>(), repository.stopFlow.first())
+    }
+
+    @Test
+    fun `when the query is not empty, but there are no route results, empty list is returned`() = runBlockingTest {
+        repository.getSearchResults("ldkfjgdlfkjgd")
+
+        assertEquals(emptyList<SearchResult>(), repository.routeFlow.first())
+    }
+
+    @Test
+    fun `when the query is not empty, but there are no place results, empty list is returned`() = runBlockingTest {
+        repository.getSearchResults("ldkfjgdlfkjgd")
+
+        assertEquals(emptyList<SearchResult>(), repository.placeFlow.first())
+    }
+
+    @Test
     fun `when there is a matching stop, stop search result is offered`() = runBlockingTest {
         repository.getSearchResults("Walkley")
 

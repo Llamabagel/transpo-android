@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import ca.llamabagel.transpo.search.domain.GetSearchResultsUseCase
 import ca.llamabagel.transpo.search.domain.UpdateQueryUseCase
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
+import ca.llamabagel.transpo.search.data.SearchFilterState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -36,6 +37,11 @@ class SearchViewModel @Inject constructor(
     private val _searchResults = MutableLiveData<List<SearchResult>>().apply { value = emptyList() }
     val searchResults: LiveData<List<SearchResult>> = _searchResults
 
+    private val _searchFilters = MutableLiveData<SearchFilterState>().apply { value =
+        SearchFilterState()
+    }
+    val searchFilters: LiveData<SearchFilterState> = _searchFilters
+
     init {
         viewModelScope.launch {
             getSearchResults().collect {
@@ -52,7 +58,7 @@ class SearchViewModel @Inject constructor(
         val queryString = query?.toString().orEmpty()
 
         viewModelScope.launch {
-            updateQuery(queryString)
+            updateQuery(queryString, _searchFilters.value!!)
         }
     }
 }

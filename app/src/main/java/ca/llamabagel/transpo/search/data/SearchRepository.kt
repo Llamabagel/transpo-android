@@ -48,10 +48,10 @@ class SearchRepository @Inject constructor(
     private val placeChannel = ConflatedBroadcastChannel<List<SearchResult.PlaceItem>>()
     val placeFlow get() = placeChannel.asFlow()
 
-    suspend fun getSearchResults(query: String) {
-        getRoutes(query)
-        getStops(query)
-        getPlaces(query)
+    suspend fun getSearchResults(query: String, filters: SearchFilterState) {
+        getRoutes(query.takeIf { filters.routes }.orEmpty())
+        getStops(query.takeIf { filters.stops }.orEmpty())
+        getPlaces(query.takeIf { filters.places }.orEmpty())
     }
 
     private suspend fun getStops(query: String) = withContext(dispatcher.io) {

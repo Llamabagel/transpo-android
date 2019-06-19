@@ -25,4 +25,5 @@
     <string name="bottom_nav_saved">Saved</string>
     <string name="bottom_nav_map">Map</string>
     <string name="bottom_nav_planner">Planner</string>
+    <string name="search_filter_description">Filter search results</string>
 </resources>
