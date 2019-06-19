@@ -11,7 +11,7 @@
 
         <variable
                 name="viewModel"
-                type="ca.llamabagel.transpo.ui.trips.TripsViewModel"/>
+                type="ca.llamabagel.transpo.trips.ui.TripsViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

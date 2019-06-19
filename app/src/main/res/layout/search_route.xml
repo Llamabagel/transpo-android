@@ -12,13 +12,13 @@
 
         <variable
                 name="route"
-                type="ca.llamabagel.transpo.ui.search.viewholders.SearchResult.RouteItem"/>
+                type="ca.llamabagel.transpo.search.ui.viewholders.SearchResult.RouteItem"/>
 
         <variable
                 name="handler"
-                type="ca.llamabagel.transpo.ui.search.viewholders.SearchRouteViewHolder.Handler"/>
+                type="ca.llamabagel.transpo.search.ui.viewholders.SearchRouteViewHolder.Handler"/>
 
-        <import type="ca.llamabagel.transpo.ui.search.viewholders.SearchRouteViewHolder.Handler"/>
+        <import type="ca.llamabagel.transpo.search.ui.viewholders.SearchRouteViewHolder"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

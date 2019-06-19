@@ -7,7 +7,7 @@ package ca.llamabagel.transpo
 import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import ca.llamabagel.transpo.ui.search.SearchActivity
+import ca.llamabagel.transpo.search.ui.SearchActivity
 import ca.llamabagel.transpo.utils.findViewById
 import ca.llamabagel.transpo.utils.verifyDisplayed
 import ca.llamabagel.transpo.utils.verifyFocused

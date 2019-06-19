@@ -11,27 +11,27 @@
 
     <fragment
             android:id="@+id/home"
-            android:name="ca.llamabagel.transpo.ui.home.HomeFragment"
+            android:name="ca.llamabagel.transpo.home.ui.HomeFragment"
             android:label="home_fragment"
             tools:layout="@layout/home_fragment"/>
     <fragment
             android:id="@+id/map"
-            android:name="ca.llamabagel.transpo.ui.map.MapFragment"
+            android:name="ca.llamabagel.transpo.map.ui.MapFragment"
             android:label="map_fragment"
             tools:layout="@layout/map_fragment"/>
     <fragment
             android:id="@+id/planner"
-            android:name="ca.llamabagel.transpo.ui.planner.PlannerFragment"
+            android:name="ca.llamabagel.transpo.planner.ui.PlannerFragment"
             android:label="planner_fragment"
             tools:layout="@layout/planner_fragment"/>
     <fragment
             android:id="@+id/saved"
-            android:name="ca.llamabagel.transpo.ui.saved.SavedFragment"
+            android:name="ca.llamabagel.transpo.saved.ui.SavedFragment"
             android:label="saved_fragment"
             tools:layout="@layout/saved_fragment"/>
     <activity
             android:id="@+id/tripsActivity"
-            android:name="ca.llamabagel.transpo.ui.trips.TripsActivity"
+            android:name="ca.llamabagel.transpo.trips.ui.TripsActivity"
             android:label="TripsActivity"
             tools:layout="@layout/stop_fragment">
         <argument

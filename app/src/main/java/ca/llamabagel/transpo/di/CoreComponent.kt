@@ -6,10 +6,10 @@ package ca.llamabagel.transpo.di
 
 import android.content.Context
 import ca.llamabagel.transpo.TranspoApplication
-import ca.llamabagel.transpo.ui.home.HomeViewModel
-import ca.llamabagel.transpo.ui.map.MapViewModel
-import ca.llamabagel.transpo.ui.search.SearchViewModel
-import ca.llamabagel.transpo.ui.trips.TripsViewModel
+import ca.llamabagel.transpo.home.ui.HomeViewModel
+import ca.llamabagel.transpo.map.ui.MapViewModel
+import ca.llamabagel.transpo.search.ui.SearchViewModel
+import ca.llamabagel.transpo.trips.ui.TripsViewModel
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -21,8 +21,7 @@ import javax.inject.Singleton
         SharedPreferencesModule::class,
         TransitDatabaseModule::class,
         WorkerModule::class,
-        AssistedWorkerInjectModule::class,
-        TripsModule::class
+        AssistedWorkerInjectModule::class
     ]
 )
 @Singleton

@@ -11,14 +11,14 @@
 
         <variable
                 name="viewModel"
-                type="ca.llamabagel.transpo.ui.trips.TripsViewModel"/>
+                type="ca.llamabagel.transpo.trips.ui.TripsViewModel"/>
 
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="ca.llamabagel.transpo.ui.trips.TripsFragment">
+            tools:context="ca.llamabagel.transpo.trips.ui.TripsFragment">
 
         <com.mapbox.mapboxsdk.maps.MapView
                 android:layout_width="match_parent"

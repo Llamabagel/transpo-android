@@ -5,9 +5,9 @@
 package ca.llamabagel.transpo.di
 
 import androidx.work.ListenableWorker
-import ca.llamabagel.transpo.workers.ChildWorkerFactory
-import ca.llamabagel.transpo.workers.DataWorker
-import ca.llamabagel.transpo.workers.RemoteMetadataWorker
+import ca.llamabagel.transpo.transit.workers.ChildWorkerFactory
+import ca.llamabagel.transpo.transit.workers.DataWorker
+import ca.llamabagel.transpo.transit.workers.RemoteMetadataWorker
 import com.squareup.inject.assisted.dagger2.AssistedModule
 import dagger.Binds
 import dagger.MapKey

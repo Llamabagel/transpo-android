@@ -12,13 +12,13 @@
 
         <variable
                 name="place"
-                type="ca.llamabagel.transpo.ui.search.viewholders.SearchResult.PlaceItem"/>
+                type="ca.llamabagel.transpo.search.ui.viewholders.SearchResult.PlaceItem"/>
 
         <variable
                 name="handler"
-                type="ca.llamabagel.transpo.ui.search.viewholders.SearchPlaceViewHolder.Handler"/>
+                type="ca.llamabagel.transpo.search.ui.viewholders.SearchPlaceViewHolder.Handler"/>
 
-        <import type="ca.llamabagel.transpo.ui.search.viewholders.SearchPlaceViewHolder.Handler"/>
+        <import type="ca.llamabagel.transpo.search.ui.viewholders.SearchPlaceViewHolder"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

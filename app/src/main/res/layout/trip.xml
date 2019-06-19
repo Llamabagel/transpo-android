@@ -11,13 +11,13 @@
     <data>
         <variable
                 name="tripUiModel"
-                type="ca.llamabagel.transpo.ui.trips.adapter.TripItem"/>
+                type="ca.llamabagel.transpo.trips.ui.adapter.TripItem"/>
 
         <variable
                 name="handler"
-                type="ca.llamabagel.transpo.ui.trips.adapter.SingleTripViewHolder.Handler"/>
+                type="ca.llamabagel.transpo.trips.ui.adapter.SingleTripViewHolder.Handler"/>
 
-        <import type="ca.llamabagel.transpo.ui.trips.adapter.SingleTripViewHolder.Handler"/>
+        <import type="ca.llamabagel.transpo.trips.ui.adapter.SingleTripViewHolder.Handler"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

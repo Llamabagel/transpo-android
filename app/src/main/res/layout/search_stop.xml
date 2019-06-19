@@ -12,13 +12,13 @@
 
         <variable
                 name="stop"
-                type="ca.llamabagel.transpo.ui.search.viewholders.SearchResult.StopItem"/>
+                type="ca.llamabagel.transpo.search.ui.viewholders.SearchResult.StopItem"/>
 
         <variable
                 name="handler"
-                type="ca.llamabagel.transpo.ui.search.viewholders.SearchStopViewHolder.Handler"/>
+                type="ca.llamabagel.transpo.search.ui.viewholders.SearchStopViewHolder.Handler"/>
 
-        <import type="ca.llamabagel.transpo.ui.search.viewholders.SearchStopViewHolder.Handler"/>
+        <import type="ca.llamabagel.transpo.search.ui.viewholders.SearchStopViewHolder"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

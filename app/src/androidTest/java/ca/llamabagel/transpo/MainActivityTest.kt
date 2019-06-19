@@ -8,7 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import ca.llamabagel.transpo.utils.findViewById
 import ca.llamabagel.transpo.utils.verifyDisplayed
-import ca.llamabagel.transpo.ui.home.MainActivity
+import ca.llamabagel.transpo.home.ui.MainActivity
 import ca.llamabagel.transpo.utils.click
 import ca.llamabagel.transpo.utils.findViewByText
 import org.junit.Rule
