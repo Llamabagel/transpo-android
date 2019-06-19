@@ -4,6 +4,7 @@
 
 package ca.llamabagel.transpo.data
 
+import ca.llamabagel.transpo.trips.data.TripsRepository
 import ca.llamabagel.transpo.utils.provideFakeCoroutinesDispatcherProvider
 import com.nhaarman.mockitokotlin2.mock
 

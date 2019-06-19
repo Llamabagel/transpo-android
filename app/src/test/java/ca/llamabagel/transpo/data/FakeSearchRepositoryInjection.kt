@@ -4,6 +4,7 @@
 
 package ca.llamabagel.transpo.data
 
+import ca.llamabagel.transpo.search.data.SearchRepository
 import ca.llamabagel.transpo.utils.FakeStringsGen
 import ca.llamabagel.transpo.utils.provideFakeCoroutinesDispatcherProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        tools:context=".ui.search.SearchActivity">
+        tools:context="ca.llamabagel.transpo.search.ui.SearchActivity">
 
     <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -26,14 +26,14 @@
                 android:layout_height="match_parent"
                 android:id="@+id/toolbar">
 
-            <ca.llamabagel.transpo.ui.search.CustomSearchView
+            <ca.llamabagel.transpo.search.ui.CustomSearchView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:iconifiedByDefault="false"
                     android:inputType="textPersonName"
                     android:ems="10"
                     android:id="@+id/search_bar">
-            </ca.llamabagel.transpo.ui.search.CustomSearchView>
+            </ca.llamabagel.transpo.search.ui.CustomSearchView>
 
         </com.google.android.material.appbar.MaterialToolbar>
 

@@ -15,11 +15,11 @@
             android:supportsRtl="true"
             android:theme="@style/Transpo"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".ui.trips.TripsActivity">
+        <activity android:name="ca.llamabagel.transpo.trips.ui.TripsActivity">
         </activity>
 
         <activity
-                android:name=".ui.search.SearchActivity"
+                android:name="ca.llamabagel.transpo.search.ui.SearchActivity"
                 android:theme="@style/Transpo.Translucent">
         </activity>
 
@@ -29,11 +29,11 @@
                 android:exported="false"
                 tools:node="remove"/>
 
-        <activity android:name=".ui.home.MainActivity">
+        <activity android:name="ca.llamabagel.transpo.home.MainActivity">
         </activity> <!-- Use an alias in order to avoid breaking home screen shortcuts when updated from previous version of app. -->
         <activity-alias
                 android:name=".app.MainActivity"
-                android:targetActivity=".ui.home.MainActivity">
+                android:targetActivity="ca.llamabagel.transpo.home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

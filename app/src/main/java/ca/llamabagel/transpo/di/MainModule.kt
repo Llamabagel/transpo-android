@@ -6,9 +6,9 @@ package ca.llamabagel.transpo.di
 
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
-import ca.llamabagel.transpo.ui.home.MainActivity
-import ca.llamabagel.transpo.ui.home.MainViewModel
-import ca.llamabagel.transpo.ui.home.MainViewModelFactory
+import ca.llamabagel.transpo.home.MainActivity
+import ca.llamabagel.transpo.home.MainViewModel
+import ca.llamabagel.transpo.home.MainViewModelFactory
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
