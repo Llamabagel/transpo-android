@@ -4,10 +4,13 @@
 
 package ca.llamabagel.transpo.search.ui
 
+import androidx.annotation.IdRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ca.llamabagel.transpo.R
+import ca.llamabagel.transpo.search.data.SearchFilter
 import ca.llamabagel.transpo.search.domain.GetSearchResultsUseCase
 import ca.llamabagel.transpo.search.domain.UpdateQueryUseCase
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
@@ -28,13 +31,15 @@ class SearchViewModel @Inject constructor(
     private val updateQuery: UpdateQueryUseCase
 ) : ViewModel() {
 
-    private val _keyboardState = MutableLiveData<KeyboardState>().apply { value =
-        KeyboardState.OPEN
-    }
+    private val _keyboardState = MutableLiveData<KeyboardState>().apply { value = KeyboardState.OPEN }
     val keyboardState: LiveData<KeyboardState> = _keyboardState
 
     private val _searchResults = MutableLiveData<List<SearchResult>>().apply { value = emptyList() }
     val searchResults: LiveData<List<SearchResult>> = _searchResults
+
+    private var searchFilter = SearchFilter()
+
+    private var searchQuery = ""
 
     init {
         viewModelScope.launch {
@@ -49,10 +54,22 @@ class SearchViewModel @Inject constructor(
     }
 
     fun fetchSearchResults(query: CharSequence?) {
-        val queryString = query?.toString().orEmpty()
+        searchQuery = query?.toString().orEmpty()
 
         viewModelScope.launch {
-            updateQuery(queryString)
+            updateQuery(searchQuery, searchFilter)
+        }
+    }
+
+    fun notifyFilterChanged(@IdRes item: Int) {
+        when (item) {
+            R.id.routes_filter -> searchFilter = searchFilter.copy(routes = !searchFilter.routes)
+            R.id.stops_filter -> searchFilter = searchFilter.copy(stops = !searchFilter.stops)
+            R.id.places_filter -> searchFilter = searchFilter.copy(places = !searchFilter.places)
+        }
+
+        viewModelScope.launch {
+            updateQuery(searchQuery, searchFilter)
         }
     }
 }

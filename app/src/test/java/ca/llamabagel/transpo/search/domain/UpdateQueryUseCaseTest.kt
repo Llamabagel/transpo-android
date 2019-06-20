@@ -5,6 +5,7 @@
 package ca.llamabagel.transpo.search.domain
 
 import ca.llamabagel.transpo.data.provideFakeSearchRepository
+import ca.llamabagel.transpo.search.data.SearchFilter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.first
@@ -19,7 +20,7 @@ class UpdateQueryUseCaseTest {
 
     @Test
     fun `when updateQueryUseCase is invoked, search results update`() = runBlocking {
-        updateQueryUseCase("Walkley")
+        updateQueryUseCase("Walkley", SearchFilter())
         assert(repository.stopFlow.first().isNotEmpty())
     }
 }

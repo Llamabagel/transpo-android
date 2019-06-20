@@ -34,7 +34,7 @@ getStopsByCode:
 SELECT * FROM stop WHERE code = ?;
 
 getStopsByName:
-SELECT *, 1 FROM stop_fts WHERE name MATCH ?;
+SELECT *, 1 FROM stop_fts WHERE name MATCH :query LIMIT :limit;
 
 CREATE VIRTUAL TABLE stop_fts USING fts4(
     id TEXT NOT NULL PRIMARY KEY,

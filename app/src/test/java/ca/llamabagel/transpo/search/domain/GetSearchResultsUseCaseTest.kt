@@ -9,6 +9,7 @@ import ca.llamabagel.transpo.data.TestPlace
 import ca.llamabagel.transpo.data.TestRoutes
 import ca.llamabagel.transpo.data.TestStops
 import ca.llamabagel.transpo.data.provideFakeSearchRepository
+import ca.llamabagel.transpo.search.data.SearchFilter
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
 import ca.llamabagel.transpo.utils.FakeStringsGen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,33 +23,33 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class GetSearchResultsUseCaseTest {
     private val repository = provideFakeSearchRepository()
-    private val getSearchResultsUseCase =
-        GetSearchResultsUseCase(repository, FakeStringsGen())
+    private val getSearchResultsUseCase = GetSearchResultsUseCase(repository, FakeStringsGen())
+    private val filters = SearchFilter()
 
     @Test
     fun `if there are stops, then stop category header is displayed`() = runBlockingTest {
-        repository.getSearchResults("Walkley")
+        repository.getSearchResults("Walkley", filters)
 
         assertEquals(walkleyResult, getSearchResultsUseCase().first())
     }
 
     @Test
     fun `if there are routes, then route category header is displayed`() = runBlockingTest {
-        repository.getSearchResults("44")
+        repository.getSearchResults("44", filters)
 
         assertEquals(route44Result, getSearchResultsUseCase().first())
     }
 
     @Test
     fun `if there are places, then place category header is displayed`() = runBlockingTest {
-        repository.getSearchResults("Parliament")
+        repository.getSearchResults("Parliament", filters)
 
         assertEquals(parliamentResult, getSearchResultsUseCase().first())
     }
 
     @Test
     fun `when there are multiple result types, the order is route, stop, place`() = runBlockingTest {
-        repository.getSearchResults("2")
+        repository.getSearchResults("2", filters)
 
         assertEquals(search2Result, getSearchResultsUseCase().first())
     }
