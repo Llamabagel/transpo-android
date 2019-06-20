@@ -52,7 +52,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginEnd="@dimen/small"
                         android:src="@drawable/ic_filter"
-                        android:background="@drawable/circle"
+                        android:background="@null"
                         android:contentDescription="@string/search_filter_description"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

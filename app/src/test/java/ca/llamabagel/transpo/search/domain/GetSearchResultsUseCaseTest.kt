@@ -9,7 +9,7 @@ import ca.llamabagel.transpo.data.TestPlace
 import ca.llamabagel.transpo.data.TestRoutes
 import ca.llamabagel.transpo.data.TestStops
 import ca.llamabagel.transpo.data.provideFakeSearchRepository
-import ca.llamabagel.transpo.search.data.SearchFilterState
+import ca.llamabagel.transpo.search.data.SearchFilter
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
 import ca.llamabagel.transpo.utils.FakeStringsGen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,7 +24,7 @@ import org.junit.Test
 class GetSearchResultsUseCaseTest {
     private val repository = provideFakeSearchRepository()
     private val getSearchResultsUseCase = GetSearchResultsUseCase(repository, FakeStringsGen())
-    private val filters = SearchFilterState()
+    private val filters = SearchFilter()
 
     @Test
     fun `if there are stops, then stop category header is displayed`() = runBlockingTest {

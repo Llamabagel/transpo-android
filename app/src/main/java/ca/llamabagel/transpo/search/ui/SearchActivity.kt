@@ -64,13 +64,13 @@ class SearchActivity : AppCompatActivity() {
             popup.show()
         }
 
-        popup.setOnMenuItemClickListener {
-            it.isChecked = !it.isChecked
-            viewModel.notifyFilterChanged(it.itemId)
+        popup.setOnMenuItemClickListener { item ->
+            item.isChecked = !item.isChecked
+            viewModel.notifyFilterChanged(item.itemId)
 
-            it.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW)
-            it.actionView = View(this)
-            it.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW)
+            item.actionView = View(this)
+            item.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
                 override fun onMenuItemActionExpand(item: MenuItem): Boolean = false
                 override fun onMenuItemActionCollapse(item: MenuItem): Boolean = false
             })

@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ca.llamabagel.transpo.R
-import ca.llamabagel.transpo.search.data.SearchFilterState
+import ca.llamabagel.transpo.search.data.SearchFilter
 import ca.llamabagel.transpo.search.domain.GetSearchResultsUseCase
 import ca.llamabagel.transpo.search.domain.UpdateQueryUseCase
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
@@ -37,7 +37,7 @@ class SearchViewModel @Inject constructor(
     private val _searchResults = MutableLiveData<List<SearchResult>>().apply { value = emptyList() }
     val searchResults: LiveData<List<SearchResult>> = _searchResults
 
-    private val searchFilters = SearchFilterState()
+    private var searchFilter = SearchFilter()
 
     private var searchQuery = ""
 
@@ -57,19 +57,19 @@ class SearchViewModel @Inject constructor(
         searchQuery = query?.toString().orEmpty()
 
         viewModelScope.launch {
-            updateQuery(searchQuery, searchFilters)
+            updateQuery(searchQuery, searchFilter)
         }
     }
 
     fun notifyFilterChanged(@IdRes item: Int) {
         when (item) {
-            R.id.routes_filter -> searchFilters.apply { routes = !routes }
-            R.id.stops_filter -> searchFilters.apply { stops = !stops }
-            R.id.places_filter -> searchFilters.apply { places = !places }
+            R.id.routes_filter -> searchFilter = searchFilter.copy(routes = !searchFilter.routes)
+            R.id.stops_filter -> searchFilter = searchFilter.copy(stops = !searchFilter.stops)
+            R.id.places_filter -> searchFilter = searchFilter.copy(places = !searchFilter.places)
         }
 
         viewModelScope.launch {
-            updateQuery(searchQuery, searchFilters)
+            updateQuery(searchQuery, searchFilter)
         }
     }
 }

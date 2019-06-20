@@ -30,7 +30,7 @@ class SearchRepositoryTest {
     val rule = InstantTaskExecutorRule()
 
     private val repository = provideFakeSearchRepository()
-    private val filters = SearchFilterState()
+    private val filters = SearchFilter()
 
     @Test
     fun `when empty query is searched, empty list is returned in stops list`() = runBlockingTest {
@@ -97,21 +97,21 @@ class SearchRepositoryTest {
 
     @Test
     fun `when stop filter is not set, empty stop list is offered`() = runBlockingTest {
-        repository.getSearchResults("walkley", filters.apply { stops = false })
+        repository.getSearchResults("walkley", SearchFilter(stops = false))
 
         assertEquals(emptyList<SearchResult>(), repository.stopFlow.first())
     }
 
     @Test
     fun `when route filter is not set, empty route list is offered`() = runBlockingTest {
-        repository.getSearchResults("44", filters.apply { routes = false })
+        repository.getSearchResults("44", SearchFilter(routes = false))
 
         assertEquals(emptyList<SearchResult>(), repository.routeFlow.first())
     }
 
     @Test
     fun `when place filter is not set, empty place list is offered`() = runBlockingTest {
-        repository.getSearchResults("Parliament", filters.apply { places = false })
+        repository.getSearchResults("Parliament", SearchFilter(places = false))
 
         assertEquals(emptyList<SearchResult>(), repository.placeFlow.first())
     }
