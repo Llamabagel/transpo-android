@@ -14,6 +14,7 @@ interface GeocodingWrapper {
         @FloatRange(from = -180.0, to = 180.0) minLongitude: Double = -180.0,
         @FloatRange(from = -90.0, to = 90.0) minLatitude: Double = -90.0,
         @FloatRange(from = -180.0, to = 180.0) maxLongitude: Double = 180.0,
-        @FloatRange(from = -90.0, to = 90.0) maxLatitude: Double = 90.0
+        @FloatRange(from = -90.0, to = 90.0) maxLatitude: Double = 90.0,
+        limit: Int = 10
     ): List<CarmenFeature>
 }

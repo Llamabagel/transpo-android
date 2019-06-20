@@ -4,14 +4,16 @@
 
 package ca.llamabagel.transpo.search.ui
 
+import androidx.annotation.IdRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ca.llamabagel.transpo.R
+import ca.llamabagel.transpo.search.data.SearchFilterState
 import ca.llamabagel.transpo.search.domain.GetSearchResultsUseCase
 import ca.llamabagel.transpo.search.domain.UpdateQueryUseCase
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
-import ca.llamabagel.transpo.search.data.SearchFilterState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -29,18 +31,15 @@ class SearchViewModel @Inject constructor(
     private val updateQuery: UpdateQueryUseCase
 ) : ViewModel() {
 
-    private val _keyboardState = MutableLiveData<KeyboardState>().apply { value =
-        KeyboardState.OPEN
-    }
+    private val _keyboardState = MutableLiveData<KeyboardState>().apply { value = KeyboardState.OPEN }
     val keyboardState: LiveData<KeyboardState> = _keyboardState
 
     private val _searchResults = MutableLiveData<List<SearchResult>>().apply { value = emptyList() }
     val searchResults: LiveData<List<SearchResult>> = _searchResults
 
-    private val _searchFilters = MutableLiveData<SearchFilterState>().apply { value =
-        SearchFilterState()
-    }
-    val searchFilters: LiveData<SearchFilterState> = _searchFilters
+    private val searchFilters = SearchFilterState()
+
+    private var searchQuery = ""
 
     init {
         viewModelScope.launch {
@@ -55,10 +54,22 @@ class SearchViewModel @Inject constructor(
     }
 
     fun fetchSearchResults(query: CharSequence?) {
-        val queryString = query?.toString().orEmpty()
+        searchQuery = query?.toString().orEmpty()
 
         viewModelScope.launch {
-            updateQuery(queryString, _searchFilters.value!!)
+            updateQuery(searchQuery, searchFilters)
+        }
+    }
+
+    fun notifyFilterChanged(@IdRes item: Int) {
+        when (item) {
+            R.id.routes_filter -> searchFilters.apply { routes = !routes }
+            R.id.stops_filter -> searchFilters.apply { stops = !stops }
+            R.id.places_filter -> searchFilters.apply { places = !places }
+        }
+
+        viewModelScope.launch {
+            updateQuery(searchQuery, searchFilters)
         }
     }
 }

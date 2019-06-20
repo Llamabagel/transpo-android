@@ -30,68 +30,90 @@ class SearchRepositoryTest {
     val rule = InstantTaskExecutorRule()
 
     private val repository = provideFakeSearchRepository()
+    private val filters = SearchFilterState()
 
     @Test
     fun `when empty query is searched, empty list is returned in stops list`() = runBlockingTest {
-        repository.getSearchResults("")
+        repository.getSearchResults("", filters)
 
         assertEquals(emptyList<SearchResult>(), repository.stopFlow.first())
     }
 
     @Test
     fun `when empty query is searched, empty list is returned in routes list`() = runBlockingTest {
-        repository.getSearchResults("")
+        repository.getSearchResults("", filters)
 
         assertEquals(emptyList<SearchResult>(), repository.routeFlow.first())
     }
 
     @Test
     fun `when empty query is searched, empty list is returned in places list`() = runBlockingTest {
-        repository.getSearchResults("")
+        repository.getSearchResults("", filters)
 
         assertEquals(emptyList<SearchResult>(), repository.placeFlow.first())
     }
 
     @Test
     fun `when the query is not empty, but there are no stop results, empty list is returned`() = runBlockingTest {
-        repository.getSearchResults("ldkfjgdlfkjgd")
+        repository.getSearchResults("ldkfjgdlfkjgd", filters)
 
         assertEquals(emptyList<SearchResult>(), repository.stopFlow.first())
     }
 
     @Test
     fun `when the query is not empty, but there are no route results, empty list is returned`() = runBlockingTest {
-        repository.getSearchResults("ldkfjgdlfkjgd")
+        repository.getSearchResults("ldkfjgdlfkjgd", filters)
 
         assertEquals(emptyList<SearchResult>(), repository.routeFlow.first())
     }
 
     @Test
     fun `when the query is not empty, but there are no place results, empty list is returned`() = runBlockingTest {
-        repository.getSearchResults("ldkfjgdlfkjgd")
+        repository.getSearchResults("ldkfjgdlfkjgd", filters)
 
         assertEquals(emptyList<SearchResult>(), repository.placeFlow.first())
     }
 
     @Test
     fun `when there is a matching stop, stop search result is offered`() = runBlockingTest {
-        repository.getSearchResults("Walkley")
+        repository.getSearchResults("Walkley", filters)
 
         assertEquals(walkleyResult, repository.stopFlow.first())
     }
 
     @Test
     fun `when there is a matching route, route search result is offered`() = runBlockingTest {
-        repository.getSearchResults("44")
+        repository.getSearchResults("44", filters)
 
         assertEquals(route44Result, repository.routeFlow.first())
     }
 
     @Test
     fun `when there is a matching place, place search result is offered`() = runBlockingTest {
-        repository.getSearchResults("Parliament")
+        repository.getSearchResults("Parliament", filters)
 
         assertEquals(parliamentResult, repository.placeFlow.first())
+    }
+
+    @Test
+    fun `when stop filter is not set, empty stop list is offered`() = runBlockingTest {
+        repository.getSearchResults("walkley", filters.apply { stops = false })
+
+        assertEquals(emptyList<SearchResult>(), repository.stopFlow.first())
+    }
+
+    @Test
+    fun `when route filter is not set, empty route list is offered`() = runBlockingTest {
+        repository.getSearchResults("44", filters.apply { routes = false })
+
+        assertEquals(emptyList<SearchResult>(), repository.routeFlow.first())
+    }
+
+    @Test
+    fun `when place filter is not set, empty place list is offered`() = runBlockingTest {
+        repository.getSearchResults("Parliament", filters.apply { places = false })
+
+        assertEquals(emptyList<SearchResult>(), repository.placeFlow.first())
     }
 
     private val walkleyResult = listOf(

@@ -13,7 +13,8 @@ class FakeGeocoder : GeocodingWrapper {
         minLongitude: Double,
         minLatitude: Double,
         maxLongitude: Double,
-        maxLatitude: Double
+        maxLatitude: Double,
+        limit: Int
     ): List<CarmenFeature> {
         return when (query) {
             "Parliament" -> listOf(TestPlace.parliament)

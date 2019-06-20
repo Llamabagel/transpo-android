@@ -8,9 +8,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageButton
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -40,9 +44,40 @@ class SearchActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         val searchBar = findViewById<CustomSearchView>(R.id.search_bar)
+        val filterBtn = findViewById<ImageButton>(R.id.filter_button)
+        val recycler = findViewById<RecyclerView>(R.id.search_results_list)
         val adapter = SearchAdapter(::onItemClicked)
+        val popup = PopupMenu(this, filterBtn)
 
-        findViewById<RecyclerView>(R.id.search_results_list).adapter = adapter
+        popup.menuInflater.inflate(R.menu.menu_filter, popup.menu)
+        recycler.adapter = adapter
+
+        searchBar.setOnFocusChangeListener { _, hasFocus ->
+            viewModel.searchBarFocusChanged(hasFocus)
+        }
+
+        searchBar.doOnTextChanged { text, _, _, _ ->
+            viewModel.fetchSearchResults(text)
+        }
+
+        filterBtn.setOnClickListener {
+            popup.show()
+        }
+
+        popup.setOnMenuItemClickListener {
+            it.isChecked = !it.isChecked
+            viewModel.notifyFilterChanged(it.itemId)
+
+            it.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW)
+            it.actionView = View(this)
+            it.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+                override fun onMenuItemActionExpand(item: MenuItem): Boolean = false
+                override fun onMenuItemActionCollapse(item: MenuItem): Boolean = false
+            })
+            return@setOnMenuItemClickListener false
+        }
+
+        viewModel.searchResults.observe(this, Observer(adapter::submitList))
 
         viewModel.keyboardState.observe(this, Observer {
             if (it == KeyboardState.OPEN) {
@@ -53,16 +88,6 @@ class SearchActivity : AppCompatActivity() {
                 }, KEYBOARD_DELAY_TIME)
             }
         })
-
-        searchBar.setOnFocusChangeListener { _, hasFocus ->
-            viewModel.searchBarFocusChanged(hasFocus)
-        }
-
-        searchBar.doOnTextChanged { text, _, _, _ ->
-            viewModel.fetchSearchResults(text)
-        }
-
-        viewModel.searchResults.observe(this, Observer(adapter::submitList))
     }
 
     private fun onItemClicked(item: SearchResult) {

@@ -81,6 +81,38 @@ class SearchViewModelTest {
         assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
     }
 
+    @Test
+    fun `when stop filter menu item is clicked, filter is turned off`() {
+        searchViewModel.notifyFilterChanged(R.id.stops_filter)
+        searchViewModel.fetchSearchResults("Walkley")
+
+        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
+    }
+
+    @Test
+    fun `when route filter menu item is clicked, filter is turned off`() {
+        searchViewModel.notifyFilterChanged(R.id.routes_filter)
+        searchViewModel.fetchSearchResults("44")
+
+        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
+    }
+
+    @Test
+    fun `when place filter menu item is clicked, filter is turned off`() {
+        searchViewModel.notifyFilterChanged(R.id.places_filter)
+        searchViewModel.fetchSearchResults("Parliament")
+
+        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
+    }
+
+    @Test
+    fun `when filter is changed, search results are updated`() {
+        searchViewModel.fetchSearchResults("Walkley")
+        searchViewModel.notifyFilterChanged(R.id.stops_filter)
+
+        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
+    }
+
     private val walkleyResult = listOf(
         SearchResult.CategoryHeader(R.string.search_category_stops.toString()),
         SearchResult.StopItem(

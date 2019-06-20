@@ -1,3 +1,3 @@
 package ca.llamabagel.transpo.search.data
 
-data class SearchFilterState(val stops: Boolean = true, val routes: Boolean = true, val places: Boolean = true)
+data class SearchFilterState(var stops: Boolean = true, var routes: Boolean = true, var places: Boolean = true)

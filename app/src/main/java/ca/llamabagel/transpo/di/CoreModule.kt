@@ -56,11 +56,13 @@ class CoreModule {
             minLongitude: Double,
             minLatitude: Double,
             maxLongitude: Double,
-            maxLatitude: Double
+            maxLatitude: Double,
+            limit: Int
         ): List<CarmenFeature> = MapboxGeocoding.builder()
             .accessToken(BuildConfig.MAPBOX_KEY)
             .query(query)
             .bbox(minLongitude, minLatitude, maxLongitude, maxLatitude)
+            .limit(limit)
             .build()
             .executeCall()
             .body()
