@@ -28,10 +28,9 @@ class TripsMapViewModel @Inject constructor(
         this.stopId = stopId
 
         viewModelScope.launch {
-            getSelectedRouteTrips(stopId, selectedRoutes)
-                .collect {
-                    _viewerData.value = it
-                }
+            getSelectedRouteTrips(stopId, selectedRoutes).collect {
+                _viewerData.value = it
+            }
         }
     }
 }

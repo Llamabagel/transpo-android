@@ -27,7 +27,7 @@ class GetNextBusTripsUseCase @Inject constructor(
     suspend operator fun invoke(stopId: StopId, groupByDirection: Boolean = false): Flow<List<TripAdapterItem>> =
         repository.getResultCache(stopId)
             .asFlow()
-            .mapNotNull { result -> result.data?.let(this::transformResponse) }
+            .mapNotNull { result -> result.data?.let(::transformResponse) }
             .flowOn(dispatcherProvider.computation)
 
     private fun transformResponse(response: ApiResponse): List<TripAdapterItem> =

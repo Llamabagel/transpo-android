@@ -11,9 +11,8 @@ import javax.inject.Inject
 class GetRefreshStateUseCase @Inject constructor(
     private val repository: TripsRepository
 ) {
-    suspend operator fun invoke(stopId: StopId): Flow<Boolean> {
-        return repository.getResultCache(stopId)
+    suspend operator fun invoke(stopId: StopId): Flow<Boolean> =
+        repository.getResultCache(stopId)
             .asFlow()
             .map { state -> state is Result.Loading }
-    }
 }
