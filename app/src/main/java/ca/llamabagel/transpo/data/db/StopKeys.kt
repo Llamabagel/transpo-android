@@ -4,5 +4,10 @@
 
 package ca.llamabagel.transpo.data.db
 
-inline class StopId(val value: String)
+inline class StopId(val value: String) {
+    companion object {
+        // A kind of workaround due "lateinit" being disallowed on inline classes
+        val DEFAULT = StopId("")
+    }
+}
 inline class StopCode(val value: String)

@@ -29,10 +29,10 @@ class TripsRepository @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val dispatcherProvider: CoroutinesDispatcherProvider
 ) {
-    private val cachedResults: MutableMap<StopCode, ConflatedBroadcastChannel<ApiResponse>> = mutableMapOf()
+    private val cachedResults: MutableMap<StopCode, ConflatedBroadcastChannel<Result<ApiResponse>>> = mutableMapOf()
     private val cachedStopCodes: MutableMap<StopId, StopCode> = mutableMapOf()
 
-    suspend fun getResultCache(stopId: StopId): ConflatedBroadcastChannel<ApiResponse> {
+    suspend fun getResultCache(stopId: StopId): ConflatedBroadcastChannel<Result<ApiResponse>> {
         val stopCode = cachedStopCodes.getOrPut(
             stopId, {
                 withContext(dispatcherProvider.io) { database.stopQueries.getStopById(stopId).executeAsOne().code }
@@ -57,7 +57,7 @@ class TripsRepository @Inject constructor(
 
             Result.Success(stop)
         } catch (e: Exception) {
-            Result.Error(e)
+            Result.Error<Stop>(e)
         }
     }
 
@@ -66,11 +66,19 @@ class TripsRepository @Inject constructor(
             val stopCode =
                 cachedStopCodes.getOrPut(stopId, { database.stopQueries.getStopById(stopId).executeAsOne().code })
 
-            cachedResults.getOrPut(stopCode, { ConflatedBroadcastChannel() })
-                .offer(apiService.getTrips(stopCode.value))
+            val channel = cachedResults.getOrPut(stopCode, { ConflatedBroadcastChannel() })
+
+            channel.offer(Result.Loading(channel.valueOrNull?.data))
+            try {
+                val result = apiService.getTrips(stopCode.value)
+                channel.offer(Result.Success(result))
+            } catch (e: Exception) {
+                channel.offer(Result.Error(e, channel.valueOrNull?.data))
+            }
+
             Result.Success(Unit)
         } catch (e: IOException) {
-            Result.Error(e)
+            Result.Error<Unit>(e)
         }
     }
 

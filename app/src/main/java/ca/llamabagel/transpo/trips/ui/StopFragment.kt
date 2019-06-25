@@ -10,18 +10,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ca.llamabagel.transpo.R
+import ca.llamabagel.transpo.data.db.StopId
+import ca.llamabagel.transpo.di.injector
 import ca.llamabagel.transpo.trips.ui.adapter.TripAdapterItem
 import ca.llamabagel.transpo.trips.ui.adapter.TripItem
 import ca.llamabagel.transpo.trips.ui.adapter.TripsAdapter
 
 class StopFragment : Fragment() {
 
-    private val viewModel: TripsViewModel by activityViewModels()
+    private val activityViewModel: TripsViewModel by activityViewModels()
+    private val viewModel: StopViewModel by viewModels { injector.stopViewModelFactory() }
+
+    private val args: StopFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,14 +42,15 @@ class StopFragment : Fragment() {
         val adapter = TripsAdapter(itemClickListener = ::itemSelected)
         view.findViewById<RecyclerView>(R.id.recycler_view).adapter = adapter
 
-        viewModel.isRefreshing.observe(this, Observer { isRefreshing ->
+        activityViewModel.isRefreshing.observe(this, Observer { isRefreshing ->
             view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh).isRefreshing = isRefreshing
         })
 
-        viewModel.displayData.observe(this, Observer(adapter::submitList))
+        viewModel.setStop(StopId(args.stopId))
+        viewModel.resultsData.observe(this, Observer(adapter::submitList))
 
         view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh).setOnRefreshListener {
-            viewModel.getTrips()
+            activityViewModel.getTrips()
         }
     }
 
@@ -51,9 +59,8 @@ class StopFragment : Fragment() {
             is TripItem -> {
                 val action =
                     StopFragmentDirections.actionStopFragmentToTripsFragment(
-                        arrayOf(
-                            RouteSelection(item.route.number, item.route.directionId)
-                        )
+                        arrayOf(RouteSelection(item.route.number, item.route.directionId)),
+                        args.stopId
                     )
                 findNavController().navigate(action)
             }

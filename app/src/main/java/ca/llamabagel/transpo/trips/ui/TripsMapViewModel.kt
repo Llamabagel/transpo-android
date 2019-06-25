@@ -4,15 +4,34 @@
 
 package ca.llamabagel.transpo.trips.ui
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import ca.llamabagel.transpo.data.db.StopId
 import ca.llamabagel.transpo.trips.domain.GetSelectedRouteTripsUseCase
-import ca.llamabagel.transpo.trips.domain.UpdateTripDataUseCase
+import ca.llamabagel.transpo.trips.ui.adapter.TripAdapterItem
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TripsMapViewModel @Inject constructor(
-    private val updateTripData: UpdateTripDataUseCase,
     private val getSelectedRouteTrips: GetSelectedRouteTripsUseCase
 ) : ViewModel() {
 
-    private lateinit var stopId: String
+    private var stopId: StopId = StopId.DEFAULT
+
+    private val _viewerData = MutableLiveData<List<TripAdapterItem>>()
+    val viewerData: LiveData<List<TripAdapterItem>> = _viewerData
+
+    fun setStop(stopId: StopId, selectedRoutes: Array<RouteSelection>) {
+        this.stopId = stopId
+
+        viewModelScope.launch {
+            getSelectedRouteTrips(stopId, selectedRoutes)
+                .collect {
+                    _viewerData.value = it
+                }
+        }
+    }
 }
