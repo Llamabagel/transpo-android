@@ -34,6 +34,7 @@
         <argument
                 android:name="selected_routes"
                 app:argType="ca.llamabagel.transpo.trips.ui.RouteSelection[]"/>
+        <argument android:name="stop_id" app:argType="string"/>
     </fragment>
     <fragment
             android:id="@+id/tripDetailsFragment"

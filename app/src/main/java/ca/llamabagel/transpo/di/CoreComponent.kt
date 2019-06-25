@@ -9,6 +9,8 @@ import ca.llamabagel.transpo.TranspoApplication
 import ca.llamabagel.transpo.home.ui.HomeViewModel
 import ca.llamabagel.transpo.map.ui.MapViewModel
 import ca.llamabagel.transpo.search.ui.SearchViewModel
+import ca.llamabagel.transpo.trips.ui.StopViewModel
+import ca.llamabagel.transpo.trips.ui.TripsMapViewModel
 import ca.llamabagel.transpo.trips.ui.TripsViewModel
 import dagger.BindsInstance
 import dagger.Component
@@ -41,6 +43,8 @@ interface CoreComponent {
 
     fun homeViewModelFactory(): ViewModelFactory<HomeViewModel>
     fun tripsViewModelFactory(): ViewModelFactory<TripsViewModel>
+    fun stopViewModelFactory(): ViewModelFactory<StopViewModel>
+    fun tripsMapViewModelFactory(): ViewModelFactory<TripsMapViewModel>
     fun searchViewModelFactory(): ViewModelFactory<SearchViewModel>
     fun mapViewModelFactory(): ViewModelFactory<MapViewModel>
 

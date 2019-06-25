@@ -11,10 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.R
+import ca.llamabagel.transpo.data.db.StopId
+import ca.llamabagel.transpo.di.injector
 import ca.llamabagel.transpo.trips.ui.adapter.TripItem
 import ca.llamabagel.transpo.trips.ui.adapter.TripsAdapter
 import com.mapbox.geojson.Feature
@@ -33,7 +37,10 @@ import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 
 class TripsFragment : Fragment() {
 
-    private val viewModel: TripsViewModel by activityViewModels()
+    private val activityViewModel: TripsViewModel by activityViewModels()
+    private val viewModel: TripsMapViewModel by viewModels { injector.tripsMapViewModelFactory() }
+
+    private val args: TripsFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +60,7 @@ class TripsFragment : Fragment() {
         val adapter = TripsAdapter()
         view.findViewById<RecyclerView>(R.id.recycler_view).adapter = adapter
 
+        viewModel.setStop(StopId(args.stopId), args.selectedRoutes)
         viewModel.viewerData.observe(this, Observer(adapter::submitList))
 
         val mapView = view.findViewById<MapView>(R.id.map_view)
@@ -82,7 +90,6 @@ class TripsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         view?.findViewById<MapView>(R.id.map_view)?.onDestroy()
-        viewModel.clearSelection()
     }
 
     override fun onLowMemory() {
