@@ -1,0 +1,19 @@
+CREATE TABLE recent_route (
+    id TEXT NOT NULL UNIQUE PRIMARY KEY,
+    short_name TEXT NOT NULL,
+    long_name TEXT,
+    type TEXT NOT NULL,
+    date INTEGER NOT NULL,
+    FOREIGN KEY (id) REFERENCES route_fts(id) ON DELETE CASCADE
+);
+
+insert:
+REPLACE INTO recent_route(id, short_name, long_name, type, date)
+VALUES(:id, :shortName, :longName, :type, :date);
+
+getMostRecent:
+SELECT * FROM recent_route ORDER BY recent_route.date DESC LIMIT :limit;
+
+searchRecentRoutes:
+SELECT * FROM recent_route WHERE short_name LIKE :name OR long_name LIKE :name
+ORDER BY recent_route.date DESC LIMIT :limit;

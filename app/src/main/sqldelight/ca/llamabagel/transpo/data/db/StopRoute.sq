@@ -7,7 +7,7 @@ CREATE TABLE stop_route (
     sequence INTEGER As Integer NOT NULL,
     PRIMARY KEY(stop_id, route_id, direction_id),
     FOREIGN KEY (stop_id) REFERENCES stop(id) ON DELETE CASCADE,
-    FOREIGN KEY (route_id) REFERENCES route(id) ON DELETE CASCADE
+    FOREIGN KEY (route_id) REFERENCES route_fts(id) ON DELETE CASCADE
 );
 
 insert:
