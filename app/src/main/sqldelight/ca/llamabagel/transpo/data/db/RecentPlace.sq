@@ -11,9 +11,9 @@ insert:
 REPLACE INTO recent_place(id, primary_text, secondary_text, latitude, longitude, date)
 VALUES(:id, :primaryText, :secondaryText, :latitude, :longitude, :date);
 
-selectRecentPlaces:
+getRecentPlaces:
 SELECT * FROM recent_place ORDER BY recent_place.date DESC LIMIT :limit;
 
-searchRecentRPlaces:
+searchRecentPlaces:
 SELECT * FROM recent_place WHERE primary_text LIKE :name OR secondary_text LIKE :name
 ORDER BY recent_place.date DESC LIMIT :limit;

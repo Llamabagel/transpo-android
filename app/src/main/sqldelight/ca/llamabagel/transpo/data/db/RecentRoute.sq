@@ -11,7 +11,7 @@ insert:
 REPLACE INTO recent_route(id, short_name, long_name, type, date)
 VALUES(:id, :shortName, :longName, :type, :date);
 
-selectMostRecent:
+getMostRecent:
 SELECT * FROM recent_route ORDER BY recent_route.date DESC LIMIT :limit;
 
 searchRecentRoutes:
