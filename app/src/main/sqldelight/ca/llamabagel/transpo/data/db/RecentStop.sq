@@ -1,0 +1,19 @@
+CREATE TABLE recent_stop (
+    id TEXT NOT NULL UNIQUE PRIMARY KEY,
+    code TEXT NOT NULL,
+    name TEXT NOT NULL,
+    parent_station TEXT,
+    date INTEGER NOT NULL,
+    FOREIGN KEY (parent_station) REFERENCES stop(id) ON DELETE CASCADE
+);
+
+insert:
+REPLACE INTO recent_stop(id, code, name, parent_station, date)
+VALUES (:id, :code, :name, :parentStation, :date);
+
+selectMostRecent:
+SELECT * FROM recent_stop ORDER BY recent_stop.date DESC LIMIT :limit;
+
+searchRecentStops:
+SELECT * FROM recent_stop WHERE name LIKE :name OR code LIKE :name
+ORDER BY recent_stop.date DESC LIMIT :limit;

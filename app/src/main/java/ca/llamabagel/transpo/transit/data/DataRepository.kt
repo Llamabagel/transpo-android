@@ -36,6 +36,7 @@ class DataRepository(
 
         database.transaction {
             database.stopQueries.deleteAll()
+            database.stopQueries.deleteAllFts()
             dataPackage.data.stops.forEach { (id, code, name, latitude, longitude, locationType, parentStation) ->
                 database.stopQueries.insert(
                     StopId(id),

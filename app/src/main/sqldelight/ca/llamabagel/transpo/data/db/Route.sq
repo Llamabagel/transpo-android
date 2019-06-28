@@ -7,15 +7,21 @@ CREATE TABLE route (
     color TEXT NOT NULL
 );
 
-insert:
-INSERT INTO route(id, short_name, long_name, type, service_level, color)
-VALUES (?, ?, ?, ?, ?, ?);
+CREATE VIRTUAL TABLE route_fts USING fts4 (
+    id TEXT NOT NULL PRIMARY KEY,
+    short_name TEXT NOT NULL,
+    long_name TEXT,
+    type INTEGER As Integer NOT NULL,
+    service_level TEXT NOT NULL,
+    color TEXT NOT NULL
+);
 
 deleteAll:
-DELETE FROM route;
+DELETE FROM route_fts;
 
-selectAll:
-SELECT * FROM route;
+insert:
+INSERT INTO route_fts(id, short_name, long_name, type, service_level, color)
+VALUES (:id, :shortName, :longName, :type, :serviceLevel, :color);
 
 getRoutes:
-SELECT * FROM route WHERE short_name LIKE :name OR long_name LIKE :name LIMIT :limit;
+SELECT *, 1 FROM route_fts WHERE short_name MATCH :name OR long_name MATCH :name LIMIT :limit;
