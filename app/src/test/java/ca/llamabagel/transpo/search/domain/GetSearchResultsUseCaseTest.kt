@@ -69,13 +69,18 @@ class GetSearchResultsUseCaseTest {
         SearchResult.RouteItem(
             "Name", // TODO: Update name parameter
             TestRoutes.route44.short_name,
-            TestRoutes.route44.type.toString()
+            TestRoutes.route44.type.toString(),
+            TestRoutes.route44.id
         )
     )
 
     private val parliamentResult = listOf(
         SearchResult.CategoryHeader(R.string.search_category_places.toString()),
-        SearchResult.PlaceItem(TestPlace.parliament.placeName()!!, TestPlace.parliament.text()!!)
+        SearchResult.PlaceItem(
+            TestPlace.parliament.placeName()!!,
+            TestPlace.parliament.text()!!,
+            TestPlace.parliament.id()!!
+        )
     )
 
     private val search2Result = listOf(
@@ -83,7 +88,8 @@ class GetSearchResultsUseCaseTest {
         SearchResult.RouteItem(
             "Name", // TODO: Update name parameter
             TestRoutes.route2.short_name,
-            TestRoutes.route2.type.toString()
+            TestRoutes.route2.type.toString(),
+            TestRoutes.route2.id
         ),
         SearchResult.CategoryHeader(R.string.search_category_stops.toString()),
         SearchResult.StopItem(
@@ -93,6 +99,6 @@ class GetSearchResultsUseCaseTest {
             TestStops.mackenzieKing2A.id.value
         ),
         SearchResult.CategoryHeader(R.string.search_category_places.toString()),
-        SearchResult.PlaceItem(TestPlace.lisgar29.placeName()!!, TestPlace.lisgar29.text()!!)
+        SearchResult.PlaceItem(TestPlace.lisgar29.placeName()!!, TestPlace.lisgar29.text()!!, TestPlace.lisgar29.id()!!)
     )
 }

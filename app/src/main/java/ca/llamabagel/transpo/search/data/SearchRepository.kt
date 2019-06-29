@@ -74,7 +74,7 @@ class SearchRepository @Inject constructor(
             ?.routeQueries
             ?.getRoutes("$query%", ROUTE_RESULT_LIMIT)
             ?.executeAsList()
-            ?.map { SearchResult.RouteItem("Name", it.short_name, it.type.toString()) } // TODO: update name parameter
+            ?.map { SearchResult.RouteItem("Name", it.short_name, it.type.toString(), it.id) } // TODO: update name
             .orEmpty()
 
         routeChannel.offer(routes)
@@ -83,7 +83,9 @@ class SearchRepository @Inject constructor(
     private suspend fun getPlaces(query: String) = withContext(dispatcher.io) {
         val places = geocoder.takeIf { query.isNotEmpty() }
             ?.getAutocompleteResults(query, MIN_LNG, MIN_LAT, MAX_LNG, MAX_LAT, PLACE_RESULT_LIMIT)
-            ?.map { feature -> SearchResult.PlaceItem(feature.placeName().orEmpty(), feature.text().orEmpty()) }
+            ?.map { feature ->
+                SearchResult.PlaceItem(feature.placeName().orEmpty(), feature.text().orEmpty(), feature.id().orEmpty())
+            }
             .orEmpty()
 
         placeChannel.offer(places)

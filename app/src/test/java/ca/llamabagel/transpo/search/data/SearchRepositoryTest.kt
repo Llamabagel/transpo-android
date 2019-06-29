@@ -129,11 +129,16 @@ class SearchRepositoryTest {
         SearchResult.RouteItem(
             "Name", // TODO: Update name parameter
             TestRoutes.route44.short_name,
-            TestRoutes.route44.type.toString()
+            TestRoutes.route44.type.toString(),
+            TestRoutes.route44.id
         )
     )
 
     private val parliamentResult = listOf(
-        SearchResult.PlaceItem(TestPlace.parliament.placeName()!!, TestPlace.parliament.text()!!)
+        SearchResult.PlaceItem(
+            TestPlace.parliament.placeName()!!,
+            TestPlace.parliament.text()!!,
+            TestPlace.parliament.id()!!
+        )
     )
 }

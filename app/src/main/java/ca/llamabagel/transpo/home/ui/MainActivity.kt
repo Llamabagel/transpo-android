@@ -17,8 +17,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.search.ui.SearchActivity
+import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.ID_EXTRA
 import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.SEARCH_REQUEST_CODE
-import ca.llamabagel.transpo.trips.ui.STOP_ID_EXTRA
 import ca.llamabagel.transpo.trips.ui.TripsActivity
 import ca.llamabagel.transpo.utils.startActivity
 import ca.llamabagel.transpo.utils.startActivityForResult
@@ -51,9 +51,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == SEARCH_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            data?.getStringExtra(STOP_ID_EXTRA).takeIf { it != null }?.let { stopId ->
+            data?.getStringExtra(ID_EXTRA).takeIf { it != null }?.let { stopId ->
                 startActivity<TripsActivity>(this) {
-                    putExtra(STOP_ID_EXTRA, stopId)
+                    putExtra(ID_EXTRA, stopId)
                 }
             }
         }
