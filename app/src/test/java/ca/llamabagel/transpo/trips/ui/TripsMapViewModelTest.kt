@@ -32,7 +32,6 @@ class TripsMapViewModelTest {
         val updateTripData = UpdateTripDataUseCase(repository)
         updateTripData(TestStops.mackenzieKing.id)
 
-        // TODO: See if Flow can be tested synchronously correctly
         delay(100)
 
         assertNotNull(viewModel.viewerData.value)
