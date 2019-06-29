@@ -40,5 +40,8 @@
             android:id="@+id/tripDetailsFragment"
             android:name="ca.llamabagel.transpo.trips.ui.TripDetailsFragment"
             android:label="fragment_trip_details"
-            tools:layout="@layout/trip_details_fragment"/>
+            tools:layout="@layout/trip_details_fragment">
+        <argument android:name="stop_id" app:argType="string"/>
+        <argument android:name="trip" app:argType="ca.llamabagel.transpo.trips.ui.SingleTrip"/>
+    </fragment>
 </navigation>

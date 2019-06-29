@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.BuildConfig
@@ -57,7 +58,15 @@ class TripsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = TripsAdapter()
+        val adapter = TripsAdapter(itemClickListener = {
+            if (it is TripItem) {
+                val action = TripsFragmentDirections.actionTripsFragmentToTripDetailsFragment(
+                    args.stopId,
+                    SingleTrip(it.route.number, it.route.directionId, it.trip.startTime)
+                )
+                findNavController().navigate(action)
+            }
+        })
         view.findViewById<RecyclerView>(R.id.recycler_view).adapter = adapter
 
         viewModel.setStop(StopId(args.stopId), args.selectedRoutes)
