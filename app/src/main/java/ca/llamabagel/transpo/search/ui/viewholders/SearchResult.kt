@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.DiffUtil
 sealed class SearchResult {
 
     abstract infix fun sameAs(other: SearchResult): Boolean
+    abstract val type: String
+    abstract val id: String
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SearchResult>() {
@@ -24,7 +26,12 @@ sealed class SearchResult {
         }
     }
 
-    data class CategoryHeader(val header: String) : SearchResult() {
+    data class CategoryHeader(
+        val header: String,
+        override val id: String = "",
+        override val type: String = "category"
+    ) : SearchResult() {
+
         override fun sameAs(other: SearchResult): Boolean {
             if (other !is CategoryHeader) return false
 
@@ -32,15 +39,29 @@ sealed class SearchResult {
         }
     }
 
-    data class RouteItem(val name: String, val number: String, val type: String) : SearchResult() {
+    data class RouteItem(
+        val name: String,
+        val number: String,
+        val routeType: String,
+        override val id: String,
+        override val type: String = "route"
+    ) : SearchResult() {
+
         override fun sameAs(other: SearchResult): Boolean {
             if (other !is RouteItem) return false
 
-            return other.name == name && other.number == number && other.type == type
+            return other.name == name && other.number == number && other.routeType == routeType
         }
     }
 
-    data class StopItem(val name: String, val code: String, val routes: String, val id: String) : SearchResult() {
+    data class StopItem(
+        val name: String,
+        val code: String,
+        val routes: String,
+        override val id: String,
+        override val type: String = "stop"
+    ) : SearchResult() {
+
         override fun sameAs(other: SearchResult): Boolean {
             if (other !is StopItem) return false
 
@@ -48,7 +69,13 @@ sealed class SearchResult {
         }
     }
 
-    data class PlaceItem(val primary: String, val secondary: String) : SearchResult() {
+    data class PlaceItem(
+        val primary: String,
+        val secondary: String,
+        override val id: String,
+        override val type: String = "place"
+    ) : SearchResult() {
+
         override fun sameAs(other: SearchResult): Boolean {
             if (other !is PlaceItem) return false
 

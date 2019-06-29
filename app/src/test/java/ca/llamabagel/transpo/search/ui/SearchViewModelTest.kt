@@ -165,12 +165,17 @@ class SearchViewModelTest {
         SearchResult.RouteItem(
             "Name", // TODO: Update name parameter
             TestRoutes.route44.short_name,
-            TestRoutes.route44.type.toString()
+            TestRoutes.route44.type.toString(),
+            TestRoutes.route44.id
         )
     )
 
     private val parliamentResult = listOf(
         SearchResult.CategoryHeader(R.string.search_category_places.toString()),
-        SearchResult.PlaceItem(TestPlace.parliament.placeName()!!, TestPlace.parliament.text()!!)
+        SearchResult.PlaceItem(
+            TestPlace.parliament.placeName()!!,
+            TestPlace.parliament.text()!!,
+            TestPlace.parliament.id()!!
+        )
     )
 }

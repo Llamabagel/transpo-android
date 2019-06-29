@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
-import ca.llamabagel.transpo.trips.ui.STOP_ID_EXTRA
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
@@ -33,6 +32,8 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         const val SEARCH_REQUEST_CODE = 1
+        const val ID_EXTRA = "id_extra"
+        const val TYPE_EXTRA = "type_extra"
     }
 
     private val viewModel: SearchViewModel by viewModels { injector.searchViewModelFactory() }
@@ -91,16 +92,12 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun onItemClicked(item: SearchResult) {
-        when (item) {
-            is SearchResult.StopItem -> {
-                val returnIntent = Intent().apply { putExtra(STOP_ID_EXTRA, item.id) }
-                setResult(Activity.RESULT_OK, returnIntent)
-                finish()
-            }
-            is SearchResult.RouteItem -> {
-            }
-            is SearchResult.PlaceItem -> {
-            }
+        val returnIntent = Intent().apply {
+            putExtra(ID_EXTRA, item.id)
+            putExtra(TYPE_EXTRA, item.type)
         }
+
+        setResult(Activity.RESULT_OK, returnIntent)
+        finish()
     }
 }

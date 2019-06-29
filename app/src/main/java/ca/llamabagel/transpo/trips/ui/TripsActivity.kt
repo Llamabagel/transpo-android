@@ -18,8 +18,7 @@ import androidx.navigation.ui.setupWithNavController
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.databinding.ActivityTripsBinding
 import ca.llamabagel.transpo.di.injector
-
-const val STOP_ID_EXTRA = "stop_id"
+import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.ID_EXTRA
 
 class TripsActivity : AppCompatActivity() {
 
@@ -46,7 +45,7 @@ class TripsActivity : AppCompatActivity() {
             if (stop == null) {
                 Toast.makeText(
                     this,
-                    "Could not load stop with id ${intent.getStringExtra(STOP_ID_EXTRA)}",
+                    "Could not load stop with id ${intent.getStringExtra(ID_EXTRA)}",
                     Toast.LENGTH_SHORT
                 ).show()
                 finish()

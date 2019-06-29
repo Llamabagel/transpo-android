@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/route_name"
                 app:layout_constraintStart_toEndOf="@id/route_number"
-                android:text="@{route.type}"
+                android:text="@{route.routeType}"
                 android:layout_marginStart="@dimen/medium"
                 tools:text="Rapid Route"/>
 

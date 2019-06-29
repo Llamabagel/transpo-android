@@ -1,0 +1,19 @@
+CREATE TABLE recent_search (
+    id TEXT NOT NULL UNIQUE PRIMARY KEY,
+    type TEXT NOT NULL,
+    date INTEGER NOT NULL,
+    primary_text TEXT NOT NULL,
+    secondary_text TEXT NOT NULL,
+    tertiary_text TEXT
+);
+
+insert:
+REPLACE INTO recent_search(id, type, date, primary_text, secondary_text, tertiary_text)
+VALUES (:id, :type, :date, :primaryText, :secondaryText, :tertiaryText);
+
+getMostRecent:
+SELECT * FROM recent_search ORDER BY recent_search.date DESC LIMIT :limit;
+
+searchRecentStops:
+SELECT * FROM recent_search WHERE primary_text LIKE :primaryText OR secondary_text LIKE :secondaryText OR tertiary_text LIKE :tertiaryText
+ORDER BY recent_search.date DESC LIMIT :limit;
