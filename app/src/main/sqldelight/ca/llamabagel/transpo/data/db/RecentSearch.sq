@@ -4,16 +4,17 @@ CREATE TABLE recent_search (
     date INTEGER NOT NULL,
     primary_text TEXT NOT NULL,
     secondary_text TEXT NOT NULL,
-    tertiary_text TEXT
+    number TEXT,
+    code TEXT
 );
 
 insert:
-REPLACE INTO recent_search(id, type, date, primary_text, secondary_text, tertiary_text)
-VALUES (:id, :type, :date, :primaryText, :secondaryText, :tertiaryText);
+REPLACE INTO recent_search(id, type, date, primary_text, secondary_text, number, code)
+VALUES (:id, :type, :date, :primaryText, :secondaryText, :number, :code);
 
 getMostRecent:
 SELECT * FROM recent_search ORDER BY recent_search.date DESC LIMIT :limit;
 
 searchRecentStops:
-SELECT * FROM recent_search WHERE primary_text LIKE :primaryText OR secondary_text LIKE :secondaryText OR tertiary_text LIKE :tertiaryText
+SELECT * FROM recent_search WHERE primary_text LIKE :query OR secondary_text LIKE :query OR number LIKE :query OR code LIKE :query
 ORDER BY recent_search.date DESC LIMIT :limit;

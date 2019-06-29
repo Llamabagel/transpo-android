@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.search.data.SearchFilter
 import ca.llamabagel.transpo.search.domain.GetSearchResultsUseCase
+import ca.llamabagel.transpo.search.domain.SetRecentSearchResultUseCase
 import ca.llamabagel.transpo.search.domain.UpdateQueryUseCase
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,6 +28,7 @@ enum class KeyboardState {
 @FlowPreview
 @ExperimentalCoroutinesApi
 class SearchViewModel @Inject constructor(
+    private val pushRecentSearchResults: SetRecentSearchResultUseCase,
     private val getSearchResults: GetSearchResultsUseCase,
     private val updateQuery: UpdateQueryUseCase
 ) : ViewModel() {
@@ -71,5 +73,9 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             updateQuery(searchQuery, searchFilter)
         }
+    }
+
+    fun onSearchResultClicked(item: SearchResult) = viewModelScope.launch {
+        pushRecentSearchResults(item)
     }
 }

@@ -5,8 +5,8 @@
 package ca.llamabagel.transpo.search.domain
 
 import ca.llamabagel.transpo.R
-import ca.llamabagel.transpo.search.data.SearchRepository
 import ca.llamabagel.transpo.di.StringsGen
+import ca.llamabagel.transpo.search.data.SearchRepository
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -14,15 +14,20 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combineLatest
 import javax.inject.Inject
 
+@FlowPreview
 @ExperimentalCoroutinesApi
-class GetSearchResultsUseCase @Inject constructor(
+class GetSearchResultsUseCase @FlowPreview
+@Inject constructor(
     private val repository: SearchRepository,
     private val strings: StringsGen
 ) {
 
-    @FlowPreview
     operator fun invoke(): Flow<List<SearchResult>> = repository.routeFlow
-        .combineLatest(repository.stopFlow, repository.placeFlow) { routes, stops, places ->
+        .combineLatest(
+            repository.stopFlow,
+            repository.placeFlow,
+            repository.recentFlow
+        ) { routes, stops, places, recent ->
 
             val searchResults = mutableListOf<SearchResult>()
 
@@ -41,6 +46,11 @@ class GetSearchResultsUseCase @Inject constructor(
                 searchResults.addAll(places)
             }
 
+            recent.takeIf { it.isNotEmpty() }?.let {
+                searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_recent)))
+                searchResults.addAll(recent)
+            }
+
             return@combineLatest searchResults
-    }
+        }
 }

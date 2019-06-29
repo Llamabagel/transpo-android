@@ -35,7 +35,7 @@ sealed class SearchResult {
         override fun sameAs(other: SearchResult): Boolean {
             if (other !is CategoryHeader) return false
 
-            return other.header == header
+            return other.header == header && other.id == id
         }
     }
 
@@ -79,7 +79,23 @@ sealed class SearchResult {
         override fun sameAs(other: SearchResult): Boolean {
             if (other !is PlaceItem) return false
 
-            return other.primary == primary && other.secondary == secondary
+            return other.primary == primary && other.secondary == secondary && other.id == id
+        }
+    }
+
+    data class RecentItem(
+        val primary: String,
+        val secondary: String,
+        val number: String?,
+        val code: String?,
+        override val type: String,
+        override val id: String
+    ) : SearchResult() {
+
+        override fun sameAs(other: SearchResult): Boolean {
+            if (other !is RecentItem) return false
+
+            return other.primary == primary && other.id == id && other.type == type
         }
     }
 }

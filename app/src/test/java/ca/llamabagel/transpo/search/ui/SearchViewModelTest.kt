@@ -11,6 +11,7 @@ import ca.llamabagel.transpo.data.TestRoutes
 import ca.llamabagel.transpo.data.TestStops
 import ca.llamabagel.transpo.data.provideFakeSearchRepository
 import ca.llamabagel.transpo.search.domain.GetSearchResultsUseCase
+import ca.llamabagel.transpo.search.domain.SetRecentSearchResultUseCase
 import ca.llamabagel.transpo.search.domain.UpdateQueryUseCase
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
 import ca.llamabagel.transpo.utils.CoroutinesTestRule
@@ -42,6 +43,7 @@ class SearchViewModelTest {
     fun setUp() {
         val fakeRepo = provideFakeSearchRepository()
         searchViewModel = SearchViewModel(
+            SetRecentSearchResultUseCase(fakeRepo),
             GetSearchResultsUseCase(fakeRepo, FakeStringsGen()),
             UpdateQueryUseCase(fakeRepo)
         )
