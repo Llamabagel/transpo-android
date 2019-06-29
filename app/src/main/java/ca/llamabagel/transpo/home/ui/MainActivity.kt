@@ -20,8 +20,7 @@ import ca.llamabagel.transpo.search.ui.SearchActivity
 import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.ID_EXTRA
 import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.SEARCH_REQUEST_CODE
 import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.TYPE_EXTRA
-import ca.llamabagel.transpo.trips.ui.TripsActivity
-import ca.llamabagel.transpo.utils.startActivity
+import ca.llamabagel.transpo.trips.ui.TripsActivityDirections
 import ca.llamabagel.transpo.utils.startActivityForResult
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -58,11 +57,10 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == SEARCH_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             when (data?.getStringExtra(TYPE_EXTRA)) {
                 "stop" -> data.getStringExtra(ID_EXTRA).takeIf { it != null }?.let { stopId ->
-                    startActivity<TripsActivity>(this) {
-                        putExtra("stop_id", stopId)
-                    }
+                    val navController = findNavController(R.id.nav_host_fragment)
+                    val action = TripsActivityDirections.actionGlobalTripsActivity(stopId)
+                    navController.navigate(action)
                 }
-                else -> {}
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
