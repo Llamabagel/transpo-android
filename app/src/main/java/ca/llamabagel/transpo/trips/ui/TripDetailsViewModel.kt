@@ -22,9 +22,7 @@ class TripDetailsViewModel @Inject constructor(
 
     fun setStop(stopId: StopId, trip: SingleTrip) = viewModelScope.launch {
         getTripDetails(stopId, trip).collect { item ->
-            if (item != null) {
-                _tripData.value = item
-            }
+            item.takeIf { it != null }?.let { _tripData.value = item }
         }
     }
 }
