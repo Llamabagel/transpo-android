@@ -19,10 +19,15 @@ import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.search.ui.SearchActivity
 import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.ID_EXTRA
 import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.SEARCH_REQUEST_CODE
+import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.TYPE_EXTRA
 import ca.llamabagel.transpo.trips.ui.TripsActivityDirections
 import ca.llamabagel.transpo.utils.startActivityForResult
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,10 +55,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == SEARCH_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            data?.getStringExtra(ID_EXTRA).takeIf { it != null }?.let { stopId ->
-                val navController = findNavController(R.id.nav_host_fragment)
-                val action = TripsActivityDirections.actionGlobalTripsActivity(stopId)
-                navController.navigate(action)
+            when (data?.getStringExtra(TYPE_EXTRA)) {
+                "stop" -> data.getStringExtra(ID_EXTRA).takeIf { it != null }?.let { stopId ->
+                    val navController = findNavController(R.id.nav_host_fragment)
+                    val action = TripsActivityDirections.actionGlobalTripsActivity(stopId)
+                    navController.navigate(action)
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data)

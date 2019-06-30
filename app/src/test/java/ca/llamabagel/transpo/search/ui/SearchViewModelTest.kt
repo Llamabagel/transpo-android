@@ -6,11 +6,9 @@ package ca.llamabagel.transpo.search.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import ca.llamabagel.transpo.R
-import ca.llamabagel.transpo.data.TestPlace
-import ca.llamabagel.transpo.data.TestRoutes
-import ca.llamabagel.transpo.data.TestStops
-import ca.llamabagel.transpo.data.provideFakeSearchRepository
+import ca.llamabagel.transpo.data.*
 import ca.llamabagel.transpo.search.domain.GetSearchResultsUseCase
+import ca.llamabagel.transpo.search.domain.SetRecentSearchResultUseCase
 import ca.llamabagel.transpo.search.domain.UpdateQueryUseCase
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
 import ca.llamabagel.transpo.utils.CoroutinesTestRule
@@ -42,6 +40,7 @@ class SearchViewModelTest {
     fun setUp() {
         val fakeRepo = provideFakeSearchRepository()
         searchViewModel = SearchViewModel(
+            SetRecentSearchResultUseCase(fakeRepo),
             GetSearchResultsUseCase(fakeRepo, FakeStringsGen()),
             UpdateQueryUseCase(fakeRepo)
         )
@@ -77,10 +76,10 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `when query is null, search results live data emits empty list`() = runBlockingTest {
+    fun `when query is null, search results live data emits recent results`() = runBlockingTest {
         searchViewModel.fetchSearchResults(null)
 
-        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
+        assertEquals(recentResults, searchViewModel.searchResults.value)
     }
 
     @Test
@@ -150,6 +149,27 @@ class SearchViewModelTest {
         assertEquals(parliamentResult, searchViewModel.searchResults.value)
     }
 
+    @Test
+    fun `when activity is started, recent results are shown`() {
+        searchViewModel.fetchSearchResults("")
+        assertEquals(recentResults, searchViewModel.searchResults.value)
+    }
+
+    @Test
+    fun `when item is clicked, it is added to the recent search database`() {
+        searchViewModel.onSearchResultClicked(
+            SearchResult.StopItem(
+                TestStops.lincolnFields.name,
+                TestStops.lincolnFields.code.value,
+                "",
+                TestStops.lincolnFields.id.value
+            )
+        )
+        searchViewModel.fetchSearchResults("Lincoln Fields")
+
+        assertEquals(lincolnFieldsResult, searchViewModel.searchResults.value)
+    }
+
     private val walkleyResult = listOf(
         SearchResult.CategoryHeader(R.string.search_category_stops.toString()),
         SearchResult.StopItem(
@@ -176,6 +196,30 @@ class SearchViewModelTest {
             TestPlace.parliament.placeName()!!,
             TestPlace.parliament.text()!!,
             TestPlace.parliament.id()!!
+        )
+    )
+
+    private val recentResults = listOf(
+        SearchResult.CategoryHeader(R.string.search_category_recent.toString()),
+        SearchResult.RecentItem(
+            TestRecent.mackenzieKing.primary_text,
+            TestRecent.mackenzieKing.secondary_text,
+            TestRecent.mackenzieKing.number,
+            TestRecent.mackenzieKing.code,
+            TestRecent.mackenzieKing.type,
+            TestRecent.mackenzieKing.id
+        )
+    )
+
+    private val lincolnFieldsResult = listOf(
+        SearchResult.CategoryHeader(R.string.search_category_recent.toString()),
+        SearchResult.RecentItem(
+            TestStops.lincolnFields.name,
+            "",
+            null,
+            TestStops.lincolnFields.code.value,
+            "stop",
+            TestStops.lincolnFields.id.value
         )
     )
 }

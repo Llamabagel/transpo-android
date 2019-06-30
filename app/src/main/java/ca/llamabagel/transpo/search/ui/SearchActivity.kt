@@ -43,6 +43,7 @@ class SearchActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_search)
         setSupportActionBar(findViewById(R.id.toolbar))
+        viewModel.fetchSearchResults("")
 
         val searchBar = findViewById<CustomSearchView>(R.id.search_bar)
         val filterBtn = findViewById<ImageButton>(R.id.filter_button)
@@ -92,6 +93,8 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun onItemClicked(item: SearchResult) {
+        viewModel.onSearchResultClicked(item)
+
         val returnIntent = Intent().apply {
             putExtra(ID_EXTRA, item.id)
             putExtra(TYPE_EXTRA, item.type)

@@ -18,6 +18,7 @@
     <string name="search_category_stops">Stops</string>
     <string name="search_category_routes">Routes</string>
     <string name="search_category_places">Places</string>
+    <string name="search_category_recent">Recent</string>
     <string name="search_stop_no_trips">No upcoming trips</string>
 
     <!-- bottom nav menu -->

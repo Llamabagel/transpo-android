@@ -53,6 +53,15 @@ class SearchAdapter(private val searchResultClickListener: (SearchResult) -> Uni
                 ),
                 searchResultClickListener
             )
+            SEARCH_RESULT_RECENT_LAYOUT -> SearchRecentViewHolder(
+                DataBindingUtil.inflate(
+                    layoutInflater,
+                    SEARCH_RESULT_RECENT_LAYOUT,
+                    parent,
+                    false
+                ),
+                searchResultClickListener
+            )
             else -> throw IllegalArgumentException("No ViewHolder for type $viewType")
         }
     }
@@ -63,6 +72,7 @@ class SearchAdapter(private val searchResultClickListener: (SearchResult) -> Uni
             is SearchRouteViewHolder -> holder.bind(getItem(position) as SearchResult.RouteItem)
             is SearchStopViewHolder -> holder.bind(getItem(position) as SearchResult.StopItem)
             is SearchPlaceViewHolder -> holder.bind(getItem(position) as SearchResult.PlaceItem)
+            is SearchRecentViewHolder -> holder.bind(getItem(position) as SearchResult.RecentItem)
         }
     }
 
@@ -71,5 +81,6 @@ class SearchAdapter(private val searchResultClickListener: (SearchResult) -> Uni
         is SearchResult.RouteItem -> SEARCH_RESULT_ROUTE_LAYOUT
         is SearchResult.StopItem -> SEARCH_RESULT_STOP_LAYOUT
         is SearchResult.PlaceItem -> SEARCH_RESULT_PLACE_LAYOUT
+        is SearchResult.RecentItem -> SEARCH_RESULT_RECENT_LAYOUT
     }
 }
