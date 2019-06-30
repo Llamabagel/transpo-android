@@ -4,6 +4,7 @@ import ca.llamabagel.transpo.search.data.SearchRepository
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -43,6 +44,7 @@ class SetRecentSearchResultUseCase @Inject constructor(private val repository: S
                 item.id,
                 item.type
             )
+            else -> throw IllegalArgumentException("Can't handle item of type ${item.type}")
         }
     }
 }
