@@ -8,14 +8,12 @@ package ca.llamabagel.transpo.data
  * A generic class that holds a value with its loading status.
  * @param T
  */
-sealed class Result<out T : Any>(open val data: T? = null) {
+sealed class Result<out T : Any> {
+    abstract val data: T?
 
-    class Success<out T : Any>(data: T) : Result<T>(data) {
-        override val data: T
-            get() = super.data!!
-    }
-    class Loading<out T : Any>(data: T? = null) : Result<T>(data)
-    class Error<out T : Any>(val exception: Exception, data: T? = null) : Result<T>(data)
+    data class Success<out T : Any>(override val data: T) : Result<T>()
+    data class Loading<out T : Any>(override val data: T? = null) : Result<T>()
+    data class Error<out T : Any>(val exception: Throwable, override val data: T? = null) : Result<T>()
 
     override fun toString(): String {
         return when (this) {
@@ -24,11 +22,4 @@ sealed class Result<out T : Any>(open val data: T? = null) {
             is Loading<*> -> "Loading[oldData=$data]"
         }
     }
-
-    override fun equals(other: Any?): Boolean {
-        return other is Result<*> &&
-                other.data == data
-    }
-
-    override fun hashCode(): Int = data?.hashCode() ?: 0
 }
