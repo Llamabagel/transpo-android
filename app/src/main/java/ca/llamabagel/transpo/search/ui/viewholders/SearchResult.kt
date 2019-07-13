@@ -6,11 +6,12 @@ package ca.llamabagel.transpo.search.ui.viewholders
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
+import ca.llamabagel.transpo.search.data.SearchFilters
 
 sealed class SearchResult {
 
     abstract infix fun sameAs(other: SearchResult): Boolean
-    abstract val type: String
+    abstract val type: SearchFilters
     abstract val id: String
 
     companion object {
@@ -29,7 +30,7 @@ sealed class SearchResult {
     data class CategoryHeader(
         val header: String,
         override val id: String = "",
-        override val type: String = "category"
+        override val type: SearchFilters = SearchFilters.CATEGORY
     ) : SearchResult() {
 
         override fun sameAs(other: SearchResult): Boolean {
@@ -44,7 +45,7 @@ sealed class SearchResult {
         val number: String,
         val routeType: String,
         override val id: String,
-        override val type: String = "route"
+        override val type: SearchFilters = SearchFilters.ROUTE
     ) : SearchResult() {
 
         override fun sameAs(other: SearchResult): Boolean {
@@ -59,7 +60,7 @@ sealed class SearchResult {
         val code: String,
         val routes: String,
         override val id: String,
-        override val type: String = "stop"
+        override val type: SearchFilters = SearchFilters.STOP
     ) : SearchResult() {
 
         override fun sameAs(other: SearchResult): Boolean {
@@ -73,7 +74,7 @@ sealed class SearchResult {
         val primary: String,
         val secondary: String,
         override val id: String,
-        override val type: String = "place"
+        override val type: SearchFilters = SearchFilters.PLACE
     ) : SearchResult() {
 
         override fun sameAs(other: SearchResult): Boolean {
@@ -88,7 +89,7 @@ sealed class SearchResult {
         val secondary: String,
         val number: String?,
         val code: String?,
-        override val type: String,
+        override val type: SearchFilters = SearchFilters.RECENT,
         override val id: String
     ) : SearchResult() {
 

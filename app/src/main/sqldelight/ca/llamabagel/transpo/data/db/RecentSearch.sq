@@ -1,6 +1,8 @@
+import ca.llamabagel.transpo.search.data.SearchFilters;
+
 CREATE TABLE recent_search (
     id TEXT NOT NULL UNIQUE PRIMARY KEY,
-    type TEXT NOT NULL,
+    type INTEGER As SearchFilters NOT NULL,
     date INTEGER NOT NULL,
     primary_text TEXT NOT NULL,
     secondary_text TEXT NOT NULL,
@@ -13,8 +15,8 @@ REPLACE INTO recent_search(id, type, date, primary_text, secondary_text, number,
 VALUES (:id, :type, :date, :primaryText, :secondaryText, :number, :code);
 
 getMostRecent:
-SELECT * FROM recent_search ORDER BY recent_search.date DESC LIMIT :limit;
+SELECT * FROM recent_search WHERE type NOT IN :exclusionList ORDER BY date DESC LIMIT :limit;
 
 searchRecentStops:
-SELECT * FROM recent_search WHERE primary_text LIKE :query OR secondary_text LIKE :query OR number LIKE :query OR code LIKE :query
+SELECT * FROM recent_search WHERE type NOT IN :exclusionList AND (primary_text LIKE :query OR secondary_text LIKE :query OR number LIKE :query OR code LIKE :query)
 ORDER BY recent_search.date DESC LIMIT :limit;

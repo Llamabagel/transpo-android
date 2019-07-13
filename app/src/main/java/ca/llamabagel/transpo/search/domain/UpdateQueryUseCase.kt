@@ -7,8 +7,10 @@ package ca.llamabagel.transpo.search.domain
 import ca.llamabagel.transpo.search.data.SearchFilter
 import ca.llamabagel.transpo.search.data.SearchRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
+@FlowPreview
 @ExperimentalCoroutinesApi
 class UpdateQueryUseCase @Inject constructor(private val searchRepository: SearchRepository) {
 

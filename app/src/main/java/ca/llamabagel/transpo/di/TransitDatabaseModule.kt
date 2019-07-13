@@ -5,10 +5,8 @@
 package ca.llamabagel.transpo.di
 
 import android.content.Context
-import ca.llamabagel.transpo.data.db.Stop
-import ca.llamabagel.transpo.data.db.StopCode
-import ca.llamabagel.transpo.data.db.StopId
-import ca.llamabagel.transpo.data.db.TransitDatabase
+import ca.llamabagel.transpo.data.db.*
+import ca.llamabagel.transpo.search.data.SearchFilters
 import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
@@ -21,8 +19,11 @@ class TransitDatabaseModule {
 
     @Provides
     @Singleton
-    fun provideTransitDatabase(sqlDriver: SqlDriver, stopAdapter: Stop.Adapter): TransitDatabase =
-        TransitDatabase(sqlDriver, stopAdapter)
+    fun provideTransitDatabase(
+        sqlDriver: SqlDriver,
+        recentAdapter: Recent_search.Adapter,
+        stopAdapter: Stop.Adapter
+    ): TransitDatabase = TransitDatabase(sqlDriver, recentAdapter, stopAdapter)
 
     @Provides
     @Singleton
@@ -31,14 +32,27 @@ class TransitDatabaseModule {
 
     @Provides
     @Singleton
+    fun provideRecentAdapter(): Recent_search.Adapter = RECENT_ADAPTER
+
+    @Provides
+    @Singleton
     fun provideStopAdapter(): Stop.Adapter = STOP_ADAPTER
 
     companion object {
+
         private val stopIdAdapter = object : ColumnAdapter<StopId, String> {
             override fun decode(databaseValue: String): StopId = StopId(databaseValue)
 
             override fun encode(value: StopId): String = value.value
         }
+
+        val RECENT_ADAPTER = Recent_search.Adapter(
+            typeAdapter = object : ColumnAdapter<SearchFilters, Long> {
+                override fun decode(databaseValue: Long): SearchFilters = SearchFilters.values()[databaseValue.toInt()]
+
+                override fun encode(value: SearchFilters): Long = value.ordinal.toLong()
+            }
+        )
 
         val STOP_ADAPTER = Stop.Adapter(
             idAdapter = stopIdAdapter,

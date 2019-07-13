@@ -16,6 +16,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import ca.llamabagel.transpo.R
+import ca.llamabagel.transpo.search.data.SearchFilters
 import ca.llamabagel.transpo.search.ui.SearchActivity
 import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.ID_EXTRA
 import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.SEARCH_REQUEST_CODE
@@ -54,12 +55,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == SEARCH_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            when (data?.getStringExtra(TYPE_EXTRA)) {
-                "stop" -> data.getStringExtra(ID_EXTRA).takeIf { it != null }?.let { stopId ->
+        if (requestCode == SEARCH_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            when (data.getSerializableExtra(TYPE_EXTRA) as SearchFilters) {
+                SearchFilters.STOP -> data.getStringExtra(ID_EXTRA)?.let { stopId ->
                     val navController = findNavController(R.id.nav_host_fragment)
                     val action = TripsActivityDirections.actionGlobalTripsActivity(stopId)
                     navController.navigate(action)
+                }
+                else -> {
                 }
             }
         }

@@ -7,6 +7,7 @@ package ca.llamabagel.transpo.search.ui
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.data.*
+import ca.llamabagel.transpo.search.data.SearchFilters
 import ca.llamabagel.transpo.search.domain.GetSearchResultsUseCase
 import ca.llamabagel.transpo.search.domain.SetRecentSearchResultUseCase
 import ca.llamabagel.transpo.search.domain.UpdateQueryUseCase
@@ -201,14 +202,9 @@ class SearchViewModelTest {
 
     private val recentResults = listOf(
         SearchResult.CategoryHeader(R.string.search_category_recent.toString()),
-        SearchResult.RecentItem(
-            TestRecent.mackenzieKing.primary_text,
-            TestRecent.mackenzieKing.secondary_text,
-            TestRecent.mackenzieKing.number,
-            TestRecent.mackenzieKing.code,
-            TestRecent.mackenzieKing.type,
-            TestRecent.mackenzieKing.id
-        )
+        TestRecent.mackenzieKing.toSearchResult(),
+        TestRecent.route95.toSearchResult(),
+        TestRecent.laurier110.toSearchResult()
     )
 
     private val lincolnFieldsResult = listOf(
@@ -218,7 +214,7 @@ class SearchViewModelTest {
             "",
             null,
             TestStops.lincolnFields.code.value,
-            "stop",
+            SearchFilters.STOP,
             TestStops.lincolnFields.id.value
         )
     )

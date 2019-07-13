@@ -7,6 +7,7 @@ package ca.llamabagel.transpo.search.data
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.data.*
+import ca.llamabagel.transpo.search.data.SearchFilters.PLACE
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -17,7 +18,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import java.util.*
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -116,13 +116,15 @@ class SearchRepositoryTest {
 
     @Test
     fun `when item is clicked, it is first in recent results list`() = runBlockingTest {
-        repository.pushRecent("primary", "secondary", null, null, "skdjf2034", "place")
+        repository.pushRecent("primary", "secondary", null, null, "skdjf2034", PLACE)
         repository.getSearchResults("", filters)
 
         assertEquals(
             listOf(
-                SearchResult.RecentItem("primary", "secondary", null, null, "place", "skdjf2034"),
-                mackenzieRecentResult
+                SearchResult.RecentItem("primary", "secondary", null, null, PLACE, "skdjf2034"),
+                TestRecent.mackenzieKing.toSearchResult(),
+                TestRecent.route95.toSearchResult(),
+                TestRecent.laurier110.toSearchResult()
             ),
             repository.recentFlow.first()
         )
@@ -130,14 +132,16 @@ class SearchRepositoryTest {
 
     @Test
     fun `when recent item is clicked twice, only one item is emitted`() = runBlockingTest {
-        repository.pushRecent("primary", "secondary", null, null, "skdjf2034", "place")
-        repository.pushRecent("primary", "secondary", null, null, "skdjf2034", "place")
+        repository.pushRecent("primary", "secondary", null, null, "skdjf2034", PLACE)
+        repository.pushRecent("primary", "secondary", null, null, "skdjf2034", PLACE)
         repository.getSearchResults("", filters)
 
         assertEquals(
             listOf(
-                SearchResult.RecentItem("primary", "secondary", null, null, "place", "skdjf2034"),
-                mackenzieRecentResult
+                SearchResult.RecentItem("primary", "secondary", null, null, PLACE, "skdjf2034"),
+                TestRecent.mackenzieKing.toSearchResult(),
+                TestRecent.route95.toSearchResult(),
+                TestRecent.laurier110.toSearchResult()
             ),
             repository.recentFlow.first()
         )
@@ -147,7 +151,14 @@ class SearchRepositoryTest {
     fun `when search is empty, recent item is emitted`() = runBlockingTest {
         repository.getSearchResults("", filters)
 
-        assertEquals(listOf(mackenzieRecentResult), repository.recentFlow.first())
+        assertEquals(
+            listOf(
+                TestRecent.mackenzieKing.toSearchResult(),
+                TestRecent.route95.toSearchResult(),
+                TestRecent.laurier110.toSearchResult()
+            ),
+            repository.recentFlow.first()
+        )
     }
 
     @Test
@@ -161,7 +172,28 @@ class SearchRepositoryTest {
     fun `when search is not empty and there are matching recent results, recent item is emitted`() = runBlockingTest {
         repository.getSearchResults("mackenzie", filters)
 
-        assertEquals(listOf(mackenzieRecentResult), repository.recentFlow.first())
+        assertEquals(listOf(TestRecent.mackenzieKing.toSearchResult()), repository.recentFlow.first())
+    }
+
+    @Test
+    fun `when stop filter is turned off recent stop results are not shown`() = runBlockingTest {
+        repository.getSearchResults("mackenzie", SearchFilter(stops = false))
+
+        assertEquals(emptyList<SearchResult>(), repository.recentFlow.first())
+    }
+
+    @Test
+    fun `when route filter is turned off recent stop results are not shown`() = runBlockingTest {
+        repository.getSearchResults("95", SearchFilter(routes = false))
+
+        assertEquals(emptyList<SearchResult>(), repository.recentFlow.first())
+    }
+
+    @Test
+    fun `when place filter is turned off recent stop results are not shown`() = runBlockingTest {
+        repository.getSearchResults("110 Laurier", SearchFilter(places = false))
+
+        assertEquals(emptyList<SearchResult>(), repository.recentFlow.first())
     }
 
     private val walkleyResult = listOf(
@@ -188,14 +220,5 @@ class SearchRepositoryTest {
             TestPlace.parliament.text()!!,
             TestPlace.parliament.id()!!
         )
-    )
-
-    private val mackenzieRecentResult = SearchResult.RecentItem(
-        TestRecent.mackenzieKing.primary_text,
-        TestRecent.mackenzieKing.secondary_text,
-        TestRecent.mackenzieKing.number,
-        TestRecent.mackenzieKing.code,
-        TestRecent.mackenzieKing.type,
-        TestRecent.mackenzieKing.id
     )
 }
