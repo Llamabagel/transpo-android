@@ -17,13 +17,10 @@ sealed class SearchResult {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SearchResult>() {
 
-            override fun areItemsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean =
-                oldItem sameAs newItem
+            override fun areItemsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean = oldItem sameAs newItem
 
             @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
-                return oldItem == newItem
-            }
+            override fun areContentsTheSame(oldItem: SearchResult, newItem: SearchResult) = oldItem == newItem
         }
     }
 
@@ -44,9 +41,10 @@ sealed class SearchResult {
         val name: String,
         val number: String,
         val routeType: String,
-        override val id: String,
-        override val type: SearchFilters = SearchFilters.ROUTE
+        override val id: String
     ) : SearchResult() {
+
+        override val type: SearchFilters = SearchFilters.ROUTE
 
         override fun sameAs(other: SearchResult): Boolean {
             if (other !is RouteItem) return false
@@ -59,9 +57,10 @@ sealed class SearchResult {
         val name: String,
         val code: String,
         val routes: String,
-        override val id: String,
-        override val type: SearchFilters = SearchFilters.STOP
+        override val id: String
     ) : SearchResult() {
+
+        override val type: SearchFilters = SearchFilters.STOP
 
         override fun sameAs(other: SearchResult): Boolean {
             if (other !is StopItem) return false
@@ -73,9 +72,10 @@ sealed class SearchResult {
     data class PlaceItem(
         val primary: String,
         val secondary: String,
-        override val id: String,
-        override val type: SearchFilters = SearchFilters.PLACE
+        override val id: String
     ) : SearchResult() {
+
+        override val type: SearchFilters = SearchFilters.PLACE
 
         override fun sameAs(other: SearchResult): Boolean {
             if (other !is PlaceItem) return false
@@ -89,7 +89,7 @@ sealed class SearchResult {
         val secondary: String,
         val number: String?,
         val code: String?,
-        override val type: SearchFilters = SearchFilters.RECENT,
+        override val type: SearchFilters,
         override val id: String
     ) : SearchResult() {
 
