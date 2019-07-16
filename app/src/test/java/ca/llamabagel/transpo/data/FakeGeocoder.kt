@@ -5,6 +5,7 @@
 package ca.llamabagel.transpo.data
 
 import ca.llamabagel.transpo.di.GeocodingWrapper
+import ca.llamabagel.transpo.search.ui.viewholders.PlaceResult
 import com.mapbox.api.geocoding.v5.models.CarmenFeature
 
 class FakeGeocoder : GeocodingWrapper {
@@ -31,3 +32,5 @@ object TestPlace {
     var lisgar29 =
         CarmenFeature.fromJson("""{"type":"Feature","id":"address.5714516353518348","geometry":{"coordinates":[-75.688001,45.420854],"type":"Point"},"properties":{"accuracy":"point"},"text":"Lisgar Street","place_name":"29 Lisgar Street, Ottawa, Ontario K2P 0C1, Canada","place_type":["address"],"address":"29","center":[-75.688001,45.420854],"context":[{"id":"neighborhood.15312013322120830","text":"The Canal"},{"id":"postcode.13752684191404510","text":"K2P 0C1"},{"id":"place.15087147145789660","text":"Ottawa","wikidata":"Q1930"},{"id":"region.7377835739263190","text":"Ontario","short_code":"CA-ON","wikidata":"Q1904"},{"id":"country.4282270149587150","text":"Canada","short_code":"ca","wikidata":"Q16"}],"relevance":1.0}""")
 }
+
+fun CarmenFeature.toSearchResult() = PlaceResult(placeName().orEmpty(), text().orEmpty(), id().orEmpty())

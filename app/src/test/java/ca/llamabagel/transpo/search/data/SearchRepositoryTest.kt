@@ -5,9 +5,8 @@
 package ca.llamabagel.transpo.search.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.data.*
-import ca.llamabagel.transpo.search.data.SearchFilters.PLACE
+import ca.llamabagel.transpo.search.data.SearchFilters.*
 import ca.llamabagel.transpo.search.ui.viewholders.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -76,21 +75,21 @@ class SearchRepositoryTest {
     fun `when there is a matching stop, stop search result is offered`() = runBlockingTest {
         repository.getSearchResults("Walkley", filters)
 
-        assertEquals(walkleyResult, repository.stopFlow.first())
+        assertEquals(listOf(TestStops.walkleyJasper.toSearchResult()), repository.stopFlow.first())
     }
 
     @Test
     fun `when there is a matching route, route search result is offered`() = runBlockingTest {
         repository.getSearchResults("44", filters)
 
-        assertEquals(route44Result, repository.routeFlow.first())
+        assertEquals(listOf(TestRoutes.route44.toSearchResult()), repository.routeFlow.first())
     }
 
     @Test
     fun `when there is a matching place, place search result is offered`() = runBlockingTest {
         repository.getSearchResults("Parliament", filters)
 
-        assertEquals(parliamentResult, repository.placeFlow.first())
+        assertEquals(listOf(TestPlace.parliament.toSearchResult()), repository.placeFlow.first())
     }
 
     @Test
@@ -196,29 +195,27 @@ class SearchRepositoryTest {
         assertEquals(emptyList<SearchResult>(), repository.recentFlow.first())
     }
 
-    private val walkleyResult = listOf(
-        StopResult(
-            TestStops.walkleyJasper.name,
-            "• ${TestStops.walkleyJasper.code.value}",
-            R.string.search_stop_no_trips.toString(),
-            TestStops.walkleyJasper.id.value
-        )
-    )
+    @Test
+    fun `when recent stop is also a stop result, only show the recent stop`() = runBlockingTest {
+        repository.pushRecent("Mackenzie King 2A", "", null, "3000", TestStops.mackenzieKing2A.id.value, STOP)
+        repository.getSearchResults("Mackenzie King 2A", filters)
 
-    private val route44Result = listOf(
-        RouteResult(
-            "Name", // TODO: Update name parameter
-            TestRoutes.route44.short_name,
-            TestRoutes.route44.type.toString(),
-            TestRoutes.route44.id
-        )
-    )
+        assertEquals(emptyList<StopResult>(), repository.stopFlow.first())
+    }
 
-    private val parliamentResult = listOf(
-        PlaceResult(
-            TestPlace.parliament.placeName()!!,
-            TestPlace.parliament.text()!!,
-            TestPlace.parliament.id()!!
-        )
-    )
+    @Test
+    fun `when recent route is also a route result, only show the recent route`() = runBlockingTest {
+        repository.pushRecent("", "", "44", null, TestRoutes.route44.id, ROUTE)
+        repository.getSearchResults("44", filters)
+
+        assertEquals(emptyList<RouteResult>(), repository.routeFlow.first())
+    }
+
+    @Test
+    fun `when recent place is also a place result, only show the recent place`() = runBlockingTest {
+        repository.pushRecent("Parliament", "", null, null, TestPlace.parliament.id()!!, PLACE)
+        repository.getSearchResults("Parliament", filters)
+
+        assertEquals(emptyList<PlaceResult>(), repository.placeFlow.first())
+    }
 }

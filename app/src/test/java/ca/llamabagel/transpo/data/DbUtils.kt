@@ -4,11 +4,14 @@
 
 package ca.llamabagel.transpo.data
 
+import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.data.db.*
 import ca.llamabagel.transpo.di.TransitDatabaseModule.Companion.RECENT_ADAPTER
 import ca.llamabagel.transpo.di.TransitDatabaseModule.Companion.STOP_ADAPTER
 import ca.llamabagel.transpo.search.data.SearchFilters
 import ca.llamabagel.transpo.search.ui.viewholders.RecentResult
+import ca.llamabagel.transpo.search.ui.viewholders.RouteResult
+import ca.llamabagel.transpo.search.ui.viewholders.StopResult
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 
 fun getTransitDatabase(): TransitDatabase {
@@ -44,6 +47,8 @@ object TestRecent {
     val laurier110 = Recent_search.Impl("address-3453", SearchFilters.PLACE, 1, "110 Laurier", "Ottawa", null, null)
 }
 
+fun Route.Impl.toSearchResult() = RouteResult("Name", short_name, type.toString(), id)
+fun Stop.Impl.toSearchResult() = StopResult(name, "• ${code.value}", R.string.search_stop_no_trips.toString(), id.value)
 fun Recent_search.Impl.toSearchResult() = RecentResult(primary_text, secondary_text, number, code, type, id)
 
 private fun populateTestData(database: TransitDatabase) {

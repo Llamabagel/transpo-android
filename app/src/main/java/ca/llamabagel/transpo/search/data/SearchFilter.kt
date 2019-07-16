@@ -10,8 +10,7 @@ enum class SearchFilters {
 data class SearchFilter(
     val stops: Boolean = true,
     val routes: Boolean = true,
-    val places: Boolean = true,
-    val recent: Boolean = true
+    val places: Boolean = true
 ) {
 
     fun getOffFiltersList(): List<SearchFilters> {
