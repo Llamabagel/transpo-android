@@ -55,51 +55,51 @@ class SearchRepository @Inject constructor(
     val recentFlow get() = recentChannel.asFlow()
 
     suspend fun getSearchResults(query: String, filters: SearchFilter) {
-        getRoutes(query.takeIf { filters.routes }.orEmpty())
-        getStops(query.takeIf { filters.stops }.orEmpty())
-        getPlaces(query.takeIf { filters.places }.orEmpty())
-        getRecent(query.takeIf { filters.recent }.orEmpty(), filters)
+        val exclusionList = getRecent(query, filters)
+
+        getRoutes(query.takeIf { filters.routes }.orEmpty(), exclusionList)
+        getStops(query.takeIf { filters.stops }.orEmpty(), exclusionList)
+        getPlaces(query.takeIf { filters.places }.orEmpty(), exclusionList)
     }
 
-    private suspend fun getStops(query: String) = withContext(dispatcher.io) {
+    private fun getRecent(query: String, filters: SearchFilter): List<String> {
+        val recentList = if (query.isEmpty()) {
+            database.recentSearchQueries.getMostRecent(filters.getOffFiltersList(), RECENT_EMPTY_QUERY_RESULT_LIMIT)
+        } else {
+            database.recentSearchQueries.searchRecentStops(filters.getOffFiltersList(), query, RECENT_RESULT_LIMIT)
+        }.executeAsList()
+
+        recentList.map { RecentResult(it.primary_text, it.secondary_text, it.number, it.code, it.type, it.id) }
+            .let(recentChannel::offer)
+
+        return recentList.map { it.id }
+    }
+
+    private suspend fun getStops(query: String, recent: List<String>) = withContext(dispatcher.io) {
         query.takeIf { it.isNotEmpty() }?.let {
             database.stopQueries
-                .getStopsByName("$query*", STOP_RESULT_LIMIT)
+                .getStopsByName(recent, "$query*", STOP_RESULT_LIMIT)
                 .executeAsList()
                 .map { StopResult(it.name, "• ${it.code}", strings.get(R.string.search_stop_no_trips), it.id) }
         }.orEmpty().let(stopChannel::offer)
     }
 
-    private suspend fun getRoutes(query: String) = withContext(dispatcher.io) {
+    private suspend fun getRoutes(query: String, recent: List<String>) = withContext(dispatcher.io) {
         query.takeIf { it.isNotEmpty() }?.let {
             database.routeQueries
-                .getRoutes("$query%", ROUTE_RESULT_LIMIT)
+                .getRoutes(recent, "$query%", ROUTE_RESULT_LIMIT)
                 .executeAsList()
                 .map { RouteResult("Name", it.short_name, it.type.toString(), it.id) } // TODO: update name
         }.orEmpty().let(routeChannel::offer)
     }
 
-    private suspend fun getPlaces(query: String) = withContext(dispatcher.io) {
+    private suspend fun getPlaces(query: String, recent: List<String>) = withContext(dispatcher.io) {
         query.takeIf { it.isNotEmpty() }?.let {
-            geocoder.getAutocompleteResults(query, MIN_LNG, MIN_LAT, MAX_LNG, MAX_LAT, PLACE_RESULT_LIMIT)
+            geocoder.getAutocompleteResults(query, MIN_LNG, MIN_LAT, MAX_LNG, MAX_LAT)
+                .filterNot { recent.contains(it.id()) }
                 .map { PlaceResult(it.placeName().orEmpty(), it.text().orEmpty(), it.id().orEmpty()) }
+                .take(PLACE_RESULT_LIMIT)
         }.orEmpty().let(placeChannel::offer)
-    }
-
-    private suspend fun getRecent(query: String, filters: SearchFilter) = withContext(dispatcher.io) {
-        if (query.isEmpty()) {
-            database.recentSearchQueries
-                .getMostRecent(filters.getOffFiltersList(), RECENT_EMPTY_QUERY_RESULT_LIMIT)
-                .executeAsList()
-                .map { RecentResult(it.primary_text, it.secondary_text, it.number, it.code, it.type, it.id) }
-                .let(recentChannel::offer)
-        } else {
-            database.recentSearchQueries
-                .searchRecentStops(filters.getOffFiltersList(), query, RECENT_RESULT_LIMIT)
-                .executeAsList()
-                .map { RecentResult(it.primary_text, it.secondary_text, it.number, it.code, it.type, it.id) }
-                .let(recentChannel::offer)
-        }
     }
 
     suspend fun pushRecent(

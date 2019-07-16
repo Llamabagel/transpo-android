@@ -24,4 +24,4 @@ INSERT INTO route_fts(id, short_name, long_name, type, service_level, color)
 VALUES (:id, :shortName, :longName, :type, :serviceLevel, :color);
 
 getRoutes:
-SELECT *, 1 FROM route_fts WHERE short_name MATCH :name OR long_name MATCH :name LIMIT :limit;
+SELECT *, 1 FROM route_fts WHERE id NOT IN :exclusionList AND (short_name MATCH :name OR long_name MATCH :name) LIMIT :limit;

@@ -7,7 +7,7 @@ package ca.llamabagel.transpo.search.data
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.data.*
-import ca.llamabagel.transpo.search.data.SearchFilters.PLACE
+import ca.llamabagel.transpo.search.data.SearchFilters.*
 import ca.llamabagel.transpo.search.ui.viewholders.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -194,6 +194,30 @@ class SearchRepositoryTest {
         repository.getSearchResults("110 Laurier", SearchFilter(places = false))
 
         assertEquals(emptyList<SearchResult>(), repository.recentFlow.first())
+    }
+
+    @Test
+    fun `when recent stop is also a stop result, only show the recent stop`() = runBlockingTest {
+        repository.pushRecent("Mackenzie King 2A", "", null, "3000", TestStops.mackenzieKing2A.id.value, STOP)
+        repository.getSearchResults("Mackenzie King 2A", filters)
+
+        assertEquals(emptyList<StopResult>(), repository.stopFlow.first())
+    }
+
+    @Test
+    fun `when recent route is also a route result, only show the recent route`() = runBlockingTest {
+        repository.pushRecent("", "", "44", null, TestRoutes.route44.id, ROUTE)
+        repository.getSearchResults("44", filters)
+
+        assertEquals(emptyList<RouteResult>(), repository.routeFlow.first())
+    }
+
+    @Test
+    fun `when recent place is also a place result, only show the recent place`() = runBlockingTest {
+        repository.pushRecent("Parliament", "", null, null, TestPlace.parliament.id()!!, PLACE)
+        repository.getSearchResults("Parliament", filters)
+
+        assertEquals(emptyList<PlaceResult>(), repository.placeFlow.first())
     }
 
     private val walkleyResult = listOf(
