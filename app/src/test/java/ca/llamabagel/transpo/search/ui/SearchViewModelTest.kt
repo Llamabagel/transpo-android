@@ -11,7 +11,7 @@ import ca.llamabagel.transpo.search.data.SearchFilters
 import ca.llamabagel.transpo.search.domain.GetSearchResultsUseCase
 import ca.llamabagel.transpo.search.domain.SetRecentSearchResultUseCase
 import ca.llamabagel.transpo.search.domain.UpdateQueryUseCase
-import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
+import ca.llamabagel.transpo.search.ui.viewholders.*
 import ca.llamabagel.transpo.utils.CoroutinesTestRule
 import ca.llamabagel.transpo.utils.FakeStringsGen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -159,7 +159,7 @@ class SearchViewModelTest {
     @Test
     fun `when item is clicked, it is added to the recent search database`() {
         searchViewModel.onSearchResultClicked(
-            SearchResult.StopItem(
+            StopResult(
                 TestStops.lincolnFields.name,
                 TestStops.lincolnFields.code.value,
                 "",
@@ -172,8 +172,8 @@ class SearchViewModelTest {
     }
 
     private val walkleyResult = listOf(
-        SearchResult.CategoryHeader(R.string.search_category_stops.toString()),
-        SearchResult.StopItem(
+        CategoryHeader(R.string.search_category_stops.toString()),
+        StopResult(
             TestStops.walkleyJasper.name,
             "• ${TestStops.walkleyJasper.code.value}",
             R.string.search_stop_no_trips.toString(),
@@ -182,8 +182,8 @@ class SearchViewModelTest {
     )
 
     private val route44Result = listOf(
-        SearchResult.CategoryHeader(R.string.search_category_routes.toString()),
-        SearchResult.RouteItem(
+        CategoryHeader(R.string.search_category_routes.toString()),
+        RouteResult(
             "Name", // TODO: Update name parameter
             TestRoutes.route44.short_name,
             TestRoutes.route44.type.toString(),
@@ -192,8 +192,8 @@ class SearchViewModelTest {
     )
 
     private val parliamentResult = listOf(
-        SearchResult.CategoryHeader(R.string.search_category_places.toString()),
-        SearchResult.PlaceItem(
+        CategoryHeader(R.string.search_category_places.toString()),
+        PlaceResult(
             TestPlace.parliament.placeName()!!,
             TestPlace.parliament.text()!!,
             TestPlace.parliament.id()!!
@@ -201,15 +201,15 @@ class SearchViewModelTest {
     )
 
     private val recentResults = listOf(
-        SearchResult.CategoryHeader(R.string.search_category_recent.toString()),
+        CategoryHeader(R.string.search_category_recent.toString()),
         TestRecent.mackenzieKing.toSearchResult(),
         TestRecent.route95.toSearchResult(),
         TestRecent.laurier110.toSearchResult()
     )
 
     private val lincolnFieldsResult = listOf(
-        SearchResult.CategoryHeader(R.string.search_category_recent.toString()),
-        SearchResult.RecentItem(
+        CategoryHeader(R.string.search_category_recent.toString()),
+        RecentResult(
             TestStops.lincolnFields.name,
             "",
             null,

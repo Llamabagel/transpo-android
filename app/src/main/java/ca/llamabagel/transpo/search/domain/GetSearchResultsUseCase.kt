@@ -7,6 +7,7 @@ package ca.llamabagel.transpo.search.domain
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.StringsGen
 import ca.llamabagel.transpo.search.data.SearchRepository
+import ca.llamabagel.transpo.search.ui.viewholders.CategoryHeader
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -32,22 +33,22 @@ class GetSearchResultsUseCase @FlowPreview
             val searchResults = mutableListOf<SearchResult>()
 
             routes.takeIf { it.isNotEmpty() }?.let {
-                searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_routes)))
+                searchResults.add(CategoryHeader(strings.get(R.string.search_category_routes)))
                 searchResults.addAll(routes)
             }
 
             stops.takeIf { it.isNotEmpty() }?.let {
-                searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_stops)))
+                searchResults.add(CategoryHeader(strings.get(R.string.search_category_stops)))
                 searchResults.addAll(stops)
             }
 
             places.takeIf { it.isNotEmpty() }?.let {
-                searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_places)))
+                searchResults.add(CategoryHeader(strings.get(R.string.search_category_places)))
                 searchResults.addAll(places)
             }
 
             recent.takeIf { it.isNotEmpty() }?.let {
-                searchResults.add(SearchResult.CategoryHeader(strings.get(R.string.search_category_recent)))
+                searchResults.add(CategoryHeader(strings.get(R.string.search_category_recent)))
                 searchResults.addAll(recent)
             }
 

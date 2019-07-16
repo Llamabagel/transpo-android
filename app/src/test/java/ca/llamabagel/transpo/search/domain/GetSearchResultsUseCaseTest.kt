@@ -10,7 +10,10 @@ import ca.llamabagel.transpo.data.TestRoutes
 import ca.llamabagel.transpo.data.TestStops
 import ca.llamabagel.transpo.data.provideFakeSearchRepository
 import ca.llamabagel.transpo.search.data.SearchFilter
-import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
+import ca.llamabagel.transpo.search.ui.viewholders.CategoryHeader
+import ca.llamabagel.transpo.search.ui.viewholders.PlaceResult
+import ca.llamabagel.transpo.search.ui.viewholders.RouteResult
+import ca.llamabagel.transpo.search.ui.viewholders.StopResult
 import ca.llamabagel.transpo.utils.FakeStringsGen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -55,8 +58,8 @@ class GetSearchResultsUseCaseTest {
     }
 
     private val walkleyResult = listOf(
-        SearchResult.CategoryHeader(R.string.search_category_stops.toString()),
-        SearchResult.StopItem(
+        CategoryHeader(R.string.search_category_stops.toString()),
+        StopResult(
             TestStops.walkleyJasper.name,
             "• ${TestStops.walkleyJasper.code.value}",
             R.string.search_stop_no_trips.toString(),
@@ -65,8 +68,8 @@ class GetSearchResultsUseCaseTest {
     )
 
     private val route44Result = listOf(
-        SearchResult.CategoryHeader(R.string.search_category_routes.toString()),
-        SearchResult.RouteItem(
+        CategoryHeader(R.string.search_category_routes.toString()),
+        RouteResult(
             "Name", // TODO: Update name parameter
             TestRoutes.route44.short_name,
             TestRoutes.route44.type.toString(),
@@ -75,8 +78,8 @@ class GetSearchResultsUseCaseTest {
     )
 
     private val parliamentResult = listOf(
-        SearchResult.CategoryHeader(R.string.search_category_places.toString()),
-        SearchResult.PlaceItem(
+        CategoryHeader(R.string.search_category_places.toString()),
+        PlaceResult(
             TestPlace.parliament.placeName()!!,
             TestPlace.parliament.text()!!,
             TestPlace.parliament.id()!!
@@ -84,21 +87,21 @@ class GetSearchResultsUseCaseTest {
     )
 
     private val search2Result = listOf(
-        SearchResult.CategoryHeader(R.string.search_category_routes.toString()),
-        SearchResult.RouteItem(
+        CategoryHeader(R.string.search_category_routes.toString()),
+        RouteResult(
             "Name", // TODO: Update name parameter
             TestRoutes.route2.short_name,
             TestRoutes.route2.type.toString(),
             TestRoutes.route2.id
         ),
-        SearchResult.CategoryHeader(R.string.search_category_stops.toString()),
-        SearchResult.StopItem(
+        CategoryHeader(R.string.search_category_stops.toString()),
+        StopResult(
             TestStops.mackenzieKing2A.name,
             "• ${TestStops.mackenzieKing2A.code.value}",
             R.string.search_stop_no_trips.toString(),
             TestStops.mackenzieKing2A.id.value
         ),
-        SearchResult.CategoryHeader(R.string.search_category_places.toString()),
-        SearchResult.PlaceItem(TestPlace.lisgar29.placeName()!!, TestPlace.lisgar29.text()!!, TestPlace.lisgar29.id()!!)
+        CategoryHeader(R.string.search_category_places.toString()),
+        PlaceResult(TestPlace.lisgar29.placeName()!!, TestPlace.lisgar29.text()!!, TestPlace.lisgar29.id()!!)
     )
 }

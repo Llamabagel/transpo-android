@@ -8,7 +8,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.data.*
 import ca.llamabagel.transpo.search.data.SearchFilters.PLACE
-import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
+import ca.llamabagel.transpo.search.ui.viewholders.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.first
@@ -121,7 +121,7 @@ class SearchRepositoryTest {
 
         assertEquals(
             listOf(
-                SearchResult.RecentItem("primary", "secondary", null, null, PLACE, "skdjf2034"),
+                RecentResult("primary", "secondary", null, null, PLACE, "skdjf2034"),
                 TestRecent.mackenzieKing.toSearchResult(),
                 TestRecent.route95.toSearchResult(),
                 TestRecent.laurier110.toSearchResult()
@@ -138,7 +138,7 @@ class SearchRepositoryTest {
 
         assertEquals(
             listOf(
-                SearchResult.RecentItem("primary", "secondary", null, null, PLACE, "skdjf2034"),
+                RecentResult("primary", "secondary", null, null, PLACE, "skdjf2034"),
                 TestRecent.mackenzieKing.toSearchResult(),
                 TestRecent.route95.toSearchResult(),
                 TestRecent.laurier110.toSearchResult()
@@ -197,7 +197,7 @@ class SearchRepositoryTest {
     }
 
     private val walkleyResult = listOf(
-        SearchResult.StopItem(
+        StopResult(
             TestStops.walkleyJasper.name,
             "• ${TestStops.walkleyJasper.code.value}",
             R.string.search_stop_no_trips.toString(),
@@ -206,7 +206,7 @@ class SearchRepositoryTest {
     )
 
     private val route44Result = listOf(
-        SearchResult.RouteItem(
+        RouteResult(
             "Name", // TODO: Update name parameter
             TestRoutes.route44.short_name,
             TestRoutes.route44.type.toString(),
@@ -215,7 +215,7 @@ class SearchRepositoryTest {
     )
 
     private val parliamentResult = listOf(
-        SearchResult.PlaceItem(
+        PlaceResult(
             TestPlace.parliament.placeName()!!,
             TestPlace.parliament.text()!!,
             TestPlace.parliament.id()!!

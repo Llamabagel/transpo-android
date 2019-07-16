@@ -15,13 +15,13 @@ class SearchStopViewHolder(
     private val searchResultClickListener: (SearchResult) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var stop: SearchResult.StopItem
+    private lateinit var stop: StopResult
 
     inner class Handler {
         fun onClick() = searchResultClickListener(stop)
     }
 
-    fun bind(stop: SearchResult.StopItem) {
+    fun bind(stop: StopResult) {
         this.stop = stop
         binding.stop = stop
         binding.handler = Handler()

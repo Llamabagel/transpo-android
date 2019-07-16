@@ -12,7 +12,7 @@
 
         <variable
                 name="stop"
-                type="ca.llamabagel.transpo.search.ui.viewholders.SearchResult.StopItem"/>
+                type="ca.llamabagel.transpo.search.ui.viewholders.StopResult"/>
 
         <variable
                 name="handler"

@@ -15,13 +15,13 @@ class SearchPlaceViewHolder(
     private val searchResultClickListener: (SearchResult) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var place: SearchResult.PlaceItem
+    private lateinit var place: PlaceResult
 
     inner class Handler {
         fun onClick() = searchResultClickListener(place)
     }
 
-    fun bind(place: SearchResult.PlaceItem) {
+    fun bind(place: PlaceResult) {
         this.place = place
         binding.place = place
         binding.handler = Handler()

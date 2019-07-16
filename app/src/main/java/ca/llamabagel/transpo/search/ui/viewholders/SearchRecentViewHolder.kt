@@ -15,13 +15,13 @@ class SearchRecentViewHolder(
     private val searchResultClickListener: (SearchResult) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var recent: SearchResult.RecentItem
+    private lateinit var recent: RecentResult
 
     inner class Handler {
         fun onClick() = searchResultClickListener(recent)
     }
 
-    fun bind(recent: SearchResult.RecentItem) {
+    fun bind(recent: RecentResult) {
         this.recent = recent
         binding.recent = recent
         binding.handler = Handler()

@@ -15,13 +15,13 @@ class SearchRouteViewHolder(
     private val searchResultClickListener: (SearchResult) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var route: SearchResult.RouteItem
+    private lateinit var route: RouteResult
 
     inner class Handler {
         fun onClick() = searchResultClickListener(route)
     }
 
-    fun bind(route: SearchResult.RouteItem) {
+    fun bind(route: RouteResult) {
         this.route = route
         binding.route = route
         binding.handler = Handler()
