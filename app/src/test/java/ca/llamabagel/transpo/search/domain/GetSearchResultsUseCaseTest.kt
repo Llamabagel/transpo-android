@@ -5,15 +5,9 @@
 package ca.llamabagel.transpo.search.domain
 
 import ca.llamabagel.transpo.R
-import ca.llamabagel.transpo.data.TestPlace
-import ca.llamabagel.transpo.data.TestRoutes
-import ca.llamabagel.transpo.data.TestStops
-import ca.llamabagel.transpo.data.provideFakeSearchRepository
+import ca.llamabagel.transpo.data.*
 import ca.llamabagel.transpo.search.data.SearchFilter
 import ca.llamabagel.transpo.search.ui.viewholders.CategoryHeader
-import ca.llamabagel.transpo.search.ui.viewholders.PlaceResult
-import ca.llamabagel.transpo.search.ui.viewholders.RouteResult
-import ca.llamabagel.transpo.search.ui.viewholders.StopResult
 import ca.llamabagel.transpo.utils.FakeStringsGen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -59,49 +53,25 @@ class GetSearchResultsUseCaseTest {
 
     private val walkleyResult = listOf(
         CategoryHeader(R.string.search_category_stops.toString()),
-        StopResult(
-            TestStops.walkleyJasper.name,
-            "• ${TestStops.walkleyJasper.code.value}",
-            R.string.search_stop_no_trips.toString(),
-            TestStops.walkleyJasper.id.value
-        )
+        TestStops.walkleyJasper.toSearchResult()
     )
 
     private val route44Result = listOf(
         CategoryHeader(R.string.search_category_routes.toString()),
-        RouteResult(
-            "Name", // TODO: Update name parameter
-            TestRoutes.route44.short_name,
-            TestRoutes.route44.type.toString(),
-            TestRoutes.route44.id
-        )
+        TestRoutes.route44.toSearchResult()
     )
 
     private val parliamentResult = listOf(
         CategoryHeader(R.string.search_category_places.toString()),
-        PlaceResult(
-            TestPlace.parliament.placeName()!!,
-            TestPlace.parliament.text()!!,
-            TestPlace.parliament.id()!!
-        )
+        TestPlace.parliament.toSearchResult()
     )
 
     private val search2Result = listOf(
         CategoryHeader(R.string.search_category_routes.toString()),
-        RouteResult(
-            "Name", // TODO: Update name parameter
-            TestRoutes.route2.short_name,
-            TestRoutes.route2.type.toString(),
-            TestRoutes.route2.id
-        ),
+        TestRoutes.route2.toSearchResult(),
         CategoryHeader(R.string.search_category_stops.toString()),
-        StopResult(
-            TestStops.mackenzieKing2A.name,
-            "• ${TestStops.mackenzieKing2A.code.value}",
-            R.string.search_stop_no_trips.toString(),
-            TestStops.mackenzieKing2A.id.value
-        ),
+        TestStops.mackenzieKing2A.toSearchResult(),
         CategoryHeader(R.string.search_category_places.toString()),
-        PlaceResult(TestPlace.lisgar29.placeName()!!, TestPlace.lisgar29.text()!!, TestPlace.lisgar29.id()!!)
+        TestPlace.lisgar29.toSearchResult()
     )
 }
