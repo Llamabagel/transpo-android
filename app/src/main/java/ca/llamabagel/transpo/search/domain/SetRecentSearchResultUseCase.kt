@@ -1,10 +1,9 @@
 package ca.llamabagel.transpo.search.domain
 
 import ca.llamabagel.transpo.search.data.SearchRepository
-import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
+import ca.llamabagel.transpo.search.ui.viewholders.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -12,7 +11,7 @@ import javax.inject.Inject
 class SetRecentSearchResultUseCase @Inject constructor(private val repository: SearchRepository) {
     suspend operator fun invoke(item: SearchResult) {
         when (item) {
-            is SearchResult.RouteItem -> repository.pushRecent(
+            is RouteResult -> repository.pushRecent(
                 item.name,
                 item.routeType,
                 item.number,
@@ -20,7 +19,7 @@ class SetRecentSearchResultUseCase @Inject constructor(private val repository: S
                 item.id,
                 item.type
             )
-            is SearchResult.StopItem -> repository.pushRecent(
+            is StopResult -> repository.pushRecent(
                 item.name,
                 item.routes,
                 null,
@@ -28,7 +27,7 @@ class SetRecentSearchResultUseCase @Inject constructor(private val repository: S
                 item.id,
                 item.type
             )
-            is SearchResult.PlaceItem -> repository.pushRecent(
+            is PlaceResult -> repository.pushRecent(
                 item.primary,
                 item.secondary,
                 null,
@@ -36,7 +35,7 @@ class SetRecentSearchResultUseCase @Inject constructor(private val repository: S
                 item.id,
                 item.type
             )
-            is SearchResult.RecentItem -> repository.pushRecent(
+            is RecentResult -> repository.pushRecent(
                 item.primary,
                 item.secondary,
                 item.number,

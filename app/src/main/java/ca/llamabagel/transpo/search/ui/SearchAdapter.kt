@@ -68,19 +68,19 @@ class SearchAdapter(private val searchResultClickListener: (SearchResult) -> Uni
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is SearchCategoryViewHolder -> holder.bind(getItem(position) as SearchResult.CategoryHeader)
-            is SearchRouteViewHolder -> holder.bind(getItem(position) as SearchResult.RouteItem)
-            is SearchStopViewHolder -> holder.bind(getItem(position) as SearchResult.StopItem)
-            is SearchPlaceViewHolder -> holder.bind(getItem(position) as SearchResult.PlaceItem)
-            is SearchRecentViewHolder -> holder.bind(getItem(position) as SearchResult.RecentItem)
+            is SearchCategoryViewHolder -> holder.bind(getItem(position) as CategoryHeader)
+            is SearchRouteViewHolder -> holder.bind(getItem(position) as RouteResult)
+            is SearchStopViewHolder -> holder.bind(getItem(position) as StopResult)
+            is SearchPlaceViewHolder -> holder.bind(getItem(position) as PlaceResult)
+            is SearchRecentViewHolder -> holder.bind(getItem(position) as RecentResult)
         }
     }
 
     override fun getItemViewType(position: Int) = when (getItem(position)) {
-        is SearchResult.CategoryHeader -> SEARCH_CATEGORY_HEADER_LAYOUT
-        is SearchResult.RouteItem -> SEARCH_RESULT_ROUTE_LAYOUT
-        is SearchResult.StopItem -> SEARCH_RESULT_STOP_LAYOUT
-        is SearchResult.PlaceItem -> SEARCH_RESULT_PLACE_LAYOUT
-        is SearchResult.RecentItem -> SEARCH_RESULT_RECENT_LAYOUT
+        is CategoryHeader -> SEARCH_CATEGORY_HEADER_LAYOUT
+        is RouteResult -> SEARCH_RESULT_ROUTE_LAYOUT
+        is StopResult -> SEARCH_RESULT_STOP_LAYOUT
+        is PlaceResult -> SEARCH_RESULT_PLACE_LAYOUT
+        is RecentResult -> SEARCH_RESULT_RECENT_LAYOUT
     }
 }

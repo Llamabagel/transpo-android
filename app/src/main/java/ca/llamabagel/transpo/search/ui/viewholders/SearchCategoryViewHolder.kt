@@ -12,7 +12,7 @@ const val SEARCH_CATEGORY_HEADER_LAYOUT = R.layout.search_category
 
 class SearchCategoryViewHolder(private val binding: SearchCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(header: SearchResult.CategoryHeader) {
+    fun bind(header: CategoryHeader) {
         binding.category = header
     }
 }

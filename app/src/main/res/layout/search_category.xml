@@ -12,7 +12,7 @@
 
         <variable
                 name="category"
-                type="ca.llamabagel.transpo.search.ui.viewholders.SearchResult.CategoryHeader"/>
+                type="ca.llamabagel.transpo.search.ui.viewholders.CategoryHeader"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

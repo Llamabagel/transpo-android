@@ -5,14 +5,17 @@
 package ca.llamabagel.transpo.data
 
 import ca.llamabagel.transpo.data.db.*
+import ca.llamabagel.transpo.di.TransitDatabaseModule.Companion.RECENT_ADAPTER
 import ca.llamabagel.transpo.di.TransitDatabaseModule.Companion.STOP_ADAPTER
+import ca.llamabagel.transpo.search.data.SearchFilters
+import ca.llamabagel.transpo.search.ui.viewholders.RecentResult
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 
 fun getTransitDatabase(): TransitDatabase {
     val driver = JdbcSqliteDriver()
     TransitDatabase.Schema.create(driver)
 
-    val database = TransitDatabase(driver, STOP_ADAPTER)
+    val database = TransitDatabase(driver, RECENT_ADAPTER, STOP_ADAPTER)
     populateTestData(database)
 
     return database
@@ -36,8 +39,12 @@ object TestRoutes {
 }
 
 object TestRecent {
-    val mackenzieKing = Recent_search.Impl("MAC", "stop", 1, "Mackenzie", "No Upcoming Trips", null, "3000")
+    val mackenzieKing = Recent_search.Impl("MAC", SearchFilters.STOP, 1, "Mackenzie", "No Upcoming Trips", null, "3000")
+    val route95 = Recent_search.Impl("1234", SearchFilters.ROUTE, 1, "Name", "conexion", "95", null)
+    val laurier110 = Recent_search.Impl("address-3453", SearchFilters.PLACE, 1, "110 Laurier", "Ottawa", null, null)
 }
+
+fun Recent_search.Impl.toSearchResult() = RecentResult(primary_text, secondary_text, number, code, type, id)
 
 private fun populateTestData(database: TransitDatabase) {
     with(database) {
@@ -54,6 +61,8 @@ private fun populateTestData(database: TransitDatabase) {
 
     with(database) {
         recentSearchQueries.insert(TestRecent.mackenzieKing)
+        recentSearchQueries.insert(TestRecent.route95)
+        recentSearchQueries.insert(TestRecent.laurier110)
     }
 }
 
