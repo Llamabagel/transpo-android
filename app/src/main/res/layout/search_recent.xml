@@ -18,6 +18,7 @@
                 name="handler"
                 type="ca.llamabagel.transpo.search.ui.viewholders.SearchRecentViewHolder.Handler"/>
 
+        <import type="android.view.View"/>
         <import type="ca.llamabagel.transpo.search.ui.viewholders.SearchRecentViewHolder"/>
     </data>
 
@@ -26,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{() -> handler.onClick()}"
+            android:paddingBottom="@dimen/small"
             android:background="?colorSurface">
 
         <TextView
@@ -35,11 +37,10 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/xlarge"
-                android:layout_marginTop="@dimen/small"
+                android:layout_marginStart="@dimen/small"
                 android:text="@{recent.number}"
                 android:textSize="18sp"
-                android:visibility="gone"
+                android:visibility="@{recent.number == null ? View.GONE : View.VISIBLE}"
                 tools:visibility="visible"
                 tools:text="97"/>
 
@@ -48,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/xlarge"
-                android:layout_marginTop="@dimen/small"
+                app:layout_goneMarginStart="@dimen/small"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/recent_route_number"
                 android:text="@{recent.primary}"
@@ -73,6 +74,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/primary_text"
                 app:layout_constraintTop_toBottomOf="@id/primary_text"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:text="@{recent.secondary}"
                 android:layout_marginTop="@dimen/xxxsmall"
                 tools:text="16, 94, 95, 96, 97"/>

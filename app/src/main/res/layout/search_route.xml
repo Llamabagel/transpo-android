@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{() -> handler.onClick()}"
+            android:paddingBottom="@dimen/small"
             android:background="?colorSurface">
 
         <TextView
@@ -34,8 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/xlarge"
-                android:layout_marginTop="@dimen/small"
+                android:layout_marginStart="@dimen/small"
                 android:text="@{route.number}"
                 android:textSize="18sp"
                 tools:text="97"/>
@@ -47,8 +47,7 @@
                 android:text="@{route.name}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/route_number"
-                android:layout_marginTop="@dimen/small"
-                android:layout_marginStart="@dimen/medium"
+                android:layout_marginStart="@dimen/xlarge"
                 tools:text="Bayshore"/>
 
         <TextView
@@ -56,9 +55,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/route_name"
-                app:layout_constraintStart_toEndOf="@id/route_number"
+                app:layout_constraintStart_toStartOf="@id/route_name"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:text="@{route.routeType}"
-                android:layout_marginStart="@dimen/medium"
                 tools:text="Rapid Route"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

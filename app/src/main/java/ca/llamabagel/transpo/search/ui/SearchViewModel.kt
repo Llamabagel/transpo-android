@@ -4,16 +4,16 @@
 
 package ca.llamabagel.transpo.search.ui
 
-import androidx.annotation.IdRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.search.data.SearchFilter
+import ca.llamabagel.transpo.search.data.SearchFilters
 import ca.llamabagel.transpo.search.domain.GetSearchResultsUseCase
 import ca.llamabagel.transpo.search.domain.SetRecentSearchResultUseCase
 import ca.llamabagel.transpo.search.domain.UpdateQueryUseCase
+import ca.llamabagel.transpo.search.ui.viewholders.Filter
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -63,11 +63,16 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun notifyFilterChanged(@IdRes item: Int) {
-        when (item) {
-            R.id.routes_filter -> searchFilter = searchFilter.copy(routes = !searchFilter.routes)
-            R.id.stops_filter -> searchFilter = searchFilter.copy(stops = !searchFilter.stops)
-            R.id.places_filter -> searchFilter = searchFilter.copy(places = !searchFilter.places)
+    fun notifyFilterChanged(filters: List<Filter>) {
+        if (filters.none { it.isOn }) searchFilter = searchFilter.copy(routes = true, stops = true, places = true)
+        else {
+            filters.forEach {
+                when (it.id) {
+                    SearchFilters.ROUTE.id -> searchFilter = searchFilter.copy(routes = it.isOn)
+                    SearchFilters.STOP.id -> searchFilter = searchFilter.copy(stops = it.isOn)
+                    SearchFilters.PLACE.id -> searchFilter = searchFilter.copy(places = it.isOn)
+                }
+            }
         }
 
         viewModelScope.launch {

@@ -87,7 +87,7 @@ class SearchRepository @Inject constructor(
     private suspend fun getRoutes(query: String, recent: List<String>) = withContext(dispatcher.io) {
         query.takeIf { it.isNotEmpty() }?.let {
             database.routeQueries
-                .getRoutes(recent, "$query%", ROUTE_RESULT_LIMIT)
+                .getRoutes(recent, "$query*", ROUTE_RESULT_LIMIT)
                 .executeAsList()
                 .map { RouteResult("Name", it.short_name, it.type.toString(), it.id) } // TODO: update name
         }.orEmpty().let(routeChannel::offer)
@@ -97,7 +97,7 @@ class SearchRepository @Inject constructor(
         query.takeIf { it.isNotEmpty() }?.let {
             geocoder.getAutocompleteResults(query, MIN_LNG, MIN_LAT, MAX_LNG, MAX_LAT)
                 .filterNot { recent.contains(it.id()) }
-                .map { PlaceResult(it.placeName().orEmpty(), it.text().orEmpty(), it.id().orEmpty()) }
+                .map { PlaceResult(it.text().orEmpty(), it.placeName().orEmpty(), it.id().orEmpty()) }
                 .take(PLACE_RESULT_LIMIT)
         }.orEmpty().let(placeChannel::offer)
     }

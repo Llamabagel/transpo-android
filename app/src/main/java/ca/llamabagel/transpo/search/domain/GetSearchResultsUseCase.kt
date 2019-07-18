@@ -17,8 +17,7 @@ import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class GetSearchResultsUseCase
-@Inject constructor(
+class GetSearchResultsUseCase @Inject constructor(
     private val repository: SearchRepository,
     private val strings: StringsGen
 ) {
@@ -31,6 +30,11 @@ class GetSearchResultsUseCase
         ) { routes, stops, places, recent ->
 
             val searchResults = mutableListOf<SearchResult>()
+
+            recent.takeIf { it.isNotEmpty() }?.let {
+                searchResults.add(CategoryHeader(strings.get(R.string.search_category_recent)))
+                searchResults.addAll(recent)
+            }
 
             routes.takeIf { it.isNotEmpty() }?.let {
                 searchResults.add(CategoryHeader(strings.get(R.string.search_category_routes)))
@@ -45,11 +49,6 @@ class GetSearchResultsUseCase
             places.takeIf { it.isNotEmpty() }?.let {
                 searchResults.add(CategoryHeader(strings.get(R.string.search_category_places)))
                 searchResults.addAll(places)
-            }
-
-            recent.takeIf { it.isNotEmpty() }?.let {
-                searchResults.add(CategoryHeader(strings.get(R.string.search_category_recent)))
-                searchResults.addAll(recent)
             }
 
             return@combineLatest searchResults
