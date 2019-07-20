@@ -8,7 +8,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
@@ -48,7 +47,7 @@ class SearchActivity : AppCompatActivity() {
         viewModel.fetchSearchResults("")
 
         val searchBar = findViewById<CustomSearchView>(R.id.search_bar)
-        val filterBtn = findViewById<ImageButton>(R.id.filter_button)
+        val clearSearch = findViewById<ImageButton>(R.id.clear_search_button)
         val recycler = findViewById<RecyclerView>(R.id.search_results_list)
         val adapter = SearchAdapter(::onItemClicked)
         val chipView = findViewById<SearchFilterView>(R.id.search_filter_view)
@@ -69,10 +68,10 @@ class SearchActivity : AppCompatActivity() {
 
         searchBar.doOnTextChanged { text, _, _, _ ->
             viewModel.fetchSearchResults(text)
-            filterBtn.visibility = if (text.isNullOrEmpty()) View.GONE else View.VISIBLE
+            clearSearch.visibility = if (text.isNullOrEmpty()) View.GONE else View.VISIBLE
         }
 
-        filterBtn.setOnClickListener { searchBar.setText("") }
+        clearSearch.setOnClickListener { searchBar.setText("") }
 
         viewModel.searchResults.observe(this, Observer(adapter::submitList))
 

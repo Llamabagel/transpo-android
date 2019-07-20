@@ -63,16 +63,11 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun notifyFilterChanged(filters: List<Filter>) {
-        if (filters.none { it.isOn }) searchFilter = searchFilter.copy(routes = true, stops = true, places = true)
-        else {
-            filters.forEach {
-                when (it.id) {
-                    SearchFilters.ROUTE.id -> searchFilter = searchFilter.copy(routes = it.isOn)
-                    SearchFilters.STOP.id -> searchFilter = searchFilter.copy(stops = it.isOn)
-                    SearchFilters.PLACE.id -> searchFilter = searchFilter.copy(places = it.isOn)
-                }
-            }
+    fun notifyFilterChanged(filter: Filter) {
+        when (filter.id) {
+            SearchFilters.ROUTE.id -> searchFilter = searchFilter.copy(routes = filter.isOn)
+            SearchFilters.STOP.id -> searchFilter = searchFilter.copy(stops = filter.isOn)
+            SearchFilters.PLACE.id -> searchFilter = searchFilter.copy(places = filter.isOn)
         }
 
         viewModelScope.launch {

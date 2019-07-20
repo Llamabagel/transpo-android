@@ -8,9 +8,9 @@ enum class SearchFilters(val id: String) {
 }
 
 data class SearchFilter(
-    val stops: Boolean = true,
-    val routes: Boolean = true,
-    val places: Boolean = true
+    val stops: Boolean = false,
+    val routes: Boolean = false,
+    val places: Boolean = false
 ) {
 
     fun getOffFiltersList(): List<SearchFilters> {

@@ -55,11 +55,17 @@ class SearchRepository @Inject constructor(
     val recentFlow get() = recentChannel.asFlow()
 
     suspend fun getSearchResults(query: String, filters: SearchFilter) {
-        val exclusionList = getRecent(query, filters)
+        val filterState = if (!filters.routes && !filters.stops && !filters.places) {
+            filters.copy(stops = true, routes = true, places = true)
+        } else {
+            filters
+        }
 
-        getRoutes(query.takeIf { filters.routes }.orEmpty(), exclusionList)
-        getStops(query.takeIf { filters.stops }.orEmpty(), exclusionList)
-        getPlaces(query.takeIf { filters.places }.orEmpty(), exclusionList)
+        val exclusionList = getRecent(query, filterState)
+
+        getRoutes(query.takeIf { filterState.routes }.orEmpty(), exclusionList)
+        getStops(query.takeIf { filterState.stops }.orEmpty(), exclusionList)
+        getPlaces(query.takeIf { filterState.places }.orEmpty(), exclusionList)
     }
 
     private fun getRecent(query: String, filters: SearchFilter): List<String> {
