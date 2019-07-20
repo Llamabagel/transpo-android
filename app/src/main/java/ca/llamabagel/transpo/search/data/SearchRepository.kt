@@ -55,11 +55,17 @@ class SearchRepository @Inject constructor(
     val recentFlow get() = recentChannel.asFlow()
 
     suspend fun getSearchResults(query: String, filters: SearchFilter) {
-        val exclusionList = getRecent(query, filters)
+        val filterState = if (!filters.routes && !filters.stops && !filters.places) {
+            filters.copy(stops = true, routes = true, places = true)
+        } else {
+            filters
+        }
 
-        getRoutes(query.takeIf { filters.routes }.orEmpty(), exclusionList)
-        getStops(query.takeIf { filters.stops }.orEmpty(), exclusionList)
-        getPlaces(query.takeIf { filters.places }.orEmpty(), exclusionList)
+        val exclusionList = getRecent(query, filterState)
+
+        getRoutes(query.takeIf { filterState.routes }.orEmpty(), exclusionList)
+        getStops(query.takeIf { filterState.stops }.orEmpty(), exclusionList)
+        getPlaces(query.takeIf { filterState.places }.orEmpty(), exclusionList)
     }
 
     private fun getRecent(query: String, filters: SearchFilter): List<String> {
@@ -87,7 +93,7 @@ class SearchRepository @Inject constructor(
     private suspend fun getRoutes(query: String, recent: List<String>) = withContext(dispatcher.io) {
         query.takeIf { it.isNotEmpty() }?.let {
             database.routeQueries
-                .getRoutes(recent, "$query%", ROUTE_RESULT_LIMIT)
+                .getRoutes(recent, "$query*", ROUTE_RESULT_LIMIT)
                 .executeAsList()
                 .map { RouteResult("Name", it.short_name, it.type.toString(), it.id) } // TODO: update name
         }.orEmpty().let(routeChannel::offer)
@@ -97,7 +103,7 @@ class SearchRepository @Inject constructor(
         query.takeIf { it.isNotEmpty() }?.let {
             geocoder.getAutocompleteResults(query, MIN_LNG, MIN_LAT, MAX_LNG, MAX_LAT)
                 .filterNot { recent.contains(it.id()) }
-                .map { PlaceResult(it.placeName().orEmpty(), it.text().orEmpty(), it.id().orEmpty()) }
+                .map { PlaceResult(it.text().orEmpty(), it.placeName().orEmpty(), it.id().orEmpty()) }
                 .take(PLACE_RESULT_LIMIT)
         }.orEmpty().let(placeChannel::offer)
     }

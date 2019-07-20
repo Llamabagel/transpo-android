@@ -12,6 +12,7 @@ import ca.llamabagel.transpo.search.domain.GetSearchResultsUseCase
 import ca.llamabagel.transpo.search.domain.SetRecentSearchResultUseCase
 import ca.llamabagel.transpo.search.domain.UpdateQueryUseCase
 import ca.llamabagel.transpo.search.ui.viewholders.CategoryHeader
+import ca.llamabagel.transpo.search.ui.viewholders.Filter
 import ca.llamabagel.transpo.search.ui.viewholders.RecentResult
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
 import ca.llamabagel.transpo.utils.CoroutinesTestRule
@@ -82,72 +83,85 @@ class SearchViewModelTest {
     fun `when query is null, search results live data emits recent results`() = runBlockingTest {
         searchViewModel.fetchSearchResults(null)
 
-        assertEquals(recentResults, searchViewModel.searchResults.value)
+        assertEquals(recentResults(), searchViewModel.searchResults.value)
     }
 
     @Test
-    fun `when stop filter menu item is clicked, filter is turned off`() {
-        searchViewModel.notifyFilterChanged(R.id.stops_filter)
-        searchViewModel.fetchSearchResults("Walkley")
+    fun `when stop filter is first turned on, other filters are turned off`() {
+        searchViewModel.notifyFilterChanged(Filter(SearchFilters.STOP.id, isOn = true))
 
-        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
+        assertEquals(recentResults(route = false, place = false), searchViewModel.searchResults.value)
     }
 
     @Test
-    fun `when route filter menu item is clicked, filter is turned off`() {
-        searchViewModel.notifyFilterChanged(R.id.routes_filter)
-        searchViewModel.fetchSearchResults("44")
+    fun `when route filter is first turned on, other filters are turned off`() {
+        searchViewModel.notifyFilterChanged(Filter(SearchFilters.ROUTE.id, isOn = true))
 
-        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
+        assertEquals(recentResults(stop = false, place = false), searchViewModel.searchResults.value)
     }
 
     @Test
-    fun `when place filter menu item is clicked, filter is turned off`() {
-        searchViewModel.notifyFilterChanged(R.id.places_filter)
-        searchViewModel.fetchSearchResults("Parliament")
+    fun `when place filter is first turned on, the other filters are turned off`() {
+        searchViewModel.notifyFilterChanged(Filter(SearchFilters.PLACE.id, isOn = true))
 
-        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
-    }
-
-    @Test
-    fun `when filter is changed, search results are updated`() {
-        searchViewModel.fetchSearchResults("Walkley")
-        searchViewModel.notifyFilterChanged(R.id.stops_filter)
-
-        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
+        assertEquals(recentResults(stop = false, route = false), searchViewModel.searchResults.value)
     }
 
     @Test
     fun `when invalid filter is set, no filter is changed`() {
-        searchViewModel.notifyFilterChanged(R.id.filter_button)
+        searchViewModel.notifyFilterChanged(Filter("hello world"))
         searchViewModel.fetchSearchResults("Walkley")
 
         assertEquals(walkleyResult, searchViewModel.searchResults.value)
     }
 
     @Test
-    fun `when stop filter is turned off and turned back on, stop results are returned`() {
-        searchViewModel.notifyFilterChanged(R.id.stops_filter)
+    fun `when a filter other than stop is turned on, no stop results are returned`() {
         searchViewModel.fetchSearchResults("Walkley")
-        searchViewModel.notifyFilterChanged(R.id.stops_filter)
+        searchViewModel.notifyFilterChanged(Filter(SearchFilters.ROUTE.id, isOn = true))
+
+        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
+    }
+
+    @Test
+    fun `when several filters are turned on and all but stop turned back off, stop results are returned`() {
+        searchViewModel.fetchSearchResults("Walkley")
+        searchViewModel.notifyFilterChanged(Filter(SearchFilters.ROUTE.id, isOn = true))
+        searchViewModel.notifyFilterChanged(Filter(SearchFilters.ROUTE.id, isOn = false))
 
         assertEquals(walkleyResult, searchViewModel.searchResults.value)
     }
 
     @Test
-    fun `when route filter is turned off and turned back on, route results are returned`() {
-        searchViewModel.notifyFilterChanged(R.id.routes_filter)
+    fun `when a filter other than route is turned on, no route results are returned`() {
         searchViewModel.fetchSearchResults("44")
-        searchViewModel.notifyFilterChanged(R.id.routes_filter)
+        searchViewModel.notifyFilterChanged(Filter(SearchFilters.STOP.id, isOn = true))
+
+        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
+    }
+
+    @Test
+    fun `when several filters are turned on and all but route turned back off, route results are returned`() {
+        searchViewModel.fetchSearchResults("44")
+        searchViewModel.notifyFilterChanged(Filter(SearchFilters.STOP.id, isOn = true))
+        searchViewModel.notifyFilterChanged(Filter(SearchFilters.STOP.id, isOn = false))
 
         assertEquals(route44Result, searchViewModel.searchResults.value)
     }
 
     @Test
-    fun `when place filter is turned off and turned back on, place results are returned`() {
-        searchViewModel.notifyFilterChanged(R.id.places_filter)
+    fun `when a filter other than place is turned on, no place results are returned`() {
         searchViewModel.fetchSearchResults("Parliament")
-        searchViewModel.notifyFilterChanged(R.id.places_filter)
+        searchViewModel.notifyFilterChanged(Filter(SearchFilters.ROUTE.id, isOn = true))
+
+        assertEquals(emptyList<SearchResult>(), searchViewModel.searchResults.value)
+    }
+
+    @Test
+    fun `when several filters are turned on and all but place turned back off, place results are returned`() {
+        searchViewModel.fetchSearchResults("Parliament")
+        searchViewModel.notifyFilterChanged(Filter(SearchFilters.PLACE.id, isOn = true))
+        searchViewModel.notifyFilterChanged(Filter(SearchFilters.PLACE.id, isOn = false))
 
         assertEquals(parliamentResult, searchViewModel.searchResults.value)
     }
@@ -155,7 +169,7 @@ class SearchViewModelTest {
     @Test
     fun `when activity is started, recent results are shown`() {
         searchViewModel.fetchSearchResults("")
-        assertEquals(recentResults, searchViewModel.searchResults.value)
+        assertEquals(recentResults(), searchViewModel.searchResults.value)
     }
 
     @Test
@@ -189,12 +203,15 @@ class SearchViewModelTest {
         TestPlace.parliament.toSearchResult()
     )
 
-    private val recentResults = listOf(
-        CategoryHeader(R.string.search_category_recent.toString()),
-        TestRecent.mackenzieKing.toSearchResult(),
-        TestRecent.route95.toSearchResult(),
-        TestRecent.laurier110.toSearchResult()
-    )
+    private fun recentResults(route: Boolean = true, stop: Boolean = true, place: Boolean = true): List<SearchResult> {
+        val list = mutableListOf<SearchResult>()
+        list.add(CategoryHeader(R.string.search_category_recent.toString()))
+        if (stop) list.add(TestRecent.mackenzieKing.toSearchResult())
+        if (route) list.add(TestRecent.route95.toSearchResult())
+        if (place) list.add(TestRecent.laurier110.toSearchResult())
+
+        return list
+    }
 
     private val lincolnFieldsResult = listOf(
         CategoryHeader(R.string.search_category_recent.toString()),

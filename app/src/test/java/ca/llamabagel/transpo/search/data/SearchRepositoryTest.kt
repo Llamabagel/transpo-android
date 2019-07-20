@@ -27,7 +27,7 @@ class SearchRepositoryTest {
     val rule = InstantTaskExecutorRule()
 
     private val repository = provideFakeSearchRepository()
-    private val filters = SearchFilter()
+    private val filters = SearchFilter(stops = true, routes = true, places = true)
 
     @Test
     fun `when empty query is searched, empty list is returned in stops list`() = runBlockingTest {
@@ -94,21 +94,21 @@ class SearchRepositoryTest {
 
     @Test
     fun `when stop filter is not set, empty stop list is offered`() = runBlockingTest {
-        repository.getSearchResults("walkley", SearchFilter(stops = false))
+        repository.getSearchResults("walkley", filters.copy(stops = false))
 
         assertEquals(emptyList<SearchResult>(), repository.stopFlow.first())
     }
 
     @Test
     fun `when route filter is not set, empty route list is offered`() = runBlockingTest {
-        repository.getSearchResults("44", SearchFilter(routes = false))
+        repository.getSearchResults("44", filters.copy(routes = false))
 
         assertEquals(emptyList<SearchResult>(), repository.routeFlow.first())
     }
 
     @Test
     fun `when place filter is not set, empty place list is offered`() = runBlockingTest {
-        repository.getSearchResults("Parliament", SearchFilter(places = false))
+        repository.getSearchResults("Parliament", filters.copy(places = false))
 
         assertEquals(emptyList<SearchResult>(), repository.placeFlow.first())
     }
@@ -176,21 +176,21 @@ class SearchRepositoryTest {
 
     @Test
     fun `when stop filter is turned off recent stop results are not shown`() = runBlockingTest {
-        repository.getSearchResults("mackenzie", SearchFilter(stops = false))
+        repository.getSearchResults("mackenzie", filters.copy(stops = false))
 
         assertEquals(emptyList<SearchResult>(), repository.recentFlow.first())
     }
 
     @Test
     fun `when route filter is turned off recent stop results are not shown`() = runBlockingTest {
-        repository.getSearchResults("95", SearchFilter(routes = false))
+        repository.getSearchResults("95", filters.copy(routes = false))
 
         assertEquals(emptyList<SearchResult>(), repository.recentFlow.first())
     }
 
     @Test
     fun `when place filter is turned off recent stop results are not shown`() = runBlockingTest {
-        repository.getSearchResults("110 Laurier", SearchFilter(places = false))
+        repository.getSearchResults("110 Laurier", filters.copy(places = false))
 
         assertEquals(emptyList<SearchResult>(), repository.recentFlow.first())
     }
@@ -217,5 +217,26 @@ class SearchRepositoryTest {
         repository.getSearchResults("Parliament", filters)
 
         assertEquals(emptyList<PlaceResult>(), repository.placeFlow.first())
+    }
+
+    @Test
+    fun `when all filters are off, route results are returned`() = runBlockingTest {
+        repository.getSearchResults("44", filters.copy(stops = false, routes = false, places = false))
+
+        assertEquals(listOf(TestRoutes.route44.toSearchResult()), repository.routeFlow.first())
+    }
+
+    @Test
+    fun `when all filters are off, stop results are returned`() = runBlockingTest {
+        repository.getSearchResults("Walkley", filters.copy(stops = false, routes = false, places = false))
+
+        assertEquals(listOf(TestStops.walkleyJasper.toSearchResult()), repository.stopFlow.first())
+    }
+
+    @Test
+    fun `when all filters are off, place results are returned`() = runBlockingTest {
+        repository.getSearchResults("Parliament", filters.copy(stops = false, routes = false, places = false))
+
+        assertEquals(listOf(TestPlace.parliament.toSearchResult()), repository.placeFlow.first())
     }
 }
