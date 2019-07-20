@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class GetSearchResultsUseCase @FlowPreview
+class GetSearchResultsUseCase
 @Inject constructor(
     private val repository: SearchRepository,
     private val strings: StringsGen

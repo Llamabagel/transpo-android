@@ -53,7 +53,7 @@ android {
     }
 
     dataBinding {
-        setEnabled(true)
+        isEnabled = true
     }
     androidExtensions {
         isExperimental = true
@@ -62,13 +62,14 @@ android {
     kotlinOptions {
         this as KotlinJvmOptions
         freeCompilerArgs = listOf("-XXLanguage:+InlineClasses")
+        jvmTarget = "1.8"
     }
 }
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to arrayOf("*.jar"))))
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.KOTLIN}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.KOTLIN}")
     implementation("androidx.appcompat:appcompat:${Versions.APPCOMPAT}")
     implementation("androidx.core:core-ktx:${Versions.KTX}")
     implementation("androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}")
@@ -79,7 +80,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}")
     implementation("androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}")
     implementation("androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}")
-    implementation("android.arch.work:work-runtime-ktx:${Versions.WORK_MANAGER}")
+    implementation("androidx.work:work-runtime-ktx:${Versions.WORK_MANAGER}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}")
     implementation("com.squareup.retrofit2:retrofit:${Versions.RETROFIT}")
@@ -100,7 +101,7 @@ dependencies {
     testImplementation("org.mockito:mockito-inline:${Versions.MOCKITO_INLINE}")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.MOCKITO_KOTLIN}")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES}")
-    androidTestImplementation("android.arch.work:work-testing:${Versions.WORK_MANAGER}")
+    androidTestImplementation("androidx.work:work-testing:${Versions.WORK_MANAGER}")
     testImplementation("junit:junit:${Versions.JUNIT}")
     androidTestImplementation("androidx.test.espresso:espresso-core:${Versions.ESPRESSO_CORE}")
     androidTestImplementation("androidx.test:rules:${Versions.TEST_RULES}")

@@ -15,7 +15,7 @@ import ca.llamabagel.transpo.search.ui.viewholders.StopResult
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 
 fun getTransitDatabase(): TransitDatabase {
-    val driver = JdbcSqliteDriver()
+    val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
     TransitDatabase.Schema.create(driver)
 
     val database = TransitDatabase(driver, RECENT_ADAPTER, STOP_ADAPTER)
