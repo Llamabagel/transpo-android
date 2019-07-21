@@ -6,18 +6,21 @@ package ca.llamabagel.transpo.home.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
-import ca.llamabagel.transpo.MainDirections
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
+import ca.llamabagel.transpo.search.ui.SearchActivity
+import ca.llamabagel.transpo.utils.startActivityForResult
+import com.google.android.material.appbar.MaterialToolbar
 
 class HomeFragment : Fragment() {
 
@@ -38,9 +41,20 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        requireView().findViewById<Button>(R.id.button).setOnClickListener {
-            viewModel.checkAndApplyDataUpdates()
+        requireView().findViewById<MaterialToolbar>(R.id.toolbar).apply {
+            inflateMenu(R.menu.main)
+            setOnMenuItemClickListener(::onMenuItemSelected)
         }
+
+        requireView().findViewById<EditText>(R.id.search_bar).setOnClickListener {
+            requireActivity().startActivityForResult<SearchActivity>(
+                requireActivity(),
+                SearchActivity.SEARCH_REQUEST_CODE
+            )
+        }
+
+        val adapter = LiveUpdatesAdapter()
+        requireView().findViewById<RecyclerView>(R.id.recycler_view).adapter = adapter
 
         viewModel.workInfo.observe(this, Observer {
             if (it == null || it.isEmpty()) {
@@ -50,15 +64,30 @@ class HomeFragment : Fragment() {
             val info = it[0]
 
             val finished = info.state.isFinished
-            requireView().findViewById<ProgressBar>(R.id.progress_bar).visibility =
-                if (finished) View.INVISIBLE else View.VISIBLE
+            if (finished) {
+                Toast.makeText(requireContext(), "Finished downloading data", Toast.LENGTH_LONG).show()
+            }
         })
 
-        requireView().findViewById<Button>(R.id.open_button).setOnClickListener {
-            val id = requireView().findViewById<EditText>(R.id.edit_text).text.toString()
+        viewModel.isRefreshing.observe(this, Observer {
+            requireView().findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout).isRefreshing = it
+        })
 
-            val action = MainDirections.actionGlobalTripsActivity(id)
-            findNavController().navigate(action)
+        viewModel.updateData.observe(this, Observer {
+            adapter.submitList(it)
+        })
+        viewModel.refreshLiveUpdates()
+
+        requireView().findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout).setOnRefreshListener {
+            viewModel.refreshLiveUpdates()
         }
+    }
+
+    private fun onMenuItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.download -> viewModel.checkAndApplyDataUpdates()
+        }
+
+        return true
     }
 }

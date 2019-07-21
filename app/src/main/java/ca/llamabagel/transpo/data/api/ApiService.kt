@@ -8,10 +8,8 @@ import ca.llamabagel.transpo.models.app.AppMetadata
 import ca.llamabagel.transpo.models.app.DataPackage
 import ca.llamabagel.transpo.models.app.MetadataRequest
 import ca.llamabagel.transpo.models.trips.ApiResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import ca.llamabagel.transpo.models.updates.LiveUpdate
+import retrofit2.http.*
 
 interface ApiService {
     @GET("trips/{code}")
@@ -22,4 +20,7 @@ interface ApiService {
 
     @POST("data/metadata/")
     suspend fun getMetadata(@Body request: MetadataRequest): AppMetadata
+
+    @GET("feed")
+    suspend fun getLiveUpdates(@Query("lang") language: String = "en"): List<LiveUpdate>
 }
