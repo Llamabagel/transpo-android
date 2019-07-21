@@ -1,0 +1,50 @@
+import java.util.Date;
+
+CREATE TABLE liveUpdate (
+    guid TEXT NOT NULL UNIQUE,
+    language TEXT NOT NULL,
+    title TEXT NOT NULL,
+    date TEXT As Date NOT NULL,
+    category TEXT NOT NULL,
+    link TEXT NOT NULL,
+    description TEXT NOT NULL,
+    featured_image_url TEXT,
+    PRIMARY KEY(guid, language)
+);
+
+CREATE TABLE liveUpdateRoute (
+    guid TEXT NOT NULL REFERENCES liveUpdate(guid) ON DELETE CASCADE,
+    route_number TEXT NOT NULL,
+    UNIQUE (guid, route_number)
+);
+
+CREATE TABLE liveUpdateStop (
+    guid TEXT NOT NULL REFERENCES liveUpdate(guid) ON DELETE CASCADE,
+    stop_code TEXT NOT NULL,
+    alternate_stop TEXT,
+    UNIQUE (guid, stop_code, alternate_stop)
+);
+
+insertLiveUpdate:
+REPLACE INTO liveUpdate(guid, language, title, date, category, link, description, featured_image_url)
+VALUES (:guid, :language, :title, :date, :category, :link, :description, :featured_image_url);
+
+insertRoute:
+REPLACE INTO liveUpdateRoute(guid, route_number)
+VALUES (:guid, :route_number);
+
+insertStop:
+REPLACE INTO liveUpdateStop(guid, stop_code, alternate_stop)
+VALUES (:guid, :stop_code, :alternate_stop);
+
+clear:
+DELETE FROM liveUpdate WHERE guid NOT IN :currentGuids;
+
+get:
+SELECT * FROM liveUpdate;
+
+getRoutes:
+SELECT * FROM liveUpdateRoute WHERE guid = :guid;
+
+getStops:
+SELECT * FROM liveUpdateStop WHERE guid = :guid;

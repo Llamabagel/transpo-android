@@ -7,22 +7,15 @@ package ca.llamabagel.transpo.home.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.search.data.SearchFilters
-import ca.llamabagel.transpo.search.ui.SearchActivity
 import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.ID_EXTRA
 import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.SEARCH_REQUEST_CODE
 import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.TYPE_EXTRA
 import ca.llamabagel.transpo.trips.ui.TripsActivityDirections
-import ca.llamabagel.transpo.utils.startActivityForResult
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -39,19 +32,6 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment)
         findViewById<BottomNavigationView>(R.id.bottom_navigation).setupWithNavController(navController)
-
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.home, R.id.saved, R.id.map, R.id.planner))
-        findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
-
-        findViewById<EditText>(R.id.search_bar).setOnClickListener {
-            startActivityForResult<SearchActivity>(this, SEARCH_REQUEST_CODE)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        MenuInflater(this).inflate(R.menu.main, menu)
-
-        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

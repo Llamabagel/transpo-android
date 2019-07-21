@@ -6,6 +6,7 @@ package ca.llamabagel.transpo.data
 
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.data.db.*
+import ca.llamabagel.transpo.di.TransitDatabaseModule.Companion.LIVE_UPDATE_DATE_ADAPTER
 import ca.llamabagel.transpo.di.TransitDatabaseModule.Companion.RECENT_ADAPTER
 import ca.llamabagel.transpo.di.TransitDatabaseModule.Companion.STOP_ADAPTER
 import ca.llamabagel.transpo.search.data.SearchFilters
@@ -18,7 +19,7 @@ fun getTransitDatabase(): TransitDatabase {
     val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
     TransitDatabase.Schema.create(driver)
 
-    val database = TransitDatabase(driver, RECENT_ADAPTER, STOP_ADAPTER)
+    val database = TransitDatabase(driver, LIVE_UPDATE_DATE_ADAPTER, RECENT_ADAPTER, STOP_ADAPTER)
     populateTestData(database)
 
     return database

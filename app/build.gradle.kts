@@ -64,6 +64,10 @@ android {
         freeCompilerArgs = listOf("-XXLanguage:+InlineClasses")
         jvmTarget = "1.8"
     }
+
+    packagingOptions {
+        exclude("META-INF/kotlinx-coroutines-core.kotlin_module")
+    }
 }
 
 dependencies {
@@ -75,6 +79,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}")
     implementation("com.google.android.material:material:${Versions.MATERIAL}")
     implementation("com.squareup.sqldelight:android-driver:${Versions.SQLDELIGHT}")
+    implementation("com.squareup.sqldelight:coroutines-extensions-jvm:${Versions.SQLDELIGHT}")
     implementation("ca.llamabagel.transpo:shared:${Versions.TRANSPO}")
     implementation("androidx.fragment:fragment-ktx:${Versions.FRAGMENT}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}")
