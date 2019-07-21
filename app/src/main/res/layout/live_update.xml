@@ -22,7 +22,7 @@
                 android:layout_marginStart="@dimen/small" tools:text="Type"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"/>
         <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/title"
                 android:text="@{ update.title }"
