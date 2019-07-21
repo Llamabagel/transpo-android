@@ -6,6 +6,7 @@ package ca.llamabagel.transpo.di
 
 import androidx.annotation.StringRes
 
-interface StringsGen {
+interface StringUtils {
     fun get(@StringRes strResId: Int): String
+    fun bold(str: String, matching: String): CharSequence
 }

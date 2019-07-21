@@ -13,6 +13,9 @@ data class SearchFilter(
     val places: Boolean = false
 ) {
 
+    val allOff: Boolean get() = !stops && !routes && !places
+    val allOn: Boolean get() = stops && routes && places
+
     fun getOffFiltersList(): List<SearchFilters> {
         val list = mutableListOf<SearchFilters>()
 

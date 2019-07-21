@@ -48,4 +48,4 @@ deleteAllFts:
 DELETE FROM stop_fts;
 
 getStopsByName:
-SELECT *, 1 FROM stop_fts WHERE id NOT IN :exclusionList AND name MATCH :query LIMIT :limit;
+SELECT *, 1 FROM stop_fts WHERE id NOT IN :exclusionList AND (name MATCH :query OR code MATCH :query) LIMIT :limit;

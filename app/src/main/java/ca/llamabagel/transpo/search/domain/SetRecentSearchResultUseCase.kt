@@ -12,34 +12,34 @@ class SetRecentSearchResultUseCase @Inject constructor(private val repository: S
     suspend operator fun invoke(item: SearchResult) {
         when (item) {
             is RouteResult -> repository.pushRecent(
-                item.name,
-                item.routeType,
-                item.number,
+                item.name.toString(),
+                item.routeType.toString(),
+                item.number.toString(),
                 null,
                 item.id,
                 item.type
             )
             is StopResult -> repository.pushRecent(
-                item.name,
-                item.routes,
+                item.name.toString(),
+                item.routes.toString(),
                 null,
-                item.code,
+                item.code.toString(),
                 item.id,
                 item.type
             )
             is PlaceResult -> repository.pushRecent(
-                item.primary,
-                item.secondary,
+                item.primary.toString(),
+                item.secondary.toString(),
                 null,
                 null,
                 item.id,
                 item.type
             )
             is RecentResult -> repository.pushRecent(
-                item.primary,
-                item.secondary,
-                item.number,
-                item.code,
+                item.primary.toString(),
+                item.secondary.toString(),
+                item.number?.toString(),
+                item.code?.toString(),
                 item.id,
                 item.type
             )

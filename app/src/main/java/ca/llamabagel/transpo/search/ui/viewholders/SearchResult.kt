@@ -39,9 +39,9 @@ data class CategoryHeader(
 }
 
 data class RouteResult(
-    val name: String,
-    val number: String,
-    val routeType: String,
+    val name: CharSequence,
+    val number: CharSequence,
+    val routeType: CharSequence,
     override val id: String
 ) : SearchResult() {
 
@@ -55,9 +55,9 @@ data class RouteResult(
 }
 
 data class StopResult(
-    val name: String,
-    val code: String,
-    val routes: String,
+    val name: CharSequence,
+    val code: CharSequence,
+    val routes: CharSequence,
     override val id: String
 ) : SearchResult() {
 
@@ -71,8 +71,8 @@ data class StopResult(
 }
 
 data class PlaceResult(
-    val primary: String,
-    val secondary: String,
+    val primary: CharSequence,
+    val secondary: CharSequence,
     override val id: String
 ) : SearchResult() {
 
@@ -86,10 +86,10 @@ data class PlaceResult(
 }
 
 data class RecentResult(
-    val primary: String,
-    val secondary: String,
-    val number: String?,
-    val code: String?,
+    val primary: CharSequence,
+    val secondary: CharSequence,
+    val number: CharSequence?,
+    val code: CharSequence?,
     override val type: SearchFilters,
     override val id: String
 ) : SearchResult() {

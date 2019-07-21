@@ -38,6 +38,7 @@
                         android:layout_marginEnd="@dimen/small"
                         android:iconifiedByDefault="false"
                         android:inputType="textPersonName"
+                        android:imeOptions="actionSearch"
                         android:ems="10"
                         android:id="@+id/search_bar"
                         app:layout_constraintStart_toStartOf="parent"

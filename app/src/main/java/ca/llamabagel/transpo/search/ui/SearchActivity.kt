@@ -73,7 +73,10 @@ class SearchActivity : AppCompatActivity() {
 
         clearSearch.setOnClickListener { searchBar.setText("") }
 
-        viewModel.searchResults.observe(this, Observer(adapter::submitList))
+        viewModel.searchResults.observe(this, Observer {
+            adapter.submitList(it)
+            recycler.smoothScrollToPosition(0)
+        })
 
         viewModel.keyboardState.observe(this, Observer {
             if (it == KeyboardState.OPEN) {

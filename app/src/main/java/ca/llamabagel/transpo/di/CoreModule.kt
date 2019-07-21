@@ -5,6 +5,10 @@
 package ca.llamabagel.transpo.di
 
 import android.content.Context
+import android.graphics.Typeface.BOLD
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
 import androidx.annotation.StringRes
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.data.api.ApiService
@@ -45,8 +49,19 @@ class CoreModule {
 
     @Provides
     @Singleton
-    fun provideStringsProvider(context: Context): StringsGen = object : StringsGen {
+    fun provideStringsProvider(context: Context): StringUtils = object : StringUtils {
         override fun get(@StringRes strResId: Int) = context.getString(strResId)
+
+        override fun bold(str: String, matching: String): CharSequence {
+            val matchStartIndex = str.indexOf(matching, ignoreCase = true)
+            val matchEndIndex = matchStartIndex + matching.length
+
+            return SpannableStringBuilder(str).apply {
+                if (matchStartIndex != -1 && matching.isNotEmpty()) {
+                    setSpan(StyleSpan(BOLD), matchStartIndex, matchEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+            }
+        }
     }
 
     @Provides
