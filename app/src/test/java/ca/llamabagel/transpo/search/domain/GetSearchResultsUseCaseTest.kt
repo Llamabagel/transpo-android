@@ -8,7 +8,7 @@ import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.data.*
 import ca.llamabagel.transpo.search.data.SearchFilter
 import ca.llamabagel.transpo.search.ui.viewholders.CategoryHeader
-import ca.llamabagel.transpo.utils.FakeStringsGen
+import ca.llamabagel.transpo.utils.FakeStringUtils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.first
@@ -20,7 +20,7 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class GetSearchResultsUseCaseTest {
     private val repository = provideFakeSearchRepository()
-    private val getSearchResultsUseCase = GetSearchResultsUseCase(repository, FakeStringsGen())
+    private val getSearchResultsUseCase = GetSearchResultsUseCase(repository, FakeStringUtils())
     private val filters = SearchFilter()
 
     @Test

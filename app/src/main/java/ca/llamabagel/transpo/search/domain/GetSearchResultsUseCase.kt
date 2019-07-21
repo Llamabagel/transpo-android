@@ -5,7 +5,7 @@
 package ca.llamabagel.transpo.search.domain
 
 import ca.llamabagel.transpo.R
-import ca.llamabagel.transpo.di.StringsGen
+import ca.llamabagel.transpo.di.StringUtils
 import ca.llamabagel.transpo.search.data.SearchRepository
 import ca.llamabagel.transpo.search.ui.viewholders.CategoryHeader
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 class GetSearchResultsUseCase @Inject constructor(
     private val repository: SearchRepository,
-    private val strings: StringsGen
+    private val strings: StringUtils
 ) {
 
     operator fun invoke(): Flow<List<SearchResult>> = repository.routeFlow

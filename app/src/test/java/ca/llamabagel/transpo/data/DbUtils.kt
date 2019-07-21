@@ -49,7 +49,9 @@ object TestRecent {
 }
 
 fun Route.Impl.toSearchResult() = RouteResult("Name", short_name, type.toString(), id)
+
 fun Stop.Impl.toSearchResult() = StopResult(name, "• ${code.value}", R.string.search_stop_no_trips.toString(), id.value)
+
 fun Recent_search.Impl.toSearchResult() = RecentResult(primary_text, secondary_text, number, code, type, id)
 
 private fun populateTestData(database: TransitDatabase) {

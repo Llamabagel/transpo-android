@@ -16,7 +16,7 @@ import ca.llamabagel.transpo.search.ui.viewholders.Filter
 import ca.llamabagel.transpo.search.ui.viewholders.RecentResult
 import ca.llamabagel.transpo.search.ui.viewholders.SearchResult
 import ca.llamabagel.transpo.utils.CoroutinesTestRule
-import ca.llamabagel.transpo.utils.FakeStringsGen
+import ca.llamabagel.transpo.utils.FakeStringUtils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -45,7 +45,7 @@ class SearchViewModelTest {
         val fakeRepo = provideFakeSearchRepository()
         searchViewModel = SearchViewModel(
             SetRecentSearchResultUseCase(fakeRepo),
-            GetSearchResultsUseCase(fakeRepo, FakeStringsGen()),
+            GetSearchResultsUseCase(fakeRepo, FakeStringUtils()),
             UpdateQueryUseCase(fakeRepo)
         )
     }

@@ -34,13 +34,13 @@
                 android:id="@+id/recent_route_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small"
+                android:text="@{recent.number}"
+                android:visibility="@{recent.number == null ? View.GONE : View.VISIBLE}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/small"
-                android:text="@{recent.number}"
-                android:textSize="18sp"
-                android:visibility="@{recent.number == null ? View.GONE : View.VISIBLE}"
                 tools:visibility="visible"
                 tools:text="97"/>
 
@@ -50,33 +50,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/xlarge"
                 app:layout_goneMarginStart="@dimen/small"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/recent_route_number"
                 android:text="@{recent.primary}"
-                android:textSize="18sp"
                 tools:text="Stop Name"/>
 
         <TextView
                 android:id="@+id/recent_stop_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{recent.code}"
+                android:layout_marginStart="@dimen/xxsmall"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 app:layout_constraintStart_toEndOf="@id/primary_text"
                 app:layout_constraintTop_toTopOf="@id/primary_text"
                 app:layout_constraintBottom_toBottomOf="@+id/primary_text"
-                android:text="@{recent.code}"
-                android:textSize="12sp"
-                android:layout_marginStart="@dimen/xxsmall"
                 tools:text="• 1234"/>
 
         <TextView
                 android:id="@+id/secondary_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{recent.secondary}"
+                android:layout_marginTop="@dimen/xxxsmall"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 app:layout_constraintStart_toStartOf="@id/primary_text"
                 app:layout_constraintTop_toBottomOf="@id/primary_text"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:text="@{recent.secondary}"
-                android:layout_marginTop="@dimen/xxxsmall"
                 tools:text="16, 94, 95, 96, 97"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

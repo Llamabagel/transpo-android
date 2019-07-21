@@ -4,8 +4,9 @@
 
 package ca.llamabagel.transpo.utils
 
-import ca.llamabagel.transpo.di.StringsGen
+import ca.llamabagel.transpo.di.StringUtils
 
-class FakeStringsGen : StringsGen {
+class FakeStringUtils : StringUtils {
     override fun get(strResId: Int): String = strResId.toString()
+    override fun bold(str: String, matching: String): CharSequence = str
 }

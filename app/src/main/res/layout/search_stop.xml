@@ -29,38 +29,38 @@
             android:onClick="@{() -> handler.onClick()}"
             android:background="?colorSurface">
 
-
         <TextView
                 android:id="@+id/place_primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/small"
+                android:text="@{stop.name}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:text="@{stop.name}"
-                android:textSize="18sp"
                 tools:text="Stop Name"/>
 
         <TextView
                 android:id="@+id/stop_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{stop.code}"
+                android:layout_marginStart="@dimen/xxsmall"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 app:layout_constraintStart_toEndOf="@id/place_primary"
                 app:layout_constraintTop_toTopOf="@id/place_primary"
                 app:layout_constraintBottom_toBottomOf="@+id/place_primary"
-                android:text="@{stop.code}"
-                android:textSize="12sp"
-                android:layout_marginStart="@dimen/xxsmall"
                 tools:text="• 1234"/>
 
         <TextView
                 android:id="@+id/place_secondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/place_primary"
-                app:layout_constraintTop_toBottomOf="@id/place_primary"
                 android:text="@{stop.routes}"
                 android:layout_marginTop="@dimen/xxxsmall"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:layout_constraintStart_toStartOf="@id/place_primary"
+                app:layout_constraintTop_toBottomOf="@id/place_primary"
                 tools:text="16, 94, 95, 96, 97"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
