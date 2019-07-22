@@ -9,7 +9,10 @@ import ca.llamabagel.transpo.TranspoApplication
 import ca.llamabagel.transpo.home.ui.HomeViewModel
 import ca.llamabagel.transpo.map.ui.MapViewModel
 import ca.llamabagel.transpo.search.ui.SearchViewModel
-import ca.llamabagel.transpo.trips.ui.*
+import ca.llamabagel.transpo.trips.ui.StopViewModel
+import ca.llamabagel.transpo.trips.ui.TripDetailsViewModel
+import ca.llamabagel.transpo.trips.ui.TripsMapViewModel
+import ca.llamabagel.transpo.trips.ui.TripsViewModel
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -31,8 +34,6 @@ interface CoreComponent {
     interface Builder {
         @BindsInstance
         fun applicationContext(applicationContext: Context): Builder
-
-        fun sharedPreferenceModule(sharedPreferencesModule: SharedPreferencesModule): Builder
 
         fun build(): CoreComponent
     }

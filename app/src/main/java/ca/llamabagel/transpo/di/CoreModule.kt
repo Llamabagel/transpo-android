@@ -5,6 +5,7 @@
 package ca.llamabagel.transpo.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Typeface.BOLD
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -12,6 +13,8 @@ import android.text.style.StyleSpan
 import androidx.annotation.StringRes
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.data.api.ApiService
+import ca.llamabagel.transpo.settings.data.AppSettingsProvider
+import ca.llamabagel.transpo.settings.data.Settings
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mapbox.api.geocoding.v5.MapboxGeocoding
 import com.mapbox.api.geocoding.v5.models.CarmenFeature
@@ -23,6 +26,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -32,6 +36,11 @@ class CoreModule {
     @Singleton
     fun provideSerializationConverterFactory(): Converter.Factory =
         Json.asConverterFactory("application/json".toMediaType())
+
+    @Provides
+    @Singleton
+    fun provideSettings(@Named(AppSettingsProvider.SETTINGS_PREF) sharedPreferences: SharedPreferences): Settings =
+        AppSettingsProvider(sharedPreferences)
 
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =
