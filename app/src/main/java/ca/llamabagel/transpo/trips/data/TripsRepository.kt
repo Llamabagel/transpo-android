@@ -4,7 +4,6 @@
 
 package ca.llamabagel.transpo.trips.data
 
-import android.annotation.SuppressLint
 import ca.llamabagel.transpo.data.CoroutinesDispatcherProvider
 import ca.llamabagel.transpo.data.Result
 import ca.llamabagel.transpo.data.api.ApiService
@@ -82,13 +81,12 @@ class TripsRepository @Inject constructor(
         }
     }
 
-    @SuppressLint("ApplySharedPref")
-    suspend fun setGroupByRoute(group: Boolean) = withContext(dispatcherProvider.io) {
+    fun setGroupByRoute(group: Boolean) {
         settings.groupByRoute.value = group
         rebroadcast()
     }
 
-    suspend fun getGroupByRoute(): Boolean = settings.groupByRoute.value
+    fun getGroupByRoute(): Boolean = settings.groupByRoute.value
 
     /**
      * Rebroadcasts the last response
