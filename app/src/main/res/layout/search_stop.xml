@@ -25,14 +25,15 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/small"
+            android:paddingTop="@dimen/xsmall"
+            android:paddingBottom="@dimen/xsmall"
             android:onClick="@{() -> handler.onClick()}"
-            android:background="?colorSurface">
+            android:background="@drawable/color_surface_selectable">
 
         <TextView
-                android:id="@+id/place_primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/place_primary"
                 android:layout_marginStart="@dimen/small"
                 android:text="@{stop.name}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
@@ -41,9 +42,9 @@
                 tools:text="Stop Name"/>
 
         <TextView
-                android:id="@+id/stop_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/stop_code"
                 android:text="@{stop.code}"
                 android:layout_marginStart="@dimen/xxsmall"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
@@ -53,9 +54,9 @@
                 tools:text="• 1234"/>
 
         <TextView
-                android:id="@+id/place_secondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/place_secondary"
                 android:text="@{stop.routes}"
                 android:layout_marginTop="@dimen/xxxsmall"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"

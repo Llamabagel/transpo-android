@@ -4,10 +4,12 @@
 
 package ca.llamabagel.transpo.search.ui
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
@@ -39,6 +41,7 @@ class SearchActivity : AppCompatActivity() {
 
     private val viewModel: SearchViewModel by viewModels { injector.searchViewModelFactory() }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -51,6 +54,12 @@ class SearchActivity : AppCompatActivity() {
         val recycler = findViewById<RecyclerView>(R.id.search_results_list)
         val adapter = SearchAdapter(::onItemClicked)
         val chipView = findViewById<SearchFilterView>(R.id.search_filter_view)
+        val backButton = findViewById<ImageButton>(R.id.search_back_button)
+
+        backButton.setOnClickListener {
+            setResult(Activity.RESULT_CANCELED)
+            finish()
+        }
 
         chipView.setOnClickListener(viewModel::notifyFilterChanged)
 
@@ -61,6 +70,14 @@ class SearchActivity : AppCompatActivity() {
         )
 
         recycler.adapter = adapter
+
+        recycler.setOnTouchListener { _, motionEvent ->
+            if (motionEvent.action == MotionEvent.ACTION_DOWN) {
+                setResult(Activity.RESULT_CANCELED)
+                finish()
+                true
+            } else false
+        }
 
         searchBar.setOnFocusChangeListener { _, hasFocus ->
             viewModel.searchBarFocusChanged(hasFocus)

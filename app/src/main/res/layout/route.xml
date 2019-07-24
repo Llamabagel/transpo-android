@@ -9,6 +9,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
                 name="route"
                 type="ca.llamabagel.transpo.models.trips.Route"/>
@@ -19,14 +20,14 @@
             android:layout_height="56dp">
 
         <TextView
-                tools:text="TextView"
-                android:text="@{route.number}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView"
+                android:text="@{route.number}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="TextView"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

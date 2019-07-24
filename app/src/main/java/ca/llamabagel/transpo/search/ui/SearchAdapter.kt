@@ -25,7 +25,7 @@ class SearchAdapter(private val searchResultClickListener: (SearchResult) -> Uni
                     parent,
                     false
                 )
-            )
+            ) {}
             SEARCH_RESULT_ROUTE_LAYOUT -> SearchRouteViewHolder(
                 DataBindingUtil.inflate(
                     layoutInflater,
