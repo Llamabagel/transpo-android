@@ -25,40 +25,40 @@
             android:layout_height="@dimen/medium_list_item_height"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
+            android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> handler.onClick()}">
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/route_number"
-                app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="@dimen/small"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:text="@{tripUiModel.route.number}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 tools:text="44"/>
 
         <TextView
-                android:text="@{tripUiModel.trip.destination}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/trip_destination"
+                android:layout_marginStart="@dimen/xxsmall"
+                android:text="@{tripUiModel.trip.destination}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/route_number"
-                android:layout_marginStart="@dimen/xxsmall"
                 tools:text="Gatineau"/>
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/arrival_time"
-                android:text="@{tripUiModel.adjustedScheduleTimeString}"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="@dimen/xxlarge"
                 android:layout_marginTop="@dimen/xxsmall"
+                android:text="@{tripUiModel.adjustedScheduleTimeString}"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/arrival_time_descriptor"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="4"/>

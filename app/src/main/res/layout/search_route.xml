@@ -25,13 +25,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{() -> handler.onClick()}"
-            android:paddingBottom="@dimen/small"
-            android:background="?colorSurface">
+            android:paddingTop="@dimen/xsmall"
+            android:paddingBottom="@dimen/xsmall"
+            android:background="@drawable/color_surface_selectable">
 
         <TextView
-                android:id="@+id/route_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/route_number"
                 android:layout_marginStart="@dimen/small"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,9 +42,9 @@
                 tools:text="97"/>
 
         <TextView
-                android:id="@+id/route_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/route_name"
                 android:text="@{route.name}"
                 android:layout_marginStart="@dimen/xlarge"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
@@ -52,9 +53,9 @@
                 tools:text="Bayshore"/>
 
         <TextView
-                android:id="@+id/route_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/route_type"
                 android:text="@{route.routeType}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 app:layout_constraintTop_toBottomOf="@id/route_name"

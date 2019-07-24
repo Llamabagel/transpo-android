@@ -23,17 +23,17 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{() -> handler.onClick()}"
-            android:paddingBottom="@dimen/small"
-            android:background="?colorSurface">
+            android:paddingTop="@dimen/xsmall"
+            android:paddingBottom="@dimen/xsmall"
+            android:background="@drawable/color_surface_selectable">
 
         <TextView
-                android:id="@+id/recent_route_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/recent_route_number"
                 android:layout_marginStart="@dimen/small"
                 android:text="@{recent.number}"
                 android:visibility="@{recent.number == null ? View.GONE : View.VISIBLE}"
@@ -45,23 +45,23 @@
                 tools:text="97"/>
 
         <TextView
-                android:id="@+id/primary_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/primary_text"
                 android:layout_marginStart="@dimen/xlarge"
-                app:layout_goneMarginStart="@dimen/small"
+                android:text="@{recent.primary}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_goneMarginStart="@dimen/small"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/recent_route_number"
-                android:text="@{recent.primary}"
                 tools:text="Stop Name"/>
 
         <TextView
-                android:id="@+id/recent_stop_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{recent.code}"
+                android:id="@+id/recent_stop_code"
                 android:layout_marginStart="@dimen/xxsmall"
+                android:text="@{recent.code}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 app:layout_constraintStart_toEndOf="@id/primary_text"
                 app:layout_constraintTop_toTopOf="@id/primary_text"
@@ -69,11 +69,11 @@
                 tools:text="• 1234"/>
 
         <TextView
-                android:id="@+id/secondary_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{recent.secondary}"
+                android:id="@+id/secondary_text"
                 android:layout_marginTop="@dimen/xxxsmall"
+                android:text="@{recent.secondary}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 app:layout_constraintStart_toStartOf="@id/primary_text"
                 app:layout_constraintTop_toBottomOf="@id/primary_text"

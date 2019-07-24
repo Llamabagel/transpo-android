@@ -20,11 +20,14 @@
     <string name="search_category_places">Places</string>
     <string name="search_category_recent">Recent</string>
     <string name="search_stop_no_trips">No upcoming trips</string>
+    <string name="search_filter_description">Filter search results</string>
 
     <!-- bottom nav menu -->
     <string name="bottom_nav_home">Home</string>
     <string name="bottom_nav_saved">Saved</string>
     <string name="bottom_nav_map">Map</string>
     <string name="bottom_nav_planner">Planner</string>
-    <string name="search_filter_description">Filter search results</string>
+
+    <!-- Navigation -->
+    <string name="back_alt_text">Back</string>
 </resources>

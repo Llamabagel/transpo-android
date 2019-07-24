@@ -13,22 +13,29 @@
         <variable
                 name="category"
                 type="ca.llamabagel.transpo.search.ui.viewholders.CategoryHeader"/>
+
+        <variable
+                name="handler"
+                type="ca.llamabagel.transpo.search.ui.viewholders.SearchCategoryViewHolder.Handler"/>
+
+        <import type="ca.llamabagel.transpo.search.ui.viewholders.SearchCategoryViewHolder"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> handler.onClick()}"
             android:background="?colorSurface">
 
         <TextView
-                android:id="@+id/search_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/search_category"
                 android:text="@{category.header}"
                 android:paddingStart="@dimen/small"
                 android:paddingEnd="@dimen/small"
                 android:paddingTop="@dimen/large"
-                android:paddingBottom="@dimen/xsmall"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                 android:textAllCaps="true"
                 app:layout_constraintTop_toTopOf="parent"

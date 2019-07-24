@@ -10,9 +10,20 @@ import ca.llamabagel.transpo.databinding.SearchCategoryBinding
 
 const val SEARCH_CATEGORY_HEADER_LAYOUT = R.layout.search_category
 
-class SearchCategoryViewHolder(private val binding: SearchCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
+class SearchCategoryViewHolder(
+    private val binding: SearchCategoryBinding,
+    private val searchResultClickListener: (SearchResult) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
+
+    private lateinit var categoryHeader: CategoryHeader
+
+    inner class Handler {
+        fun onClick() = searchResultClickListener(categoryHeader)
+    }
 
     fun bind(header: CategoryHeader) {
+        categoryHeader = header
         binding.category = header
+        binding.handler = Handler()
     }
 }
