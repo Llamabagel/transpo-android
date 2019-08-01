@@ -8,8 +8,10 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import ca.llamabagel.transpo.data.LocalMetadataSource
-import ca.llamabagel.transpo.di.*
+import ca.llamabagel.transpo.di.CoreComponent
+import ca.llamabagel.transpo.di.DaggerComponentProvider
+import ca.llamabagel.transpo.di.DaggerCoreComponent
+import ca.llamabagel.transpo.di.InjectionWorkerFactory
 import javax.inject.Inject
 
 class TranspoApplication : Application(), DaggerComponentProvider {
@@ -17,7 +19,6 @@ class TranspoApplication : Application(), DaggerComponentProvider {
     override val component: CoreComponent by lazy {
         DaggerCoreComponent.builder()
             .applicationContext(applicationContext)
-            .sharedPreferenceModule(SharedPreferencesModule(LocalMetadataSource.METADATA_PREF))
             .build()
     }
 

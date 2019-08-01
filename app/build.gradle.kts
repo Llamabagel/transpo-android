@@ -100,6 +100,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}")
     implementation("com.mapbox.mapboxsdk:mapbox-android-sdk:${Versions.MAPBOX}")
     implementation("com.mapbox.mapboxsdk:mapbox-sdk-services:${Versions.MAPBOX_JAVA_SDK}")
+    implementation("io.github.dellisd.quicksave:quicksave:${Versions.QUICKSAVE}")
 
     testImplementation("androidx.arch.core:core-testing:${Versions.LIFECYCLE}")
     testImplementation("org.mockito:mockito-core:${Versions.MOCKITO}")

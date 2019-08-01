@@ -61,6 +61,7 @@ class LiveUpdatesRepository @Inject constructor(
     fun getLiveUpdatesFlow(): Flow<List<LiveUpdate>> = cache
 
     private fun saveResponse(response: Result.Success<List<LiveUpdate>>) = database.transaction {
+        database.liveUpdateQueries.clear(response.data.map { it.guid })
         response.data.forEach { (title, date, category, link, description,
                                     guid, affectedRoutes, affectedStops, featuredImageUrl) ->
             database.liveUpdateQueries.insertLiveUpdate(

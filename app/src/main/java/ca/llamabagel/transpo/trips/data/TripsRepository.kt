@@ -4,8 +4,6 @@
 
 package ca.llamabagel.transpo.trips.data
 
-import android.annotation.SuppressLint
-import android.content.SharedPreferences
 import ca.llamabagel.transpo.data.CoroutinesDispatcherProvider
 import ca.llamabagel.transpo.data.Result
 import ca.llamabagel.transpo.data.api.ApiService
@@ -14,6 +12,7 @@ import ca.llamabagel.transpo.data.db.StopCode
 import ca.llamabagel.transpo.data.db.StopId
 import ca.llamabagel.transpo.data.db.TransitDatabase
 import ca.llamabagel.transpo.models.trips.ApiResponse
+import ca.llamabagel.transpo.settings.data.AppSettings
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.withContext
@@ -26,7 +25,7 @@ import javax.inject.Singleton
 class TripsRepository @Inject constructor(
     private val database: TransitDatabase,
     private val apiService: ApiService,
-    private val sharedPreferences: SharedPreferences,
+    private val settings: AppSettings,
     private val dispatcherProvider: CoroutinesDispatcherProvider
 ) {
     private val cachedResults: MutableMap<StopCode, ConflatedBroadcastChannel<Result<ApiResponse>>> = mutableMapOf()
@@ -82,14 +81,12 @@ class TripsRepository @Inject constructor(
         }
     }
 
-    @SuppressLint("ApplySharedPref")
-    suspend fun setGroupByRoute(group: Boolean) = withContext(dispatcherProvider.io) {
-        sharedPreferences.edit().putBoolean(KEY_GROUP_BY_ROUTE, group).commit()
+    fun setGroupByRoute(group: Boolean) {
+        settings.groupByRoute.value = group
         rebroadcast()
     }
 
-    suspend fun getGroupByRoute(): Boolean =
-        withContext(dispatcherProvider.io) { sharedPreferences.getBoolean(KEY_GROUP_BY_ROUTE, false) }
+    fun getGroupByRoute(): Boolean = settings.groupByRoute.value
 
     /**
      * Rebroadcasts the last response

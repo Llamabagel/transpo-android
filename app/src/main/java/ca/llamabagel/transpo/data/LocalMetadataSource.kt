@@ -7,8 +7,9 @@ package ca.llamabagel.transpo.data
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import javax.inject.Inject
+import javax.inject.Named
 
-class LocalMetadataSource @Inject constructor(private val prefs: SharedPreferences) {
+class LocalMetadataSource @Inject constructor(@Named(METADATA_PREF) private val prefs: SharedPreferences) {
 
     private var _dataVersion: String? = prefs.getString(KEY_DATA_VERSION, null)
 

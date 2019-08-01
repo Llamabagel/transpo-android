@@ -10,7 +10,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.4.1")
+        classpath("com.android.tools.build:gradle:3.4.2")
         classpath(kotlin("gradle-plugin", version = Versions.KOTLIN))
         classpath(kotlin("serialization", version = Versions.KOTLIN))
         classpath("com.squareup.sqldelight:gradle-plugin:${Versions.SQLDELIGHT}")
@@ -30,6 +30,7 @@ allprojects {
         google()
         jcenter()
         maven(url = "https://dl.bintray.com/dellisd/transpo")
+        maven(url = "https://dl.bintray.com/dellisd/Quicksave")
         maven(url = "https://kotlin.bintray.com/kotlinx/")
     }
 

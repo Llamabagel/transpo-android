@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ca.llamabagel.transpo.R
@@ -86,6 +87,7 @@ class HomeFragment : Fragment() {
     private fun onMenuItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.download -> viewModel.checkAndApplyDataUpdates()
+            R.id.settings -> findNavController().navigate(HomeFragmentDirections.actionGlobalSettingsActivity())
         }
 
         return true
