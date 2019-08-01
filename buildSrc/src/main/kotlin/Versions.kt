@@ -19,7 +19,7 @@ object Versions {
     const val KTX = "1.1.0-rc02"
     const val LIFECYCLE = "2.1.0-rc01"
     const val MATERIAL = "1.1.0-alpha08"
-    const val MAPBOX = "8.1.0"
+    const val MAPBOX = "8.2.0"
     const val MAPBOX_JAVA_SDK = "4.8.0"
     const val MOCKITO = "2.19.0"
     const val MOCKITO_INLINE = "2.13.0"

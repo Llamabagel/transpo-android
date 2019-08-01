@@ -4,6 +4,7 @@
 
 package ca.llamabagel.transpo.map.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,11 +36,12 @@ class MapFragment : Fragment() {
     }
 
     private val viewModel: MapViewModel by viewModels { requireActivity().injector.mapViewModelFactory() }
+    private var map: MapboxMap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         Mapbox.getInstance(requireActivity(), BuildConfig.MAPBOX_KEY)
+        viewModel.getStops()
     }
 
     override fun onCreateView(
@@ -55,16 +57,28 @@ class MapFragment : Fragment() {
 
         val mapView = view.findViewById<MapView>(R.id.map_view)
         mapView.onCreate(savedInstanceState)
-        mapView.getMapAsync { map ->
-            map.setStyle(Style.TRAFFIC_DAY) {
-                prepareMap(map)
+        mapView.getMapAsync { mapboxMap ->
+            val mapStyle = when (requireContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                Configuration.UI_MODE_NIGHT_YES -> Style.TRAFFIC_NIGHT
+                else -> Style.TRAFFIC_DAY
             }
+
+            mapboxMap.setStyle(mapStyle) {
+                prepareMap(mapboxMap)
+            }
+
+            map = mapboxMap
         }
     }
 
     override fun onStart() {
         super.onStart()
         view?.findViewById<MapView>(R.id.map_view)?.onStart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        view?.findViewById<MapView>(R.id.map_view)?.onPause()
     }
 
     override fun onResume() {
@@ -77,8 +91,8 @@ class MapFragment : Fragment() {
         view?.findViewById<MapView>(R.id.map_view)?.onStop()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         view?.findViewById<MapView>(R.id.map_view)?.onDestroy()
     }
 
@@ -87,9 +101,13 @@ class MapFragment : Fragment() {
         view?.findViewById<MapView>(R.id.map_view)?.onLowMemory()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        view?.findViewById<MapView>(R.id.map_view)?.onSaveInstanceState(outState)
+    }
+
     @Suppress("MagicNumber")
     private fun prepareMap(map: MapboxMap) {
-        viewModel.getStops()
         viewModel.stops.observe(this, Observer { stops ->
 
             val points = stops.map { Point.fromLngLat(it.longitude, it.latitude) }
