@@ -13,13 +13,14 @@ import android.text.style.StyleSpan
 import androidx.annotation.StringRes
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.data.api.ApiService
-import ca.llamabagel.transpo.settings.data.AppSettingsProvider
-import ca.llamabagel.transpo.settings.data.Settings
+import ca.llamabagel.transpo.settings.data.AppSettings
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mapbox.api.geocoding.v5.MapboxGeocoding
 import com.mapbox.api.geocoding.v5.models.CarmenFeature
 import dagger.Module
 import dagger.Provides
+import io.github.dellisd.quicksave.SettingsProvider
+import io.github.dellisd.quicksave.SharedPreferenceProvider
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -36,11 +37,6 @@ class CoreModule {
     @Singleton
     fun provideSerializationConverterFactory(): Converter.Factory =
         Json.asConverterFactory("application/json".toMediaType())
-
-    @Provides
-    @Singleton
-    fun provideSettings(@Named(AppSettingsProvider.SETTINGS_PREF) sharedPreferences: SharedPreferences): Settings =
-        AppSettingsProvider(sharedPreferences)
 
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =
@@ -104,4 +100,11 @@ class CoreModule {
         .client(okHttpClient)
         .addConverterFactory(converter)
         .build().create(ApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferenceSettingsProvider(
+        @Named(AppSettings.SETTINGS_PREF) sharedPreferences: SharedPreferences
+    ): SettingsProvider =
+        SharedPreferenceProvider(sharedPreferences)
 }

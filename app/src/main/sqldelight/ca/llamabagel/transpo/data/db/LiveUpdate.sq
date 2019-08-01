@@ -41,7 +41,7 @@ clear:
 DELETE FROM liveUpdate WHERE guid NOT IN :currentGuids;
 
 get:
-SELECT * FROM liveUpdate;
+SELECT * FROM liveUpdate ORDER BY date DESC;
 
 getRoutes:
 SELECT * FROM liveUpdateRoute WHERE guid = :guid;

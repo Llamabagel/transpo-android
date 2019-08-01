@@ -12,7 +12,7 @@ import ca.llamabagel.transpo.data.db.StopCode
 import ca.llamabagel.transpo.data.db.StopId
 import ca.llamabagel.transpo.data.db.TransitDatabase
 import ca.llamabagel.transpo.models.trips.ApiResponse
-import ca.llamabagel.transpo.settings.data.Settings
+import ca.llamabagel.transpo.settings.data.AppSettings
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.withContext
@@ -25,7 +25,7 @@ import javax.inject.Singleton
 class TripsRepository @Inject constructor(
     private val database: TransitDatabase,
     private val apiService: ApiService,
-    private val settings: Settings,
+    private val settings: AppSettings,
     private val dispatcherProvider: CoroutinesDispatcherProvider
 ) {
     private val cachedResults: MutableMap<StopCode, ConflatedBroadcastChannel<Result<ApiResponse>>> = mutableMapOf()

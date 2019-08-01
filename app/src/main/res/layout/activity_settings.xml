@@ -7,4 +7,13 @@
         android:layout_height="match_parent"
         tools:context="ca.llamabagel.transpo.settings.ui.SettingsActivity">
 
+    <io.github.dellisd.quicksave.views.SwitchSetting
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:id="@+id/group_by_route"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="?selectableItemBackground"
+    />
 </androidx.constraintlayout.widget.ConstraintLayout>

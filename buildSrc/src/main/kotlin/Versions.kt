@@ -26,6 +26,7 @@ object Versions {
     const val MOCKITO_KOTLIN = "2.1.0"
     const val NAVIGATION = "2.1.0-beta02"
     const val OKHTTP = "4.0.1"
+    const val QUICKSAVE = "0.1.0-alpha02"
     const val RETROFIT = "2.6.0"
     const val RETROFIT_SERIALIZATION = "0.4.0"
     const val SERIALIZATION = "0.11.1"

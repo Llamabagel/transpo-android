@@ -7,7 +7,7 @@ package ca.llamabagel.transpo.di
 import android.content.Context
 import android.content.SharedPreferences
 import ca.llamabagel.transpo.data.LocalMetadataSource
-import ca.llamabagel.transpo.settings.data.AppSettingsProvider
+import ca.llamabagel.transpo.settings.data.AppSettings
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
@@ -23,7 +23,7 @@ open class SharedPreferencesModule {
 
     @Provides
     @Singleton
-    @Named(AppSettingsProvider.SETTINGS_PREF)
+    @Named(AppSettings.SETTINGS_PREF)
     fun provideSettingsSharedPreferences(context: Context): SharedPreferences =
-        context.applicationContext.getSharedPreferences(AppSettingsProvider.SETTINGS_PREF, Context.MODE_PRIVATE)
+        context.applicationContext.getSharedPreferences(AppSettings.SETTINGS_PREF, Context.MODE_PRIVATE)
 }
