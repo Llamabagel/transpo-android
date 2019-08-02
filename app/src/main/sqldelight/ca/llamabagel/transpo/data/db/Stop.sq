@@ -20,7 +20,7 @@ VALUES (:id, :code, :name, :latitude, :longitude, :locationType, :parentStation)
 deleteAll:
 DELETE FROM stop;
 
-selectAll:
+getAll:
 SELECT * FROM stop;
 
 getStopById:
