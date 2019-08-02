@@ -4,6 +4,7 @@
 
 package ca.llamabagel.transpo.trips.ui
 
+import android.content.res.Configuration
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -45,7 +46,6 @@ class TripsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         Mapbox.getInstance(requireActivity(), BuildConfig.MAPBOX_KEY)
     }
 
@@ -75,7 +75,12 @@ class TripsFragment : Fragment() {
         val mapView = view.findViewById<MapView>(R.id.map_view)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { map ->
-            map.setStyle(Style.TRAFFIC_DAY) {
+            val mapStyle = when (requireContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                Configuration.UI_MODE_NIGHT_YES -> Style.TRAFFIC_NIGHT
+                else -> Style.TRAFFIC_DAY
+            }
+
+            map.setStyle(mapStyle) {
                 prepareMap(map)
             }
         }
@@ -84,6 +89,11 @@ class TripsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         view?.findViewById<MapView>(R.id.map_view)?.onStart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        view?.findViewById<MapView>(R.id.map_view)?.onPause()
     }
 
     override fun onResume() {
@@ -96,14 +106,19 @@ class TripsFragment : Fragment() {
         view?.findViewById<MapView>(R.id.map_view)?.onStop()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         view?.findViewById<MapView>(R.id.map_view)?.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
         view?.findViewById<MapView>(R.id.map_view)?.onLowMemory()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        view?.findViewById<MapView>(R.id.map_view)?.onSaveInstanceState(outState)
     }
 
     @Suppress("MagicNumber")

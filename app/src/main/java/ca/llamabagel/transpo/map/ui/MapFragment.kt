@@ -25,6 +25,7 @@ import ca.llamabagel.transpo.map.data.MapRepository.Companion.STOPS_SOURCE_ID
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.card.MaterialCardView
 import com.mapbox.mapboxsdk.Mapbox
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
@@ -79,7 +80,10 @@ class MapFragment : Fragment() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         viewModel.stopDetail.observe(this, Observer { stop ->
-            stop ?: return@Observer
+            if (stop == null) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                return@Observer
+            }
 
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
@@ -167,9 +171,14 @@ class MapFragment : Fragment() {
             viewModel.openStopDetails(features[0].getStringProperty("id"))
             view?.findViewById<View>(R.id.map_view)?.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
 
+            map.animateCamera {
+                CameraUpdateFactory.newLatLngZoom(point, 16.0).getCameraPosition(map)
+            }
+
             return true
         }
 
+        viewModel.openStopDetails(null)
         return false
     }
 }
