@@ -5,21 +5,27 @@
 package ca.llamabagel.transpo.map.ui
 
 import android.content.res.Configuration
+import android.graphics.RectF
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
-import com.mapbox.geojson.Feature
-import com.mapbox.geojson.MultiPoint
-import com.mapbox.geojson.Point
+import ca.llamabagel.transpo.map.data.MapRepository.Companion.STOPS_SOURCE_ID
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.card.MaterialCardView
 import com.mapbox.mapboxsdk.Mapbox
+import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
@@ -27,7 +33,6 @@ import com.mapbox.mapboxsdk.style.expressions.Expression.*
 import com.mapbox.mapboxsdk.style.layers.CircleLayer
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory.circleColor
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory.circleRadius
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 
 class MapFragment : Fragment() {
 
@@ -41,7 +46,6 @@ class MapFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Mapbox.getInstance(requireActivity(), BuildConfig.MAPBOX_KEY)
-        viewModel.getStops()
     }
 
     override fun onCreateView(
@@ -63,12 +67,29 @@ class MapFragment : Fragment() {
                 else -> Style.TRAFFIC_DAY
             }
 
-            mapboxMap.setStyle(mapStyle) {
-                prepareMap(mapboxMap)
-            }
+            mapboxMap.setStyle(mapStyle, ::prepareMap)
+
+            mapboxMap.addOnMapClickListener { point -> handleMapClick(mapboxMap, point) }
 
             map = mapboxMap
         }
+
+        val bottomSheet = view.findViewById<FrameLayout>(R.id.bottom_sheet)
+        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+        viewModel.stopDetail.observe(this, Observer { stop ->
+            stop ?: return@Observer
+
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+            view.findViewById<TextView>(R.id.title).text = stop.name
+            view.findViewById<TextView>(R.id.subtitle).text = stop.code.value
+
+            view.findViewById<MaterialCardView>(R.id.details_card).setOnClickListener {
+                findNavController().navigate(MapFragmentDirections.actionGlobalTripsActivity(stop.id.value))
+            }
+        })
     }
 
     override fun onStart() {
@@ -107,29 +128,48 @@ class MapFragment : Fragment() {
     }
 
     @Suppress("MagicNumber")
-    private fun prepareMap(map: MapboxMap) {
-        viewModel.stops.observe(this, Observer { stops ->
+    private fun prepareMap(style: Style) {
+        viewModel.stopsSource.observe(this, Observer { source ->
+            if (style.getSource(STOPS_SOURCE_ID) != null) {
+                style.removeSource(STOPS_SOURCE_ID)
+            }
 
-            val points = stops.map { Point.fromLngLat(it.longitude, it.latitude) }
-            val multiPoint = MultiPoint.fromLngLats(points)
-            val source = GeoJsonSource("stops", Feature.fromGeometry(multiPoint))
+            if (style.getLayer("stops-layer") == null) {
+                val circleLayer = CircleLayer("stops-layer", STOPS_SOURCE_ID)
 
-            val circleLayer = CircleLayer("stops-layer", "stops")
+                circleLayer.withProperties(
+                    circleRadius(
+                        interpolate(
+                            exponential(1.75f),
+                            zoom(),
+                            stop(12, 2f),
+                            stop(22, 180f)
+                        )
+                    ),
+                    circleColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+                )
 
-            circleLayer.withProperties(
-                circleRadius(
-                    interpolate(
-                        exponential(1.75f),
-                        zoom(),
-                        stop(12, 2f),
-                        stop(22, 180f)
-                    )
-                ),
-                circleColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
-            )
+                style.addLayer(circleLayer)
+            }
 
-            map.style?.addSource(source)
-            map.style?.addLayer(circleLayer)
+            style.addSource(source)
         })
+    }
+
+    private fun handleMapClick(map: MapboxMap, point: LatLng): Boolean {
+        val pointF = map.projection.toScreenLocation(point)
+        val clickBuffer = 10
+        val rectF =
+            RectF(pointF.x - clickBuffer, pointF.y - clickBuffer, pointF.x + clickBuffer, pointF.y - clickBuffer)
+        val features = map.queryRenderedFeatures(rectF, "stops-layer")
+
+        if (features.isNotEmpty()) {
+            viewModel.openStopDetails(features[0].getStringProperty("id"))
+            view?.findViewById<View>(R.id.map_view)?.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+
+            return true
+        }
+
+        return false
     }
 }

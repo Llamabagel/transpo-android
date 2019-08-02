@@ -14,6 +14,7 @@ import androidx.annotation.StringRes
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.data.api.ApiService
 import ca.llamabagel.transpo.settings.data.AppSettings
+import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mapbox.api.geocoding.v5.MapboxGeocoding
 import com.mapbox.api.geocoding.v5.models.CarmenFeature
@@ -107,4 +108,9 @@ class CoreModule {
         @Named(AppSettings.SETTINGS_PREF) sharedPreferences: SharedPreferences
     ): SettingsProvider =
         SharedPreferenceProvider(sharedPreferences)
+
+    @Provides
+    @Singleton
+    fun provideGson() = GsonBuilder()
+        .create()
 }
