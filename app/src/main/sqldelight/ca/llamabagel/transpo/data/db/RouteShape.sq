@@ -1,0 +1,24 @@
+import ca.llamabagel.transpo.data.db.RouteId;
+import ca.llamabagel.transpo.data.db.ShapeId;
+
+CREATE TABLE route_shape (
+    shape_id TEXT as ShapeId NOT NULL PRIMARY KEY,
+    route_id TEXT as RouteId NOT NULL,
+    shape_data TEXT NOT NULL
+);
+
+insert:
+INSERT INTO route_shape(shape_id, route_id, shape_data)
+VALUES (:shapeId, :routeId, :shapeData);
+
+deleteAll:
+DELETE FROM route_shape;
+
+selectALl:
+SELECT * FROM stop;
+
+getByShapeId:
+SELECT * FROM route_shape WHERE shape_id = :id;
+
+getByRouteId:
+SELECT * FROM route_shape WHERE route_id = :id;

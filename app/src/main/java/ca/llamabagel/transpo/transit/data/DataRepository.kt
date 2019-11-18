@@ -4,12 +4,12 @@
 
 package ca.llamabagel.transpo.transit.data
 
+import android.database.sqlite.SQLiteConstraintException
+import android.util.Log
 import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.data.LocalMetadataSource
 import ca.llamabagel.transpo.data.api.ApiService
-import ca.llamabagel.transpo.data.db.StopCode
-import ca.llamabagel.transpo.data.db.StopId
-import ca.llamabagel.transpo.data.db.TransitDatabase
+import ca.llamabagel.transpo.data.db.*
 import ca.llamabagel.transpo.models.app.AppMetadata
 import ca.llamabagel.transpo.models.app.MetadataRequest
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +47,15 @@ class DataRepository(
                     locationType,
                     parentStation
                 )
-                database.stopQueries.insertfts(id, code, name, latitude, longitude, locationType, parentStation)
+                database.stopQueries.insertfts(
+                    id,
+                    code,
+                    name,
+                    latitude,
+                    longitude,
+                    locationType,
+                    parentStation
+                )
             }
 
             database.routeQueries.deleteAll()
@@ -57,7 +65,26 @@ class DataRepository(
 
             database.stopRouteQueries.deleteAll()
             dataPackage.data.stopRoutes.forEach { (stopId, routeId, directionId, sequence) ->
-                database.stopRouteQueries.insert(stopId, routeId, directionId, sequence)
+                try {
+                    database.stopRouteQueries.insert(stopId, routeId, directionId, sequence)
+                } catch (e: SQLiteConstraintException) {
+                    Log.e(
+                        "DataRepository",
+                        "Constraint error on: $stopId, $routeId, $directionId, $sequence"
+                    )
+                }
+            }
+
+            database.routeShapeQueries.deleteAll()
+            dataPackage.data.shapes.forEach { (routeId, shapeId, data) ->
+                try {
+                    database.routeShapeQueries.insert(ShapeId(shapeId), RouteId(routeId), data)
+                } catch (e: SQLiteConstraintException) {
+                    Log.e(
+                        "DataRepository",
+                        "Constraint error on: $shapeId, $routeId"
+                    )
+                }
             }
         }
 

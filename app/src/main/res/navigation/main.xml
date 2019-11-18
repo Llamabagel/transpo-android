@@ -44,4 +44,15 @@
     <activity android:id="@+id/settingsActivity" android:name="ca.llamabagel.transpo.settings.ui.SettingsActivity"
               android:label="activity_settings" tools:layout="@layout/activity_settings"/>
     <action android:id="@+id/action_global_settingsActivity" app:destination="@id/settingsActivity"/>
+    <activity
+            android:id="@+id/routeActivity"
+            android:name="ca.llamabagel.transpo.route.ui.RouteActivity"
+            android:label="RouteActivity" >
+        <argument
+                android:name="routeId"
+                app:argType="string" />
+    </activity>
+    <action
+            android:id="@+id/action_global_routeActivity"
+            app:destination="@id/routeActivity" />
 </navigation>

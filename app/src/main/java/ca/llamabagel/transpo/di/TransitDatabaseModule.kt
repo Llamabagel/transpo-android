@@ -26,8 +26,17 @@ class TransitDatabaseModule {
         sqlDriver: SqlDriver,
         recentAdapter: Recent_search.Adapter,
         stopAdapter: Stop.Adapter,
+        routeAdapter: Route.Adapter,
+        routeShapeAdapter: Route_shape.Adapter,
         liveUpdateAdapter: LiveUpdate.Adapter
-    ): TransitDatabase = TransitDatabase(sqlDriver, liveUpdateAdapter, recentAdapter, stopAdapter)
+    ): TransitDatabase = TransitDatabase(
+        sqlDriver,
+        liveUpdateAdapter,
+        recentAdapter,
+        routeAdapter = routeAdapter,
+        route_shapeAdapter = routeShapeAdapter,
+        stopAdapter = stopAdapter
+    )
 
     @Provides
     @Singleton
@@ -46,6 +55,14 @@ class TransitDatabaseModule {
     @Singleton
     fun provideLiveUpdateAdapter(): LiveUpdate.Adapter = LIVE_UPDATE_DATE_ADAPTER
 
+    @Provides
+    @Singleton
+    fun provideRouteAdapter(): Route.Adapter = ROUTE_ADAPTER
+
+    @Provides
+    @Singleton
+    fun provideRouteShapeAdapter(): Route_shape.Adapter = ROUTE_SHAPE_ADAPTER
+
     companion object {
 
         private val stopIdAdapter = object : ColumnAdapter<StopId, String> {
@@ -54,9 +71,22 @@ class TransitDatabaseModule {
             override fun encode(value: StopId): String = value.value
         }
 
+        private val shapeIdAdapter = object : ColumnAdapter<ShapeId, String> {
+            override fun decode(databaseValue: String): ShapeId = ShapeId(databaseValue)
+
+            override fun encode(value: ShapeId): String = value.value
+        }
+
+        private val routeIdAdapter = object : ColumnAdapter<RouteId, String> {
+            override fun decode(databaseValue: String): RouteId = RouteId(databaseValue)
+
+            override fun encode(value: RouteId): String = value.value
+        }
+
         val RECENT_ADAPTER = Recent_search.Adapter(
             typeAdapter = object : ColumnAdapter<SearchFilters, Long> {
-                override fun decode(databaseValue: Long): SearchFilters = SearchFilters.values()[databaseValue.toInt()]
+                override fun decode(databaseValue: Long): SearchFilters =
+                    SearchFilters.values()[databaseValue.toInt()]
 
                 override fun encode(value: SearchFilters): Long = value.ordinal.toLong()
             }
@@ -71,13 +101,23 @@ class TransitDatabaseModule {
             }
         )
 
+        val ROUTE_ADAPTER = Route.Adapter(
+            routeIdAdapter
+        )
+
+        val ROUTE_SHAPE_ADAPTER = Route_shape.Adapter(
+            shapeIdAdapter,
+            routeIdAdapter
+        )
+
         @SuppressLint("SimpleDateFormat")
         val LIVE_UPDATE_DATE_ADAPTER = LiveUpdate.Adapter(
             dateAdapter = object : ColumnAdapter<Date, String> {
                 override fun decode(databaseValue: String): Date =
                     SimpleDateFormat("yyyy MM dd HH:mm:ss z").parse(databaseValue)!!
 
-                override fun encode(value: Date): String = SimpleDateFormat("yyyy MM dd HH:mm:ss z").format(value)
+                override fun encode(value: Date): String =
+                    SimpleDateFormat("yyyy MM dd HH:mm:ss z").format(value)
             }
         )
     }

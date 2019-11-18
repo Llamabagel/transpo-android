@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import ca.llamabagel.transpo.R
+import ca.llamabagel.transpo.route.ui.RouteActivityDirections
 import ca.llamabagel.transpo.search.data.SearchFilters
 import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.ID_EXTRA
 import ca.llamabagel.transpo.search.ui.SearchActivity.Companion.SEARCH_REQUEST_CODE
@@ -31,15 +32,22 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         val navController = findNavController(R.id.nav_host_fragment)
-        findViewById<BottomNavigationView>(R.id.bottom_navigation).setupWithNavController(navController)
+        findViewById<BottomNavigationView>(R.id.bottom_navigation).setupWithNavController(
+            navController
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == SEARCH_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            val navController = findNavController(R.id.nav_host_fragment)
+
             when (data.getSerializableExtra(TYPE_EXTRA) as SearchFilters) {
                 SearchFilters.STOP -> data.getStringExtra(ID_EXTRA)?.let { stopId ->
-                    val navController = findNavController(R.id.nav_host_fragment)
                     val action = TripsActivityDirections.actionGlobalTripsActivity(stopId)
+                    navController.navigate(action)
+                }
+                SearchFilters.ROUTE -> data.getStringExtra(ID_EXTRA)?.let { routeId ->
+                    val action = RouteActivityDirections.actionGlobalRouteActivity(routeId)
                     navController.navigate(action)
                 }
                 else -> {

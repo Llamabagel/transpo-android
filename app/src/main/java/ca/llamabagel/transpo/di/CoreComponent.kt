@@ -8,6 +8,7 @@ import android.content.Context
 import ca.llamabagel.transpo.TranspoApplication
 import ca.llamabagel.transpo.home.ui.HomeViewModel
 import ca.llamabagel.transpo.map.ui.MapViewModel
+import ca.llamabagel.transpo.route.ui.RouteMapViewModel
 import ca.llamabagel.transpo.search.ui.SearchViewModel
 import ca.llamabagel.transpo.settings.data.AppSettings
 import ca.llamabagel.transpo.trips.ui.StopViewModel
@@ -48,6 +49,7 @@ interface CoreComponent {
     fun tripDetailsViewModelFactory(): ViewModelFactory<TripDetailsViewModel>
     fun searchViewModelFactory(): ViewModelFactory<SearchViewModel>
     fun mapViewModelFactory(): ViewModelFactory<MapViewModel>
+    fun routeMapViewModelFactory(): ViewModelFactory<RouteMapViewModel>
 
     fun appSettings(): AppSettings
 
