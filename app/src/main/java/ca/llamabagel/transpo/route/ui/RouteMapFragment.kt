@@ -9,6 +9,7 @@ import ca.llamabagel.transpo.BuildConfig
 import ca.llamabagel.transpo.R
 import ca.llamabagel.transpo.di.injector
 import com.mapbox.mapboxsdk.Mapbox
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
@@ -39,13 +40,14 @@ class RouteMapFragment : Fragment(R.layout.route_map_fragment) {
             }
         }
 
-        viewModel.routeSource.observe(this, Observer {
+        viewModel.routeSource.observe(this, Observer { (bounds, source) ->
             if (map.style?.getSource(routeId) != null) {
                 map.style?.removeLayer(routeId)
                 map.style?.removeSource(routeId)
             }
 
-            map.style?.addSource(it)
+            map.style?.addSource(source)
+            map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 128))
 
             val layer = LineLayer(routeId, routeId).apply {
                 withProperties(
